@@ -1,0 +1,44 @@
+specific enhancements:
+(3) incorporate more FW IFs e.g. bluetooth, serial, i2c, spi, can
+(5) have an answer for if somebody wants to encrypt their socket. e.g. ssl
+(17) you have amplitude modulation via MixNode. can you implement a scheme for performing frequency / phase modulation?
+(18) implement an interface to performing a z-transform (IIR filter)
+(19) implement an interface to performing up- / down-sampling
+(28) develop a splitter object for sharing one signal among multiple nodes downstream.
+(13) implement an interface to generating specific FIR filters.
+(27) implement genSinePs / genSquarePs (GeneratorSine / GeneratorSquare) to take:
+ - "digital frequency" instead of "samples per period", and
+ - a ratio [0, 1] instead of "num samples duty"
+
+holistic enhancements:
+(12) refactor PipeFramerIn and PipeFramerOut to use RingBuffer<T>.
+(25) this code should throw exceptions for non-happy-path states.
+
+**
+
+priority now:
+(30) graphic plotting
+(31) convolution
+
+**
+
+Done:
+(29) no more bare 'int's... or 'short's, or 'long's, but 'int' being the main problem.
+(4) devise a serdes method for Message<struct> types. e.g. complex numbers
+  They key to non-primitive types is normalizing the serialization/deserialization.
+  I implemented a Complex number class, and it works for the purpose of this library...
+    But it has to have a "network-byte-order" mode that is BYTE-FOR-BYTE opposite to its "little-endian" storage.
+    It then must interface with its backing data to match, accordingly.
+    This way, no special function is needed for any non-primitive type...
+      ...because ALL types (primitive or not) have a KNOWN (and SIMPLE-- [mere byte reversal]) scheme,
+        for going on, or off, the wire.
+(26) IGenerator, IProcessor, and IDisplay methods are currently implemented in a platform-specific manner. Fix that.
+(21) implement a creational interface for Nodes. -done
+(20) replace error #defines with an enum class -done
+(24) refactor 'ShowNode' to take an argument class that does the displaying.
+(22) implement textual visualization in some manner of Nodes and their data.
+(23) rename 'Node' to be a class and functionality of type 'ByteNode'.
+(14) Implement a Node that mixes two input data streams. -done
+(15) Implement a Generator for square-wave functions. -done
+(16) Implement input / output pipes based in RAM, for speed / reliability.
+

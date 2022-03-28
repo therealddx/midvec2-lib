@@ -1,0 +1,29 @@
+Am I sure it makes sense that I need `hn.size() == 9`,
+  to have a delay of '8' samples?
+
+**
+
+Breaking it down...
+  impulse response of length 1 has 0 delay-- h[n] = { 1 }                         == delta(n)
+  impulse response of length 2 has 1 delay-- h[n] = { 0, 1 }                      == delta(n - 1)
+  impulse response of length 8 has 7 delay-- h[n] = { 0, 0, 0, 0, 0, 0, 0, 1 }    == delta(n - 7)
+  impulse response of length 9 has 8 delay-- h[n] = { 0, 0, 0, 0, 0, 0, 0, 0, 1 } == delta(n - 8)
+                                                    ^                    ^  ^                    
+                                                    |                    |  |                    
+                                                    |                    |  |                    
+                                        x[n - 8]----+        x[n - 1]----+  |                    
+                                                                    x[n]----+                    
+                                                                                                 
+**
+
+What makes it convincing,
+  is that `h[n] = { 1 }` corresponds to the dirac delta.
+
+So any additional, prepended '0's there,
+  therefore must add to that delay, element-by-element.
+
+It also makes sense in a literal interpretation of the `convolve` operation.
+  When you flip and shift that h[n] over x[n],
+    you'll get 'eight' zeroes before you finally see '1' multiply against an element of x[n].
+
+

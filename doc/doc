@@ -1,0 +1,240 @@
+midvec2.
+
+Document map:
+ - 1. Purpose.
+ - 2. CONOPS.
+ - 3. Classes.
+  - 3.1. Node.
+  - 3.2. NodeBuilder.
+
+1. Purpose.
+The purpose of the midvec2 library (hereafter also referrable to as 'the library') is to provide a comprehensive solution for processing (primarily) numerical data from a wide variety of firmware interfaces (FW IFs). This entails: an adapation layer to transparently obtain bytes data from any firmware interface; a standard by which this application parses an incoming stream of bytes into an array of numerical objects; a set of processing functions for manipulating those numerical objects as they arrive to the application; and an interface for sending processed numerical objects out over a wide variety of firmware interfaces.
+
+2. CONOPS.
+for any FWIF that can make byte representations of somewhat usable data:
+ - be able to bring those bytes into my program.
+ - be able to process those bytes as a useful data type.
+ - be able to send those bytes back along their HWIF.
+
+data flow - input pipe:
+
+                                                         Client
+                                                            ^
+                                                            |
+                                                            |
+                                                     (std::vector<T>)
+                                                            ^
+                                                            |
+                                                  PipeFramerIn::GetFrame 
+                                                            ^
+                                                            |
+                                                      (Message<T>)
+                                                            ^
+                                                            |
+                                                            |
+                                             (char*)        |
+(Firmware / Hardware IF)------>GetMessage------------->InputPipeBase
+
+data flow - output pipe:
+
+                                                         Client
+                                                            |
+                                                            |
+                                                            v
+                                                           (T)
+                                                            |
+                                                            v
+                                                  PipeFramerOut::PutValue
+                                                            |
+                                                            v
+                                                      (Message<T>)
+                                                            |
+                                                            |
+                                                            |
+                                             (char*)        v
+(Firmware / Hardware IF)<------PutMessage<-------------OutputPipeBase
+
+or, in a more condensed list:
+(electrical pulses representable as bytes)
+  --> InputPipe
+    --> (Message<T>)
+      --> PipeFramer
+        --> (std::vector<T>)
+          --> Processor
+            --> (std::vector<T>)
+              --> PipeFramer
+                --> (Message<T>)
+                  --> OutputPipe
+                    -->(electrical pulses representable as bytes)
+
+3. Classes.
+
+This section of the document describes design and function of classes in the library, starting at those most high-level in the library's operation.
+
+3.1. Node.
+
+The concept of a Node is to represent a consolidated view of some object that sinks, sources and/or processes data in some human-useful way.
+
+ByteNode.
+ - Purpose: Buffers data streams across FW IFs.
+ - Same data, different physical interface.
+
+SourceNode.
+ - Takes a GeneratorBase instance.
+ - Outputs samples on each successive call to Next.
+
+CoreNode.
+ - Takes a ProcessorBase instance.
+ - Black box for putting a vector in and getting a vector out.
+
+MixNode.
+ - Mixes two datastreams.
+ - Takes a std::function to define how to mix each value from the two streams.
+
+ShowNode.
+ - Shows a datastream in human-readable form.
+
+3.2. NodeBuilder.
+
+The concept of a NodeBuilder class is to implement a Builder factory pattern for client programmers to efficiently build Node objects. To accomplish this, every Node type has a set of available parameter-set definitions, which define the parameters that must be set for any one instantiation of that Node.
+
+For efficiency in coding and notation, the following abbreviation applies:
+ - 'Ps' :== 'Parameter Set' :== 'Builder'.
+
+Builder classes for Node:
+nodePs (IStorableNode* nodePs::Make) 
+ - byteNodePs
+ - coreNodePs
+ - sourceNodePs
+ - showNodePs
+ - mixNodePs
+
+Builder classes for Display:
+dispPs (IDisplay* dispPs::Make)
+ - dispFilePs  : DisplayFile<T_in>
+
+Builder classes for Processor:
+procPs (IProcessor* procPs::Make)
+ - procConvPs  : ProcessorConv<T_in, T_out>
+ - procDcPs    : ProcessorDc<T_in, T_out>
+
+Builder classes for Generator:
+genPs (IGenerator* genPs::Make)
+ - genSinePs   : GeneratorSine<T_out>
+ - genSquarePs : GeneratorSine<T_out>
+
+Builder classes for InputPipe:
+inPs (InputPipeBase* inPs::Make)
+ - inFilePs    : InputPipeFile
+ - inUdpPs     : InputPipeUdp
+ - inRamPs     : InputPipeRam
+
+Builder classes for OutputPipe:
+outPs (OutputPipeBase* outPs::Make)
+ - outFilePs   : OutputPipeFile
+ - outUdpPs    : OutputPipeUdp
+ - outRamPs    : OutputPipeRam
+
+3.3 From Zero to Node: A Summary, in Reverse.
+
+3.3.1 - NodePart -> Node
+
+The following hierarchies show what NodeParts are required to build any type of Node.
+
+ByteNode
+ - InputPipeBase
+ - OutputPipeBase
+
+CoreNode
+ - InputPipeBase
+ - IProcessor
+ - OutputPipeBase
+
+ShowNode
+ - InputPipeBase
+ - IDisplay
+
+SourceNode
+ - IGenerator
+ - OutputPipeBase
+
+MixNode
+ - InputPipeBase
+ - InputPipeBase
+ - std::function<T_out(T_in, T_in)> (criticism: encapsulate to own type)
+ - OutputPipeBase
+
+3.3.2 - Paramset selection -> NodePart
+
+This is where the Builder design pattern starts to kick in, and develop complexity in the project design.
+
+The following hierarchies describe what available Builder classes exist, that will generate the corresponding NodePart.
+
+The '^' arrows indicate inheritance, meaning that all param-set classes underneath implement a function that will construct a conforming instance of the NodePart of interest. This way, we have a standardized way of implementing multiple means (e.g., input pipe UDP, input pipe from file, input pipe from RAM buffer) of producing any given type of NodePart (e.g. InputPipeBase).
+
+ inPs ----> InputPipeBase
+ ^ ^ ^
+ | | |
+ | | inRamPs
+ | inUdpPs
+ inFilePs 
+
+ outPs ----> OutputPipeBase
+ ^ ^ ^
+ | | |
+ | | outRamPs
+ | outUdpPs
+ outFilePs
+
+ genPs ----> IGenerator
+ ^ ^
+ | |
+ | genSquarePs
+ genSinePs
+
+ dispPs ----> IDisplay
+ ^ ^
+ | |
+ | dispGraphPs
+ dispFilePs
+
+ procPs ----> IProcessor
+ ^ ^
+ | |
+ | procConvPs
+ procDcPs
+
+ mixPs ----> std::function<T_out(T_in, T_in)>
+
+3.3.3 - GUI Programmer Notes.
+
+The purpose of this section is to lay out a rough overview of how a GUI will elegantly take a user through the steps of devising any Node, from any of its supported NodeParts, that are available. The writing of this section is intentionally geared towards the Qt framework of the midvec2-gui project.
+
+These directory contents are listed in order of abstraction.
+
+nodePsBuilder/
+ nodePsDialog
+ nodePsTab
+ nodePartPsWidget/
+  nodePartPsWidgetSelection
+  nodePartPs_UserIf
+  nodePartPs_Make
+ inPsWidget/   ---> inPs
+ outPsWidget/  ---> outPs
+ genPsWidget/  ---> genPs
+ dispPsWidget/ ---> dispPs
+ procPsWidget/ ---> procPs
+ mixPsWidget/  ---> mixPs
+
+nodePsDialog is the full dialog for the user to create a Node.
+
+nodePsTab is a tab-selection which sits inside the nodePsDialog. Each tab of the nodePsTab offers the user a GUI sub-menu to create a NodePart. That GUI sub-menu entails a dropdown so that the user can select which type of that NodePart they want to create, and then instantiates the correct concrete GUI panel for user selection.
+
+nodePartPsWidgetSelection is how I standardize the dropdown inside any tab of the nodePsTab. A nodePartPsWidgetSelection is a proper QWidget, with its own GUI definition from a Qt designer file proper. From its dropdown, one can select the type of NodePart they wish to build. From the resultant QWidget entry underneath, the user can then input the correct data (which gets validated as they enter it) to instantiate that type (e.g. File / UDP / RAM buffer) of that NodePart (e.g. InputPipeBase). In a sentence, the nodePartPsWidgetSelection provides many ways to make one NodePart.
+
+nodePartPs_UserIf is a software description of how a working GUI will operate for generating NodePart parameter-sets, stopping just short of invoking Qt-specific GUI types. It provides functions for validating user input, and demands that any child implementations be able to present their QWidget and tell whether their user input is valid.
+
+nodePartPs_Make is a templated interface. The midvec2 library has no purpose for a mother class above those of the NodePart paramset classes, so defining a 'nodePartPs' class in the midvec2 library would require, by design, a subsequent dynamic_cast downward upon having called any class that outputs such a generalized type. By templating-out the pure-virtual interface, I avoid, in at least one place, having to enforce my own type rules over the will of the compiler. Such is especially important when dealing with primarily-data classes such as those under NodePartBuilder/.
+
+[in | out | gen | mix | disp | proc]PsWidget are where the rubber hits the road - these are where the user gets a concrete GUI for describing a specific implementation, for a specific NodePart. Again, they don't exist to build a NodePart. They exist to bukkild a guaranteed-valid -parameter-set- for a NodePart, which in turn is able to easily construct a NodePart.
+
