@@ -1,213 +1,146 @@
 #ifndef RINGBUFFER_TPP
 #define RINGBUFFER_TPP
 
-#include <thread>
-#include <chrono>
-
 template <class T>
-RingBuffer<T>::RingBuffer(int32_t arg_sz, int32_t arg_denominator_zone_guard)
+RingBuffer<T>::RingBuffer
+( int32_t arg_sz
+, bool arg_should_log
+)
+: _s_empty(std::binary_semaphore(0))
+, _s_full(std::binary_semaphore(0))
 {
+  // basic buffer variables.
+  // 
   _sz = arg_sz;
-  _buf = new T[_sz];
+  _buf = new T[_sz + 1];
   _r = _buf;
   _w = _buf;
-  _buf_last = _buf + _sz - 1;
+  _buf_last = _buf + _sz;
 
-  for (int32_t n = 0; n < _sz; n++)
-    { _buf[n] = 0; }
+  for (int32_t n = 0; n <= _sz; n++) { _buf[n] = 0; }
 
-  _is_empty = true;
-  _is_full = false;
-  _dtor_kill = false;
-  _denominator_zone_guard = arg_denominator_zone_guard < 2 ? 4 : arg_denominator_zone_guard;
-  _drain_done = true;
-  _fill_done = true;
+  // concurrency setup.
+  // 
+  _help_empty = false;
+  _help_full = false;
+
+  // logging variables.
+  // 
+  _r_log = arg_should_log ? 
+    new std::ofstream("./RingBuffer-Read.log", std::ios_base::trunc) : nullptr;
+  _w_log = arg_should_log ?
+    new std::ofstream("./RingBuffer-Write.log", std::ios_base::trunc) : nullptr;
 }
 
 template <class T>
 RingBuffer<T>::~RingBuffer()
 {
-  // Taking these locks will block all public methods.
-  // 
-  _r_lock.lock();
-  _w_lock.lock();
-
-  // `_dtor_kill.load() == true` will shunt out all
-  // subsequent calls on 'drain' mode and 'fill' mode.
-  // 
-  _dtor_kill = true;
-  while (!_drain_done || !_fill_done)
-  {
-  }
-
-  // The main reason we're here.
+  // delete buffer.
   delete[] _buf;
 
-  // Don't delete a locked mutex...
-  _r_lock.unlock();
-  _w_lock.unlock();
+  // logs (safe if 'nullptr').
+  delete _r_log;
+  delete _w_log;
 }
 
 template <class T>
-void RingBuffer<T>::Write(T arg_w, std::atomic<bool>* arg_client_token)
+T RingBuffer<T>::Read(int32_t* rtn_error, int32_t arg_patience_ms)
 {
-  if (_is_full.load()) // handle drain mode if necessary.
+  // Block if empty.
+  if (is_empty())
   {
-    _drain_done = false;
+if (_r_log != nullptr)
+(*_r_log) << log_timestamp() << "RingBuffer<T>::Read: entering empty-wait..." << std::endl;
 
-    while (
-      ( get_occupancy() > ( GetSize() * (_denominator_zone_guard - 1) / _denominator_zone_guard ) )
-      && !_dtor_kill.load()
-      && ( arg_client_token == nullptr || !arg_client_token->load() )
-      ) // in the 'drain' zone
+    _help_empty = true;
+    bool acq_ok = _s_empty.try_acquire_for(std::chrono::milliseconds(arg_patience_ms));
+    if (!acq_ok)
     {
-    }
+if (_r_log != nullptr)
+(*_r_log) << log_timestamp() << "RingBuffer<T>::Read: timed out on empty-wait, exiting"
+  << std::endl;
 
-    _drain_done = true;
-
-    if (_dtor_kill.load())
-    {
-      return;
-    }
-
-    if (arg_client_token != nullptr && arg_client_token->load())
-    {
-      return;
-    }
-  }
-
-  _w_lock.lock(); // execute the write.
-
-  *_w = arg_w;
-  inc_w();
-  _is_full = inc(_w) == _r; // inter-thread access: 'r' pointer.
-
-  _w_lock.unlock();
-}
-
-template <class T>
-T RingBuffer<T>::Read(std::atomic<bool>* arg_client_token)
-{
-  if (_is_empty.load()) // handle fill mode if necessary.
-  {
-    _fill_done = false;
-
-    while (
-      ( get_occupancy() < ( GetSize() / _denominator_zone_guard ) )
-      && !_dtor_kill.load()
-      && ( arg_client_token == nullptr || !arg_client_token->load() )
-      ) // in the 'fill' zone
-    {
-    }
-
-    _fill_done = true;
-
-    if (_dtor_kill.load())
-    {
+      assign_error(rtn_error, -1);
       T rtn;
       return rtn;
     }
 
-    if (arg_client_token != nullptr && arg_client_token->load())
-    {
-      T rtn;
-      return rtn;
-    }
+if (_r_log != nullptr)
+(*_r_log) << log_timestamp() << "RingBuffer<T>::Read: exiting empty-wait" << std::endl;
   }
 
-  _r_lock.lock(); // execute the read.
-
+  // Do read.
   T rtn = *_r;
   inc_r();
-  _is_empty = _r == _w; // inter-thread access: 'w' pointer.
 
-  _r_lock.unlock();
+if (_r_log != nullptr)
+(*_r_log) << log_timestamp() << "RingBuffer<T>::Read: read '" << rtn << "', occupancy now '"
+  << get_occupancy(_r.load(), _w.load()) << "'"
+  << std::endl;
 
+  // Help writer.
+  if ( _help_full.load()
+    && get_occupancy(_r.load(), _w.load()) < (GetSize() - (GetSize() / 4)) )
+  {
+    _help_full = false;
+    _s_full.release();
+
+if (_r_log != nullptr)
+(*_r_log) << log_timestamp() << "RingBuffer<T>::Read: helped writer" << std::endl;
+  }
+
+  // ret.
+  assign_error(rtn_error, 0);
   return rtn;
 }
 
 template <class T>
-int32_t RingBuffer<T>::GetOccupancy()
+void RingBuffer<T>::Write(T arg_w, int32_t* rtn_error, int32_t arg_patience_ms)
 {
-  // lock the entire buffer--
-  //   otherwise function output will be wrong by return-time
-  // up for debate, though...
-  // 
-  _w_lock.lock();
-  _r_lock.lock();
-
-  T* local_r = _r;
-  T* local_w = _w;
-
-  int32_t rtn_occupancy = 0;
-
-  while (local_r != local_w)
+  // Block if full.
+  if (is_full())
   {
-    rtn_occupancy++;
-    local_r = inc(local_r);
-  }
+if (_w_log != nullptr)
+(*_w_log) << log_timestamp() << "RingBuffer<T>::Write: entering full-wait..." << std::endl;
 
-  _w_lock.unlock();
-  _r_lock.unlock();
-
-  return rtn_occupancy;
-}
-
-template <class T>
-void RingBuffer<T>::Dump(std::ostream& arg_os)
-{
-  // lock the entire buffer--
-  //   otherwise data may change while we read
-  // 
-  _w_lock.lock();
-  _r_lock.lock();
-
-  arg_os << "{ ";
-
-  for
-    ( T* it_buf = _buf
-    ; it_buf != _buf_last + 1
-    ; ++it_buf
-    )
-  {
-    if (it_buf == _r)
+    _help_full = true;
+    bool acq_ok = _s_full.try_acquire_for(std::chrono::milliseconds(arg_patience_ms));
+    if (!acq_ok)
     {
-      arg_os << "(r)";
+if (_w_log != nullptr)
+(*_w_log) << log_timestamp() << "RingBuffer<T>::Write: timed out on full-wait, exiting"
+  << std::endl;
+
+      assign_error(rtn_error, -1);
+      return;
     }
 
-    if (it_buf == _w)
-    {
-      arg_os << "(w)";
-    }
-
-    arg_os << *it_buf << " ";
+if (_w_log != nullptr)
+(*_w_log) << log_timestamp() << "RingBuffer<T>::Write: exiting full-wait" << std::endl;
   }
 
-  arg_os << "}" << std::endl;
+  // Do write.
+  *_w = arg_w;
+  inc_w();
 
-  _w_lock.unlock();
-  _r_lock.unlock();
-}
+if (_w_log != nullptr)
+(*_w_log) << log_timestamp() << "RingBuffer<T>::Write: wrote '" << arg_w << "', occupancy now '"
+  << get_occupancy(_r.load(), _w.load()) << "'"
+  << std::endl;
 
-template <class T>
-int32_t RingBuffer<T>::get_occupancy()
-{
-  // snapshot, but no lock.
-  //   this function is read-only wrt the member variables it uses.
-  //   it just needs a mostly-faithful read on occupancy at this moment.
-  // 
-  T* local_r = _r.load();
-  T* local_w = _w.load();
-
-  int32_t rtn_occupancy = 0;
-
-  while (local_r != local_w)
+  // Help reader.
+  if ( _help_empty.load()
+    && get_occupancy(_r.load(), _w.load()) > (GetSize() / 4) )
   {
-    rtn_occupancy++;
-    local_r = inc(local_r);
+    _help_empty = false;
+    _s_empty.release();
+
+if (_w_log != nullptr)
+(*_w_log) << log_timestamp() << "RingBuffer<T>::Write: helped reader" << std::endl;
   }
 
-  return rtn_occupancy;
+  // ret.
+  assign_error(rtn_error, 0);
 }
 
 #endif // RINGBUFFER_TPP
