@@ -18,12 +18,12 @@ public:
   // 
   // Ctor.
   //
-  GeneratorBase<T_out>() { } ;
+  GeneratorBase() { } ;
 
   // 
   // Dtor.
   //
-  virtual ~GeneratorBase<T_out>() { } ;
+  virtual ~GeneratorBase() { } ;
 
   // 
   // Next.

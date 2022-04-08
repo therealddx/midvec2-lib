@@ -20,7 +20,7 @@ public:
   // 
   // Ctor.
   //
-  GeneratorSquare<T_out>
+  GeneratorSquare
     ( double arg_xShift
     , double arg_xScale
     , double arg_yShift
@@ -32,7 +32,7 @@ public:
   // 
   // Dtor.
   //
-  ~GeneratorSquare<T_out>() { } ;
+  ~GeneratorSquare() { } ;
 
   // 
   // Next.

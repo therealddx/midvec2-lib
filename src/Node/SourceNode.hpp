@@ -30,7 +30,7 @@ public:
   // 
   // Ctor. Uses GeneratorBase<T_out>.
   //
-  SourceNode<T_out>
+  SourceNode
     ( GeneratorBase<T_out>* arg_generator
     , OutputPipeBase* arg_outPipe);
 
@@ -39,7 +39,7 @@ public:
   // Destroys and frees members.
   // Stops operation.
   //
-  ~SourceNode<T_out>();
+  ~SourceNode();
 
   // 
   // GetType.

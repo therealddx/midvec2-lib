@@ -22,7 +22,7 @@ class MixerNode : public IStorableNode
 {
 public:
 
-  MixerNode<T_in, T_out>
+  MixerNode
     ( InputPipeBase* arg_inPipe1
     , InputPipeBase* arg_inPipe2
     , OutputPipeBase* arg_outPipe
@@ -31,7 +31,7 @@ public:
   // 
   // Dtor.
   //
-  ~MixerNode<T_in, T_out>();
+  ~MixerNode();
 
   // 
   // GetType.

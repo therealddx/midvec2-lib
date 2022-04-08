@@ -23,23 +23,23 @@ public:
   // Ctor.
   // Requires initial values for real and imaginary components.
   // 
-  Complex<T_c>(T_c arg_real, T_c arg_imag);
+  Complex(T_c arg_real, T_c arg_imag);
 
   // Copy ctor.
   // 
-  Complex<T_c>(const Complex<T_c>& arg_rhs);
+  Complex(const Complex<T_c>& arg_rhs);
 
   // Real ctor.
-  Complex<T_c>(T_c);
+  Complex(T_c);
 
   // Empty ctor.
   // 
-  Complex<T_c>();
+  Complex();
 
   // Dtor.
   // Nothing to do. Backing data is stack-allocated.
   // 
-  ~Complex<T_c>() { } ;
+  ~Complex() { } ;
 
   // GetReal.
   // Return real component of this complex value.

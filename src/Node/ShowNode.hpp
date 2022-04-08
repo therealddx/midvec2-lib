@@ -32,7 +32,7 @@ public:
   // Ctor.
   // Assigns input pipe for display.
   //
-  ShowNode<T_in>
+  ShowNode
     ( InputPipeBase* arg_inPipe
     , DisplayBase<T_in>* arg_display
     );
@@ -41,7 +41,7 @@ public:
   // Dtor.
   // Releases class resources.
   //
-  ~ShowNode<T_in>();
+  ~ShowNode();
 
   // 
   // GetType.

@@ -19,12 +19,12 @@ public:
   // 
   // Ctor.
   //
-  DisplayBase<T_in>() { } ;
+  DisplayBase() { } ;
 
   // 
   // Dtor.
   //
-  virtual ~DisplayBase<T_in>() { } ;
+  virtual ~DisplayBase() { } ;
 
   // 
   // Update.

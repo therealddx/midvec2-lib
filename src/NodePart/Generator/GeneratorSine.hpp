@@ -26,7 +26,7 @@ public:
   // 
   // Ctor.
   //
-  GeneratorSine<T_out>
+  GeneratorSine
     ( double arg_xShift
     , double arg_xScale
     , double arg_yShift
@@ -37,7 +37,7 @@ public:
   // 
   // Dtor.
   //
-  ~GeneratorSine<T_out>() { } ;
+  ~GeneratorSine() { } ;
 
   // 
   // Next.

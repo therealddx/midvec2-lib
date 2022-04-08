@@ -38,31 +38,31 @@ public:
   // Ctor.
   // Default to initialize memory.
   //
-  Message<T>();
+  Message();
 
   // 
   // Ctor.
   // Marshal member fields from a raw byte array.
   // 
-  Message<T>(char* arg_fromBuffer);
+  Message(char* arg_fromBuffer);
 
   // 
   // Ctor.
   // Marshal member fields from a copy operation.
   //
-  Message<T>(const Message<T>& arg_other);
+  Message(const Message<T>& arg_other);
 
   // 
   // Ctor. 
   // Marshal member fields from an instance of backer's type.
   //
-  Message<T>(const T& arg_backer);
+  Message(const T& arg_backer);
 
   // 
   // Dtor.
   // Nothing done. All members allocated on stack.
   // 
-  ~Message<T>() { }
+  ~Message() { }
 
   // 
   // Accessors.

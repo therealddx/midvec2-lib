@@ -20,12 +20,12 @@ public:
   // 
   // Ctor.
   //
-  ProcessorDc<T_in, T_out>(T_in arg_dc);
+  ProcessorDc(T_in arg_dc);
 
   // 
   // Dtor.
   //
-  ~ProcessorDc<T_in, T_out>() { };
+  ~ProcessorDc() { };
 
   // 
   // Process.

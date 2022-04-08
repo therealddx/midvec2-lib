@@ -28,7 +28,7 @@ public:
   // 
   // Dtor.
   //
-  ~DisplayFile<T_in>();
+  ~DisplayFile();
 
   // 
   // Update.

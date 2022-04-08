@@ -45,6 +45,6 @@ g++ \
   "$PATH_SRC"/NodePart/Processor/ProcessorConv.cpp \
   "$PATH_SRC"/NodePart/Processor/ProcessorDc.cpp \
   "$PATH_SRC"/Types/Complex.cpp \
-  -lpthread --std=c++11 -I"$PATH_SRC" -shared -fPIC -o "$PWD"/lib/libmidvec2.so
+  -lpthread --std=c++20 -I"$PATH_SRC" -shared -fPIC -o "$PWD"/lib/libmidvec2.so
 
 

@@ -22,12 +22,12 @@ public:
   // 
   // Ctor.
   //
-  ProcessorBase<T_in, T_out>() { };
+  ProcessorBase() { };
 
   // 
   // Dtor.
   //
-  virtual ~ProcessorBase<T_in, T_out>() { };
+  virtual ~ProcessorBase() { };
 
   // 
   // ProcessMarshal.

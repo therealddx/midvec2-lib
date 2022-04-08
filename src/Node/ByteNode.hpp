@@ -35,7 +35,7 @@ public:
   // Assigns and constructs members.
   // Starts operation.
   //
-  ByteNode<T>
+  ByteNode
     ( InputPipeBase*  arg_inPipe
     , OutputPipeBase* arg_outPipe
     );
@@ -45,7 +45,7 @@ public:
   // Destroys and frees members.
   // Stops operation.
   //
-  ~ByteNode<T>();
+  ~ByteNode();
 
   // 
   // GetType.

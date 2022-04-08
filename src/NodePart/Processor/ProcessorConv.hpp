@@ -23,12 +23,12 @@ public:
   // 
   // Ctor.
   //
-  ProcessorConv<T_in, T_out>(std::vector<T_in>);
+  ProcessorConv(std::vector<T_in>);
 
   // 
   // Dtor.
   //
-  ~ProcessorConv<T_in, T_out>() { };
+  ~ProcessorConv() { };
 
   // 
   // Process.

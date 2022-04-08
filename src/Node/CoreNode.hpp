@@ -37,7 +37,7 @@ public:
   // Assigns and constructs members.
   // Starts operation.
   //
-  CoreNode<T_in, T_out>
+  CoreNode
     ( InputPipeBase*              arg_inPipe
     , ProcessorBase<T_in, T_out>* arg_proc
     , OutputPipeBase*             arg_outPipe
@@ -48,7 +48,7 @@ public:
   // Destroys and frees members.
   // Stops operation.
   //
-  ~CoreNode<T_in, T_out>();
+  ~CoreNode();
 
   // 
   // GetType.
