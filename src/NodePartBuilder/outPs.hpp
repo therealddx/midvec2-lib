@@ -51,11 +51,10 @@ private:
 class outRamPs : public outPs
 {
 public:
-  outRamPs(RingBuffer<char>* arg_rb, std::atomic<bool>* arg_ct = nullptr) : _rb(arg_rb) , _ct(arg_ct) { } ;
+  outRamPs(RingBuffer<char>* arg_rb) : _rb(arg_rb) { } ;
   OutputPipeBase* Make();
 private:
   RingBuffer<char>* _rb;
-  std::atomic<bool>* _ct;
 };
 
 #endif // OUTPS_HPP

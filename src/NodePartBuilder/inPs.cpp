@@ -19,5 +19,5 @@ InputPipeBase* inUdpPs::Make()
   { return new InputPipeUdp(_ipv4_bind, _port); }
 
 InputPipeBase* inRamPs::Make()
-  { return new InputPipeRam(_rb, _ct); }
+  { return new InputPipeRam(_rb); }
 

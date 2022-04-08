@@ -19,5 +19,5 @@ OutputPipeBase* outUdpPs::Make()
   { return new OutputPipeUdp(_ipAddress, _port); }
 
 OutputPipeBase* outRamPs::Make()
-  { return new OutputPipeRam(_rb, _ct); }
+  { return new OutputPipeRam(_rb); }
 

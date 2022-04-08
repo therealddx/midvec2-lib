@@ -14,7 +14,6 @@ class InputPipeBase;
 
 #include <stdint.h>
 #include <string>
-#include <atomic>
 #include <Types/RingBuffer.hpp>
 
 class inPs
@@ -52,11 +51,10 @@ private:
 class inRamPs : public inPs
 {
 public:
-  inRamPs(RingBuffer<char>* arg_rb, std::atomic<bool>* arg_ct = nullptr) : _rb(arg_rb), _ct(arg_ct) { } ;
+  inRamPs(RingBuffer<char>* arg_rb) : _rb(arg_rb) { } ;
   InputPipeBase* Make();
 private:
   RingBuffer<char>* _rb;
-  std::atomic<bool>* _ct;
 };
 
 #endif // INPS_HPP
