@@ -15,7 +15,6 @@
 #include <vector>
 #include <iostream>
 #include <string>
-#include <atomic>
 #include <sstream>
 #include <iomanip>
 #include <Types/RingBuffer.hpp>
@@ -28,7 +27,7 @@ public:
   // 
   // Ctor.
   //
-  InputPipeRam(RingBuffer<char>* arg_ringBuffer, std::atomic<bool>* = nullptr);
+  InputPipeRam(RingBuffer<char>* arg_ringBuffer);
 
   // 
   // Dtor.
@@ -65,7 +64,6 @@ private:
 
   // members: data: ram read.
   RingBuffer<char>* _ringBuffer;
-  std::atomic<bool>* _rb_cancellation_token;
 };
 
 #endif // INPUTPIPERAM_HPP

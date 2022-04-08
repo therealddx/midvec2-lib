@@ -13,7 +13,6 @@
 #include <stdint.h>
 #include <string>
 #include <sstream>
-#include <atomic>
 #include <iomanip>
 #include <Types/RingBuffer.hpp>
 #include "OutputPipeBase.hpp"
@@ -25,7 +24,7 @@ public:
   // 
   // Ctor.
   //
-  OutputPipeRam(RingBuffer<char>* arg_ringBuffer, std::atomic<bool>* = nullptr);
+  OutputPipeRam(RingBuffer<char>* arg_ringBuffer);
 
   // 
   // Dtor.
@@ -62,7 +61,6 @@ private:
 
   // members: data.
   RingBuffer<char>* _ringBuffer;
-  std::atomic<bool>* _rb_cancellation_token;
 };
 
 #endif // OUTPUTPIPERAM_HPP
