@@ -45,12 +45,6 @@ static const int32_t NUM_MIXERNODE_CLI_ARGS = 7;
 //
 static std::map<int32_t, RingBuffer<char>*> db_ringbuffers;
 
-// rb_cancellation_token
-//   global RingBuffer turn-off for graceful application close,
-//     even if `Write`/`Read` calls are in 'drain'/'fill' mode.
-//
-static std::atomic<bool> rb_cancellation_token(false);
-
 /**
  * <T_NODEPART>_from_cli
  *

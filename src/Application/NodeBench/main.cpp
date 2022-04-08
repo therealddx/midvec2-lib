@@ -178,8 +178,7 @@ outPs* outPs_from_cli(char** argv_offset)
   {
     if (db_ringbuffers.find(uid_out) == db_ringbuffers.end())
       { db_ringbuffers[uid_out] = new RingBuffer<char>(1024); }
-    rtn_out_pipe_paramset = new outRamPs(
-      db_ringbuffers[uid_out], &rb_cancellation_token);
+    rtn_out_pipe_paramset = new outRamPs(db_ringbuffers[uid_out]);
   }
   else if
      ( !strcmp("-opf", *argv_offset)
@@ -226,8 +225,7 @@ inPs* inPs_from_cli(char** argv_offset)
     if (db_ringbuffers.find(uid_in) == db_ringbuffers.end())
       { db_ringbuffers[uid_in] = new RingBuffer<char>(1024); }
 
-    rtn_in_pipe_paramset = new inRamPs(db_ringbuffers[uid_in],
-      &rb_cancellation_token);
+    rtn_in_pipe_paramset = new inRamPs(db_ringbuffers[uid_in]);
   }
   else if
      ( !strcmp("-ipf", *argv_offset)
@@ -424,7 +422,6 @@ int main(int argc, char** argv)
   std::cout << "nodebench: nodes done running" << std::endl;
 
   label_cleanup:
-    rb_cancellation_token = true;
 
     std::cout << "nodebench: deleting 'Node's..." << std::endl;
     for (auto each : all_nodes)

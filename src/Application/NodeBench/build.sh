@@ -21,7 +21,7 @@ g++ \
   "$PATH_SRC"/Application/NodeBench/BenchLog.cpp \
   "$PATH_SRC"/Application/NodeBench/main.cpp \
   "$PATH_SRC"/Application/NodeBench/nodeBench.cpp \
-  -L"$PATH_LIB" -lmidvec2 -lpthread --std=c++11 -I"$PATH_SRC" -o "$PWD"/bin/nodebench
+  -L"$PATH_LIB" -lmidvec2 -lpthread --std=c++20 -I"$PATH_SRC" -o "$PWD"/bin/nodebench
 
 # grant `LD_LIBRARY_PATH`, but warn.
 # 
