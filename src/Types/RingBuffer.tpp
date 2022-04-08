@@ -53,17 +53,7 @@ if (_r_log != nullptr)
 (*_r_log) << log_timestamp() << "RingBuffer<T>::Read: entering empty-wait..." << std::endl;
 
     _help_empty = true;
-    bool acq_ok = _s_empty.try_acquire_for(std::chrono::milliseconds(arg_patience_ms));
-    if (!acq_ok)
-    {
-if (_r_log != nullptr)
-(*_r_log) << log_timestamp() << "RingBuffer<T>::Read: timed out on empty-wait, exiting"
-  << std::endl;
-
-      assign_error(rtn_error, -1);
-      T rtn;
-      return rtn;
-    }
+    _s_empty.acquire();
 
 if (_r_log != nullptr)
 (*_r_log) << log_timestamp() << "RingBuffer<T>::Read: exiting empty-wait" << std::endl;
@@ -104,16 +94,7 @@ if (_w_log != nullptr)
 (*_w_log) << log_timestamp() << "RingBuffer<T>::Write: entering full-wait..." << std::endl;
 
     _help_full = true;
-    bool acq_ok = _s_full.try_acquire_for(std::chrono::milliseconds(arg_patience_ms));
-    if (!acq_ok)
-    {
-if (_w_log != nullptr)
-(*_w_log) << log_timestamp() << "RingBuffer<T>::Write: timed out on full-wait, exiting"
-  << std::endl;
-
-      assign_error(rtn_error, -1);
-      return;
-    }
+    _s_full.acquire();
 
 if (_w_log != nullptr)
 (*_w_log) << log_timestamp() << "RingBuffer<T>::Write: exiting full-wait" << std::endl;
