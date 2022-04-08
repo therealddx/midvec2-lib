@@ -28,7 +28,8 @@ ErrorCode InputPipeRam::GetByte(char* rtn_byte)
     { return ErrorCode::Cancelled; }
 
   // get a byte from the ringbuffer.
-  *rtn_byte = _ringBuffer->Read(_rb_cancellation_token);
+  int32_t e_read = 0;
+  *rtn_byte = _ringBuffer->Read(&e_read, 1000);
   return ErrorCode::Ok;
 }
 

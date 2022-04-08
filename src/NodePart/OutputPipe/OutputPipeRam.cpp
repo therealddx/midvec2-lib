@@ -30,7 +30,13 @@ ErrorCode OutputPipeRam::PutMessage(char* arg_msgBytes, int32_t arg_msgLen)
   // write.
   for (int32_t n_b = 0; n_b < arg_msgLen; n_b++)
   {
-    _ringBuffer->Write(arg_msgBytes[n_b], _rb_cancellation_token);
+    int32_t e_write = 0;
+    _ringBuffer->Write(arg_msgBytes[n_b], &e_write, 1000);
+
+    if (0 != e_write) // nobody's reading; must exit.
+    {
+      return ErrorCode::Cancelled;
+    }
   }
 
   // ret.
