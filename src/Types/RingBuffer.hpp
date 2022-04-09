@@ -92,6 +92,13 @@ public:
     return get_occupancy(_r.load(), _w.load());
   }
 
+  void Close()
+  {
+    _closed = true;
+    _s_empty.release();
+    _s_full.release();
+  }
+
 private:
 
   // Basic pointer navigation--
@@ -152,7 +159,7 @@ private:
   std::binary_semaphore _s_full;
   std::atomic<bool> _help_empty;
   std::atomic<bool> _help_full;
-  std::atomic<bool> _dtor_cancel;
+  std::atomic<bool> _closed;
 
   // Debug helpers--
   // 

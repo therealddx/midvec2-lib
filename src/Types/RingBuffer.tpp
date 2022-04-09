@@ -23,7 +23,7 @@ RingBuffer<T>::RingBuffer
   // 
   _help_empty = false;
   _help_full = false;
-  _dtor_cancel = false;
+  _closed = false;
 
   // logging variables.
   // 
@@ -37,9 +37,7 @@ template <class T>
 RingBuffer<T>::~RingBuffer()
 {
   // flag + release.
-  _dtor_cancel = true;
-  _s_empty.release();
-  _s_full.release();
+  Close();
 
   // delete buffer.
   delete[] _buf;
@@ -52,6 +50,8 @@ RingBuffer<T>::~RingBuffer()
 template <class T>
 T RingBuffer<T>::Read(int32_t* rtn_error, int32_t arg_patience_ms)
 {
+  if (_closed) { assign_error(rtn_error, -1); T rtn; return rtn; }
+
   // Block if empty.
   if (is_empty())
   {
@@ -60,13 +60,6 @@ if (_r_log != nullptr)
 
     _help_empty = true;
     _s_empty.acquire();
-    if (_dtor_cancel)
-    {
-if (_r_log != nullptr)
-(*_r_log) << log_timestamp() << "RingBuffer<T>::Read: dtor-exit for empty-wait" << std::endl;
-
-      assign_error(rtn_error, -1);
-    }
 
 if (_r_log != nullptr)
 (*_r_log) << log_timestamp() << "RingBuffer<T>::Read: exiting empty-wait" << std::endl;
@@ -100,6 +93,8 @@ if (_r_log != nullptr)
 template <class T>
 void RingBuffer<T>::Write(T arg_w, int32_t* rtn_error, int32_t arg_patience_ms)
 {
+  if (_closed) { assign_error(rtn_error, -1); return; }
+
   // Block if full.
   if (is_full())
   {
@@ -108,13 +103,6 @@ if (_w_log != nullptr)
 
     _help_full = true;
     _s_full.acquire();
-    if (_dtor_cancel)
-    {
-if (_w_log != nullptr)
-(*_w_log) << log_timestamp() << "RingBuffer<T>::Write: dtor-exit for full-wait" << std::endl;
-
-      assign_error(rtn_error, -1);
-    }
 
 if (_w_log != nullptr)
 (*_w_log) << log_timestamp() << "RingBuffer<T>::Write: exiting full-wait" << std::endl;
