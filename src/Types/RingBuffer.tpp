@@ -23,6 +23,7 @@ RingBuffer<T>::RingBuffer
   // 
   _help_empty = false;
   _help_full = false;
+  _dtor_cancel = false;
 
   // logging variables.
   // 
@@ -35,6 +36,11 @@ RingBuffer<T>::RingBuffer
 template <class T>
 RingBuffer<T>::~RingBuffer()
 {
+  // flag + release.
+  _dtor_cancel = true;
+  _s_empty.release();
+  _s_full.release();
+
   // delete buffer.
   delete[] _buf;
 
@@ -54,6 +60,13 @@ if (_r_log != nullptr)
 
     _help_empty = true;
     _s_empty.acquire();
+    if (_dtor_cancel)
+    {
+if (_r_log != nullptr)
+(*_r_log) << log_timestamp() << "RingBuffer<T>::Read: dtor-exit for empty-wait" << std::endl;
+
+      assign_error(rtn_error, -1);
+    }
 
 if (_r_log != nullptr)
 (*_r_log) << log_timestamp() << "RingBuffer<T>::Read: exiting empty-wait" << std::endl;
@@ -95,6 +108,13 @@ if (_w_log != nullptr)
 
     _help_full = true;
     _s_full.acquire();
+    if (_dtor_cancel)
+    {
+if (_w_log != nullptr)
+(*_w_log) << log_timestamp() << "RingBuffer<T>::Write: dtor-exit for full-wait" << std::endl;
+
+      assign_error(rtn_error, -1);
+    }
 
 if (_w_log != nullptr)
 (*_w_log) << log_timestamp() << "RingBuffer<T>::Write: exiting full-wait" << std::endl;

@@ -152,6 +152,7 @@ private:
   std::binary_semaphore _s_full;
   std::atomic<bool> _help_empty;
   std::atomic<bool> _help_full;
+  std::atomic<bool> _dtor_cancel;
 
   // Debug helpers--
   // 
