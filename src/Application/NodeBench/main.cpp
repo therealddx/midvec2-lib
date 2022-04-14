@@ -25,6 +25,11 @@
 //
 int32_t gl_error_main = 0;
 
+RingBuffer<char>* make_RingBuffer()
+{
+  return new RingBuffer<char>(1024, 0, true);
+}
+
 dispPs<double>* dispPs_from_cli(char** argv_offset)
 {
   if (!strcmp("-dfile", *argv_offset) || !strcmp("--display-file", *argv_offset))
@@ -177,7 +182,7 @@ outPs* outPs_from_cli(char** argv_offset)
     || !strcmp("--output-pipe-ram", *argv_offset))
   {
     if (db_ringbuffers.find(uid_out) == db_ringbuffers.end())
-      { db_ringbuffers[uid_out] = new RingBuffer<char>(1024); }
+      { db_ringbuffers[uid_out] = make_RingBuffer(); }
     rtn_out_pipe_paramset = new outRamPs(db_ringbuffers[uid_out]);
   }
   else if
@@ -223,8 +228,7 @@ inPs* inPs_from_cli(char** argv_offset)
     || !strcmp("--input-pipe-ram", *argv_offset))
   {
     if (db_ringbuffers.find(uid_in) == db_ringbuffers.end())
-      { db_ringbuffers[uid_in] = new RingBuffer<char>(1024); }
-
+      { db_ringbuffers[uid_in] = make_RingBuffer(); }
     rtn_in_pipe_paramset = new inRamPs(db_ringbuffers[uid_in]);
   }
   else if
