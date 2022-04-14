@@ -44,8 +44,40 @@ class RingBuffer
 {
 public:
 
-  RingBuffer(int32_t, bool = false);
+  /**
+   * Ctor
+   *
+   * @brief
+   *   Creates the RingBuffer.
+   *
+   * @param[in] arg_size
+   *   The amount of objects of type 'T' that this buffer can hold.
+   *
+   * @param[in] arg_restore_occupancy 
+   *   If `Read` sees that the buffer is empty,
+   *     it will block until the occupancy is greater than this number.
+   *   If `Write` sees that the buffer is full,
+   *     it will block until the occupancy is less than size minus this number.
+   *   Minimum allowed value is '0'; maximum allowed value is 'size - 1'.
+   *
+   * @param[in] arg_should_log
+   *   Iff 'true', puts out separate, timestamped logs on `Read` and `Write` calls.
+   *
+   */
+  RingBuffer
+    ( int32_t arg_size
+    , int32_t arg_restore_occupancy
+    , bool arg_should_log = false
+    );
 
+  /**
+   * Dtor
+   *
+   * @brief
+   *   Destroys the RingBuffer.
+   *   Does not clean up after client callers, however!
+   *   Call `Close` before `delete`, to unblock client callers.
+   */
   ~RingBuffer();
 
   /**
@@ -78,20 +110,25 @@ public:
    * GetSize
    * @brief Self-explanatory.
    */
-  int32_t GetSize()
+  int32_t GetSize() const
   {
-    return _sz;
+    return _size;
   }
 
   /**
    * GetOccupancy
    * @brief Returns number of readable elements in the buffer.
    */
-  int32_t GetOccupancy()
+  int32_t GetOccupancy() const
   {
     return get_occupancy(_r.load(), _w.load());
   }
 
+  /**
+   * Close
+   * @brief Unblocks any `Read` or `Write` stuck in wait,
+   *   and ensures that any future `Read` or `Write` call will immediately shunt.
+   */
   void Close()
   {
     _closed = true;
@@ -105,7 +142,7 @@ private:
   //   Pointer incrementing-- simple ternary branch
   //   Empty/full checks-- even simpler than `GetOccupancy`
   //
-  T* inc(T* arg_p)
+  T* inc(T* arg_p) const
   {
     return
       arg_p == _buf_last
@@ -117,11 +154,11 @@ private:
 
   void inc_r() { _r.store(inc(_r.load())); }
 
-  bool is_empty() { return _r.load() == _w.load(); }
+  bool is_empty() const { return _r.load() == _w.load(); }
 
-  bool is_full() { return inc(_w.load()) == _r.load(); }
+  bool is_full() const { return inc(_w.load()) == _r.load(); }
 
-  int32_t get_occupancy(T* arg_r, T* arg_w)
+  int32_t get_occupancy(T* arg_r, T* arg_w) const
   {
     if (arg_r > arg_w)
       { return (_buf_last - arg_r + 1) + (arg_w - _buf); }
@@ -131,13 +168,13 @@ private:
 
   // Misc. private helpers--
   // 
-  void assign_error(int32_t* arg_p, int32_t arg_value)
+  void assign_error(int32_t* arg_p, int32_t arg_value) const
   {
     if (arg_p == nullptr) { return; }
     *arg_p = arg_value;
   }
 
-  std::string log_timestamp()
+  std::string log_timestamp() const
   {
     std::stringstream ss;
     ss << "[" << clock() << "] ";
@@ -147,11 +184,12 @@ private:
   // Core variables--
   //   buffer, read pointer, write pointer.
   //
+  const int32_t _size;
+  const int32_t _restore_occupancy;
   T* _buf;
+  T* _buf_last;
   std::atomic<T*> _r;
   std::atomic<T*> _w;
-  int32_t _sz;
-  T* _buf_last;
 
   // Occupancy management--
   // 
