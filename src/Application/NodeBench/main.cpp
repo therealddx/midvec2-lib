@@ -27,7 +27,7 @@ int32_t gl_error_main = 0;
 
 RingBuffer<char>* make_RingBuffer()
 {
-  return new RingBuffer<char>(1024, 0, true);
+  return new RingBuffer<char>(1024, 512, false);
 }
 
 dispPs<double>* dispPs_from_cli(char** argv_offset)
