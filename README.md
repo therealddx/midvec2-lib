@@ -24,7 +24,7 @@ In turn, different Nodes exist to solve different types of problems regarding th
 By chaining many Nodes together, the client programmer can devise a cohesive signal processing solution (say, data acquisition via UDP, to which a filter is applied before storage to a textfile).  
   
 #### *How do I use it?*  
-Following a `git clone`, first build the library by `cd`ing to `build/BuildShared`, and running `build.sh`. It is expected that the client programmer have gcc/g++, at a version capable of compiling C++11.  
+Following a `git clone`, first build the library by `cd`ing to `build/BuildShared`, and running `build.sh`. It is expected that the client programmer have gcc/g++, at a version capable of compiling C++20.  
   
 From there, `cd` to `src/Application/NodeBench`, and run `build.sh` again. Please heed the build script's output for setting `LD_LIBRARY_PATH` following build. The `nodebench` test application (as well as `bench`) both require the \*.so file from the codebase.  
   
