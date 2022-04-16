@@ -1,0 +1,109 @@
+# testRingBuffer-notes.txt
+# 
+# test procedure and `bash` scripting for...
+# 
+# *   *   *   *   *   *   *   *   *   *   *   *
+#                                              
+# *                                           *
+#                                              
+# *    verifying the concurrent RingBuffer    *
+#                                              
+# *                                           *
+#                                              
+# *   *   *   *   *   *   *   *   *   *   *   *
+# 
+#             ...via midvec2-lib's `nodebench`. 
+# 
+
+# generate the sinewave data.
+# 
+# using `nodebench`, make nodes pass sinewave data:
+#   through a RingBuffer, and
+#     into a human-readable textfile.
+# 
+for n in $(seq 1000) ; do mkdir mysine"$n".d ; cd mysine"$n".d ; ../nodebench source-node -gsine 0 1 0 1 1024 -opr 737 show-node -ipr 737 -dfile mysine"$n".txt > mysine"$n".log ; wc -l mysine"$n".txt >> ../wc_-l.txt ;  cd ../ ; echo "generated mysine$n.txt at $(date)" ; done
+
+for n in $(seq 1000) ; do
+  mkdir mysine"$n".d
+  cd mysine"$n".d
+  ../nodebench source-node -gsine 0 1 0 1 1024 -opr 737 \
+    show-node -ipr 737 -dfile mysine"$n".txt > mysine"$n".log
+  wc -l mysine"$n".txt >> ../wc_-l.txt
+  cd ../
+  echo "generated mysine$n.txt at $(date)"
+done
+
+# using `wc -l`, determine the longest file:
+#   (replace this later in the script, depending)
+# 
+810836 mysine392.txt
+
+# get the 'body' [everything after the first line]
+#   of each 'display text' file.
+# 
+# hints:
+#   isolate line count of file:
+#     `wc -l <file> | cut -d' ' -f 1`
+#   subtract one from previous value:
+#     `expr $([previous-line]) - 1`
+# 
+for n in $(seq 1000) ; do tail -n $(expr $(wc -l mysine"$n".d/mysine"$n".txt | cut -d' ' -f 1) - 1) mysine"$n".d/mysine"$n".txt > mysine"$n".d/mysine"$n"-body.txt ; done
+
+for n in $(seq 1000) ; do
+  tail -n $(expr \
+    $(wc -l mysine"$n".d/mysine"$n".txt | cut -d' ' -f 1) - 1) \
+    mysine"$n".d/mysine"$n".txt > \
+      mysine"$n".d/mysine"$n"-body.txt
+done
+
+# compare the #bytes in the 'body' against the longest file
+#   test failure is defined as, any conflict in data integrity,
+#     between any one file and the longest file generated.
+# 
+# hints:
+#   maximum number bytes to `cmp`:
+#     $(wc -c <file> | cut -d' ' -f 1)
+#   test failure appears from `cmp` in stdout, as:
+#     <file1> <file2> differ: byte <n>, line <m>
+# 
+for n in $(seq 1000) ; do echo "comparing $n to longest (392)..." >> cmp-outputs.txt ; cmp -n $(wc -c mysine"$n".d/mysine"$n"-body.txt | cut -d' ' -f 1) mysine"$n".d/mysine"$n"-body.txt mysine392.d/mysine392-body.txt >> cmp-outputs.txt ; done
+
+for n in $(seq 1000) ; do
+  echo "comparing $n to longest (392)..." >> cmp-outputs.txt
+  cmp -n \
+    $(wc -c mysine"$n".d/mysine"$n"-body.txt | cut -d' ' -f 1) \
+    mysine"$n".d/mysine"$n"-body.txt \
+    mysine392.d/mysine392-body.txt \
+      >> cmp-outputs.txt
+done
+
+# test failure is captured from above script in:
+#   `grep 'differ' cmp-outputs.txt`.
+# 
+grep 'differ' cmp-outputs.txt
+
+# if the grep shows blank, test has succeeded!
+# 
+# that is,
+# the ringbuffer has, for all tests, passed through sinewave
+#   data with no loss of integrity (every byte in comes out).
+# 
+# or, at least, the above can be safely assumed,
+#   because the alternative conclusion is that,
+#     every sinewave test dropped the same data at the same time.
+# 
+
+# post-note:
+# the latter conclusion can be ruled out manually.
+#   essentially-- an error of data integrity in the ringbuffer,
+#     would permanently break the prescribed period
+#       for the remainder of the textfile.
+# 
+less mysine392-body.txt # longest file
+1024j   # scroll down by '1' period and verify '0'
+10240j  # scroll down by '10' periods and verify '0'
+102400j # scroll down by '100' periods and verify '0'
+# calculate from `wc -l` the maximum number of periods--
+#   then scroll down that far, and verify '0'
+# 
+
