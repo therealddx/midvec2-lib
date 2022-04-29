@@ -16,7 +16,6 @@
 
 // include: midvec library.
 #include <NodePart/Display/DisplayBase.hpp>
-#include <NodePart/Display/GraphGluiBase.hpp>
 #include <Types/RingBuffer.hpp>
 
 template <class T_in>
@@ -38,21 +37,6 @@ public:
 
 private:
   std::string _fqFile;
-};
-
-template <class T_in>
-class dispGraphPs : public dispPs<T_in>
-{
-public:
-  dispGraphPs(GraphGluiBase<uint32_t, T_in>* arg_guiGlue)
-    : _guiGlue(arg_guiGlue)
-  {
-  }
-
-  DisplayBase<T_in>* Make();
-
-private:
-  GraphGluiBase<uint32_t, T_in>* _guiGlue;
 };
 
 #endif // DISPPS_HPP
