@@ -30,7 +30,6 @@ g++ \
   "$PATH_SRC"/NodePartBuilder/procPs.cpp \
   "$PATH_SRC"/NodePart/Display/DisplayBase.cpp \
   "$PATH_SRC"/NodePart/Display/DisplayFile.cpp \
-  "$PATH_SRC"/NodePart/Display/DisplayGraph.cpp \
   "$PATH_SRC"/NodePart/Generator/GeneratorBase.cpp \
   "$PATH_SRC"/NodePart/Generator/GeneratorSine.cpp \
   "$PATH_SRC"/NodePart/Generator/GeneratorSquare.cpp \
@@ -46,5 +45,4 @@ g++ \
   "$PATH_SRC"/NodePart/Processor/ProcessorDc.cpp \
   "$PATH_SRC"/Types/Complex.cpp \
   -lpthread --std=c++20 -I"$PATH_SRC" -shared -fPIC -o "$PWD"/lib/libmidvec2.so
-
 
