@@ -33,7 +33,8 @@ template <class T_in, class T_out>
 CoreNode<T_in, T_out>::~CoreNode()
 {
   _isRunning = false;
-
+  _inPipe->Cancel();
+  _outPipe->Cancel();
   _nodeThread.join();
 
   delete _proc;

@@ -30,6 +30,8 @@ template <class T>
 ByteNode<T>::~ByteNode()
 {
   _isRunning = false;
+  _inPipe->Cancel();
+  _outPipe->Cancel();
   _runThread.join();
 
   delete _inPipe;

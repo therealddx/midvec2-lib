@@ -30,11 +30,10 @@ ShowNode<T_in>::ShowNode
 template <class T_in>
 ShowNode<T_in>::~ShowNode()
 {
-  // turn off thread + wait.
   _isRunning = false;
+  _inPipe->Cancel();
   _runThread.join();
 
-  // destroy members.
   delete _display;
   delete _inPipe;
 }
