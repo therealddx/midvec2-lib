@@ -1,8 +1,8 @@
 /**
  * reference LICENSE file provided.
  *
- * RingBuffer.hpp
- * Concurrent user ringbuffer.
+ * @file RingBuffer.hpp
+ * Concurrent ringbuffer in user space.
  *
  */
 
@@ -24,19 +24,12 @@
 #include <stdexcept>
 
 /**
- * RingBuffer
+ * @class RingBuffer
  *
- * This class represents a concurrent ringbuffer
- *   (both producer and consumer active)
- * in user space.
- *
- * This class expects to be serviced by three roles:
- *   producer (calling `Write`),
- *   consumer (calling `Read`), or
- *   monitor (calling `ctor`/`delete`).
- *
- * This class blocks `Write` to prevent overflow,
- *   and blocks `Read` to prevent underflow.
+ * This class represents a ringbuffer with the following requirements:
+ *   Producer and consumer shall be active simultaneously.
+ *   Underflows shall never happen (`Read` blocks when empty).
+ *   Overflows shall never happen (`Write` blocks when full).
  *
  */
 template <class T>
@@ -45,70 +38,72 @@ class RingBuffer
 public:
 
   /**
-   * Ctor
+   * RingBuffer
    *
-   * @brief
-   *   Creates the RingBuffer.
+   * Creates the RingBuffer.
    *
    * @param[in] arg_size
-   *   The amount of objects of type 'T' that this buffer can hold.
+   * The amount of objects of type 'T' that this buffer can hold.
    *
    * @param[in] arg_restore_occupancy 
-   *   If `Read` sees that the buffer is empty,
-   *     it will block until the occupancy is greater than this number.
-   *   If `Write` sees that the buffer is full,
-   *     it will block until the occupancy is less than size minus this number.
-   *   Minimum allowed value is '0'; maximum allowed value is 'size - 1'.
+   * If the buffer is empty,
+   *   `Read` blocks until occupancy is greater than this number.
+   * If the buffer is full,
+   *   `Write` blocks until occupancy is less than size minus this number.
+   * Minimum allowed value is '0'; maximum allowed value is 'size - 1'.
    *
    * @param[in] arg_should_log
-   *   Iff 'true', puts out separate, timestamped logs on `Read` and `Write` calls.
-   *
+   * Iff 'true', `Read` and `Write` timestamped logs to the cwd.
    */
-  RingBuffer
-    ( int32_t arg_size
-    , int32_t arg_restore_occupancy
-    , bool arg_should_log = false
-    );
+  RingBuffer(int32_t arg_size, int32_t arg_restore_occupancy, bool arg_should_log = false);
 
   /**
-   * Dtor
+   * ~RingBuffer
    *
-   * @brief
-   *   Destroys the RingBuffer.
-   *   Does not clean up after client callers, however!
-   *   Call `Close` before `delete`, to unblock client callers.
+   * Does the following:
+   *   `Close`s off the RingBuffer (ref. `Close`).
+   *   `delete[]`s the backing buffer.
+   *   `delete`s the logs [if they were created].
    */
   ~RingBuffer();
 
   /**
    * Write
    * 
-   * @brief
-   *   Writes 'T' into the ringbuffer.
-   *   Blocks until buffer is no-longer full.
-   *   Optional 'int32_t*' argument holds return-error value.
-   *   Optional 'int32_t' argument holds blocking patience in milliseconds.
-   *     < 0: wait indefinitely
-   *     >= 0: wait this many milliseconds
+   * Writes one instance of type 'T' into the ringbuffer.
+   * 
+   * @param[in] arg_w
+   * Instance of type 'T' to write into the ringbuffer.
+   *
+   * @param[out] rtn_e
+   * Error code: '0' if a material value was written, '-1' otherwise.
+   *
+   * @param[in] arg_patience_ms
+   * Blocking patience in milliseconds: <0 to wait indefinitely.
+   * Note: The 'blocking patience' parameter is unimplemented to date.
    */
-  void Write(T, int32_t* = nullptr, int32_t = -1);
+  void Write(T arg_w, int32_t* rtn_e = nullptr, int32_t arg_patience_ms = -1);
 
   /**
    * Read
    * 
-   * @brief
-   *   Reads one element of type 'T' from the ringbuffer.
-   *   Blocks until buffer is no-longer empty.
-   *   Optional 'int32_t*' argument holds return-error value.
-   *   Optional 'int32_t' argument holds blocking patience in milliseconds.
-   *     < 0: wait indefinitely
-   *     >= 0: wait this many milliseconds
+   * Reads one instance of type 'T' from the ringbuffer.
+   *
+   * @param[out] rtn_e
+   * Error code: '0' if a material value was returned; '-1' otherwise.
+   *
+   * @param[in] arg_patience_ms
+   * Blocking patience in milliseconds: <0 to wait indefinitely.
+   * Note: The 'blocking patience' parameter is unimplemented to date.
+   *
+   * @return
+   * The value most-recently available to the read pointer.
    */
-  T Read(int32_t* = nullptr, int32_t = -1);
+  T Read(int32_t* rtn_e = nullptr, int32_t arg_patience_ms = -1);
 
   /**
    * GetSize
-   * @brief Self-explanatory.
+   * @return Max number of instances of 'T' that this buffer can hold.
    */
   int32_t GetSize() const
   {
@@ -117,7 +112,7 @@ public:
 
   /**
    * GetOccupancy
-   * @brief Returns number of readable elements in the buffer.
+   * @return Number of readable elements in the buffer.
    */
   int32_t GetOccupancy() const
   {
@@ -126,8 +121,8 @@ public:
 
   /**
    * Close
-   * @brief Unblocks any `Read` or `Write` stuck in wait,
-   *   and ensures that any future `Read` or `Write` call will immediately shunt.
+   * Unblocks any `Read` or `Write` stuck in wait.
+   * Permanently disables any future `Read` or `Write` call.
    */
   void Close()
   {
@@ -138,9 +133,8 @@ public:
 
   /**
    * ReleaseRead
-   * @brief Unblocks a blocking `Read` call; and forces it to return with no action.
-   *   Unlike `Close`, carries no persistent effect on the RingBuffer.
-   * 
+   * Cancels a blocking `Read` call.
+   * Unlike `Close`, carries no persistent effect on the RingBuffer.
    * @return 'true' if there was a blocking operation to cancel, 'false' otherwise.
    */
   bool ReleaseRead()
@@ -158,9 +152,8 @@ public:
 
   /**
    * ReleaseWrite
-   * @brief Unblocks a blocking `Write` call; and forces it to return with no action.
-   *   Unlike `Close`, carries no persistent effect on the RingBuffer.
-   * 
+   * Cancels a blocking `Write` call.
+   * Unlike `Close`, carries no persistent effect on the RingBuffer.
    * @return 'true' if there was a blocking operation to cancel, 'false' otherwise.
    */
   bool ReleaseWrite()
@@ -177,25 +170,25 @@ public:
   }
 
   /**
-   * ResetWrite
-   * @brief Resets the 'w' pointer, and state pertinent to `Write` calls.
-   */
-  void ResetWrite()
-  {
-    _w.store(_buf);      // reset 'w' location.
-    _help_full = false;  // unlatch: let the next blocking `Write` catch this.
-    _w_cancel = false;   // unlatch, self-explanatory
-  }
-
-  /**
    * ResetRead
-   * @brief Resets the 'r' pointer, and state pertinent to `Read` calls.
+   * Resets the read pointer, and state pertinent to `Read` calls.
    */
   void ResetRead()
   {
     _r.store(_buf);      // reset 'r' location.
     _help_empty = false; // unlatch: let the next blocking `Read` assert this.
     _r_cancel = false;   // unlatch, self-explanatory
+  }
+
+  /**
+   * ResetWrite
+   * Resets the write pointer, and state pertinent to `Write` calls.
+   */
+  void ResetWrite()
+  {
+    _w.store(_buf);      // reset 'w' location.
+    _help_full = false;  // unlatch: let the next blocking `Write` catch this.
+    _w_cancel = false;   // unlatch, self-explanatory
   }
 
 private:
@@ -253,7 +246,7 @@ private:
   std::atomic<T*> _r;
   std::atomic<T*> _w;
 
-  // Occupancy management--
+  // Occupancy management (concurrency support)--
   // 
   std::binary_semaphore _s_empty;
   std::binary_semaphore _s_full;

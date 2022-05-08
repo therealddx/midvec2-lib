@@ -2,15 +2,10 @@
  * reference LICENSE file provided.
  *
  * @file ErrorCode.hpp
- * 
- * @brief
+ *
  * Provides an index space for errors that occur within this library.
  *
- * Errors represented using this enumeration don't represent fatal exceptions,
- *   so much as they represent a significant change in flow control.
- * 
- * For example, error codes are commonplace for telling library objects
- *   to cancel their transactions so they can be destructed safely.
+ * 'Error's, meaning-- a significant offroad from 'happy-path' program flow.
  *
  */
 

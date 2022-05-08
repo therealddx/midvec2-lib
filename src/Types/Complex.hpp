@@ -1,11 +1,9 @@
 /**
- *
  * reference LICENSE file provided.
  *
- * Complex.hpp
- * 
- * Represents a complex number that explicitly serializes/deserializes
- * the way this library expects it to, for little-endian/big-endian.
+ * @file Complex.hpp
+ * Represents a complex number explicitly designed to serialize/deserialize
+ * as this library expects it to, for little-endian/big-endian.
  *
  */
 
