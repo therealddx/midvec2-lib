@@ -16,6 +16,7 @@ OutputPipeRam::OutputPipeRam(RingBuffer<char>* arg_ringBuffer)
 
 OutputPipeRam::~OutputPipeRam()
 {
+  _ringBuffer->ResetWrite();
 }
 
 ErrorCode OutputPipeRam::PutMessage(char* arg_msgBytes, int32_t arg_msgLen)

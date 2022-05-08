@@ -189,10 +189,23 @@ public:
     // 
     _help_empty = false;
     _help_full = false;
-    _closed = false;
 
     _r_cancel = false;
     _w_cancel = false;
+  }
+
+  void ResetWrite()
+  {
+    _w = _buf;
+    _help_full = false;
+    _w_cancel = false;
+  }
+
+  void ResetRead()
+  {
+    _r = _buf;
+    _help_empty = false;
+    _r_cancel = false;
   }
 
 private:
