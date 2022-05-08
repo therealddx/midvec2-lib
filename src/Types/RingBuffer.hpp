@@ -178,14 +178,14 @@ public:
 
   void ResetWrite()
   {
-    _w.store(_r.load()); // force buffer to 'empty'.
+    _w.store(_buf);      // reset 'w' location.
     _help_full = false;  // unlatch: let the next blocking `Write` catch this.
     _w_cancel = false;   // unlatch, self-explanatory
   }
 
   void ResetRead()
   {
-    _r.store(_w.load()); // force buffer to 'empty'.
+    _r.store(_buf);      // reset 'r' location.
     _help_empty = false; // unlatch: let the next blocking `Read` assert this.
     _r_cancel = false;   // unlatch, self-explanatory
   }
