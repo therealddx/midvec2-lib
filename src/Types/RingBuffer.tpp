@@ -24,6 +24,11 @@ RingBuffer<T>::RingBuffer
     { throw std::invalid_argument("arg_restore_occupancy"); }
 
   // basic buffer variables.
+  //   design note: this implementation allocates 'size + 1' total slots.
+  //   this way, the implementation can delineate between empty-conditions
+  //     ('r' pointer == 'w' pointer)
+  //   and full-conditions.
+  //     ('w' pointer will touch 'r' pointer, if it increments)
   // 
   _buf = new T[_size + 1];
   _buf_last = _buf + _size;
