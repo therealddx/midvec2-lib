@@ -176,6 +176,25 @@ public:
     return false;
   }
 
+  void Reset()
+  {
+    // reset r/w pointers + reset buffer.
+    // 
+    _r = _buf;
+    _w = _buf;
+
+    for (int32_t n = 0; n <= _size; n++) { _buf[n] = 0; }
+
+    // reset concurrency helper flags.
+    // 
+    _help_empty = false;
+    _help_full = false;
+    _closed = false;
+
+    _r_cancel = false;
+    _w_cancel = false;
+  }
+
 private:
 
   // Basic pointer navigation--
