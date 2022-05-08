@@ -136,6 +136,13 @@ public:
     _s_full.release();
   }
 
+  /**
+   * ReleaseRead
+   * @brief Unblocks a blocking `Read` call; and forces it to return with no action.
+   *   Unlike `Close`, carries no persistent effect on the RingBuffer.
+   * 
+   * @return 'true' if there was a blocking operation to cancel, 'false' otherwise.
+   */
   bool ReleaseRead()
   {
     if (_help_empty)
@@ -149,6 +156,13 @@ public:
     return false;
   }
 
+  /**
+   * ReleaseWrite
+   * @brief Unblocks a blocking `Write` call; and forces it to return with no action.
+   *   Unlike `Close`, carries no persistent effect on the RingBuffer.
+   * 
+   * @return 'true' if there was a blocking operation to cancel, 'false' otherwise.
+   */
   bool ReleaseWrite()
   {
     if (_help_full)
