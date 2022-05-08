@@ -136,6 +136,30 @@ public:
     _s_full.release();
   }
 
+  bool ReleaseRead()
+  {
+    if (_help_empty)
+    {
+      _s_empty.release();
+      _help_empty = false;
+      return true;
+    }
+
+    return false;
+  }
+
+  bool ReleaseWrite()
+  {
+    if (_help_full)
+    {
+      _s_full.release();
+      _help_full = false;
+      return true;
+    }
+
+    return false;
+  }
+
 private:
 
   // Basic pointer navigation--
