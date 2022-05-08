@@ -429,7 +429,13 @@ int main(int argc, char** argv)
 
     std::cout << "nodebench: deleting 'Node's..." << std::endl;
     for (auto each : all_nodes)
-      { delete each; std::cout << "  delete..."; std::this_thread::sleep_for(std::chrono::milliseconds(1000)); }
+    {
+      delete each;
+
+      std::cout << "  delete..." << std::endl;
+      std::cout.flush();
+      std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    }
 
     std::cout << "nodebench: deleting 'nodePs's..." << std::endl;
     for (auto each : all_nodePs)
