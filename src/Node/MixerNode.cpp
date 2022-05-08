@@ -35,6 +35,7 @@ MixerNode<T_in, T_out>::~MixerNode()
   _isRunning = false;
   _inPipe1->Cancel();
   _inPipe2->Cancel();
+  _outPipe->Cancel();
   _runThread.join();
 
   delete _inPipe1;
