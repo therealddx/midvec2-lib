@@ -56,7 +56,7 @@ public:
     return addr_ss.str();
   }
 
-  void Cancel()
+  void Close()
   {
     _clientReadEnabled = false;
     _ringBuffer->ReleaseRead();

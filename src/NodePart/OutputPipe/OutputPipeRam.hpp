@@ -58,7 +58,7 @@ public:
     return addr_ss.str();
   }
 
-  void Cancel()
+  void Close()
   {
     _clientWriteEnabled = false;
     _ringBuffer->ReleaseWrite();

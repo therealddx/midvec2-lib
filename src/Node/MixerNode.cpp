@@ -33,9 +33,9 @@ template <class T_in, class T_out>
 MixerNode<T_in, T_out>::~MixerNode()
 {
   _isRunning = false;
-  _inPipe1->Cancel();
-  _inPipe2->Cancel();
-  _outPipe->Cancel();
+  _inPipe1->Close();
+  _inPipe2->Close();
+  _outPipe->Close();
   _runThread.join();
 
   delete _inPipe1;

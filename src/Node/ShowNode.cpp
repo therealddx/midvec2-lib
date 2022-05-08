@@ -31,7 +31,7 @@ template <class T_in>
 ShowNode<T_in>::~ShowNode()
 {
   _isRunning = false;
-  _inPipe->Cancel();
+  _inPipe->Close();
   _runThread.join();
 
   delete _display;

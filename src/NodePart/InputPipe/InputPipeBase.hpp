@@ -31,7 +31,7 @@ public:
   //
   virtual char* GetMessage(size_t arg_backerLength) = 0;
 
-  virtual void Cancel() = 0;
+  virtual void Close() = 0;
 
 private:
 

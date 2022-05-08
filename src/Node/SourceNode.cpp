@@ -30,7 +30,7 @@ template <class T_out>
 SourceNode<T_out>::~SourceNode()
 {
   _isRunning = false;
-  _outPipe->Cancel();
+  _outPipe->Close();
   _runThread.join();
 
   delete _generator;

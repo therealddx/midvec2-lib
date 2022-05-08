@@ -28,7 +28,7 @@ public:
  
   ErrorCode PutMessage(char* arg_msgBytes, int32_t arg_msgLen);
 
-  void Cancel()
+  void Close()
   {
     return;
   }
