@@ -140,6 +140,7 @@ public:
   {
     if (_help_empty)
     {
+      _r_cancel = true;
       _s_empty.release();
       _help_empty = false;
       return true;
@@ -152,6 +153,7 @@ public:
   {
     if (_help_full)
     {
+      _w_cancel = true;
       _s_full.release();
       _help_full = false;
       return true;
@@ -222,6 +224,9 @@ private:
   std::atomic<bool> _help_empty;
   std::atomic<bool> _help_full;
   std::atomic<bool> _closed;
+
+  std::atomic<bool> _r_cancel;
+  std::atomic<bool> _w_cancel;
 
   // Debug helpers--
   // 

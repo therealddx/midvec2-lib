@@ -38,6 +38,9 @@ RingBuffer<T>::RingBuffer
   _help_full = false;
   _closed = false;
 
+  _r_cancel = false;
+  _w_cancel = false;
+
   // logging variables.
   // 
   _r_log = arg_should_log ? 
@@ -73,6 +76,7 @@ D_RINGBUFFER_RLOG << "RingBuffer<T>::Read: entering empty-wait..." << std::endl;
     _help_empty = true;
     _s_empty.acquire();
     if (_closed) { assign_error(rtn_error, -1); T rtn; return rtn; }
+    if (_r_cancel) { assign_error(rtn_error, -1); T rtn; return rtn; _r_cancel = false; }
 
 D_RINGBUFFER_RLOG << "RingBuffer<T>::Read: exiting empty-wait" << std::endl;
   }
@@ -114,6 +118,7 @@ D_RINGBUFFER_WLOG << "RingBuffer<T>::Write: entering full-wait..." << std::endl;
     _help_full = true;
     _s_full.acquire();
     if (_closed) { assign_error(rtn_error, -1); return; }
+    if (_w_cancel) { assign_error(rtn_error, -1); return; _w_cancel = false; }
 
 D_RINGBUFFER_WLOG << "RingBuffer<T>::Write: exiting full-wait" << std::endl;
   }
