@@ -176,6 +176,10 @@ public:
     return false;
   }
 
+  /**
+   * ResetWrite
+   * @brief Resets the 'w' pointer, and state pertinent to `Write` calls.
+   */
   void ResetWrite()
   {
     _w.store(_buf);      // reset 'w' location.
@@ -183,6 +187,10 @@ public:
     _w_cancel = false;   // unlatch, self-explanatory
   }
 
+  /**
+   * ResetRead
+   * @brief Resets the 'r' pointer, and state pertinent to `Read` calls.
+   */
   void ResetRead()
   {
     _r.store(_buf);      // reset 'r' location.
