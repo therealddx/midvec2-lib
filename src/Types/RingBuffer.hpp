@@ -176,36 +176,18 @@ public:
     return false;
   }
 
-  void Reset()
-  {
-    // reset r/w pointers + reset buffer.
-    // 
-    _r = _buf;
-    _w = _buf;
-
-    for (int32_t n = 0; n <= _size; n++) { _buf[n] = 0; }
-
-    // reset concurrency helper flags.
-    // 
-    _help_empty = false;
-    _help_full = false;
-
-    _r_cancel = false;
-    _w_cancel = false;
-  }
-
   void ResetWrite()
   {
-    _w = _buf;
-    _help_full = false;
-    _w_cancel = false;
+    _w = _r;            // force buffer to 'empty'.
+    _help_full = false; // unlatch: let the next blocking `Write` catch this.
+    _w_cancel = false;  // unlatch, self-explanatory
   }
 
   void ResetRead()
   {
-    _r = _buf;
-    _help_empty = false;
-    _r_cancel = false;
+    _r = _w;             // force buffer to 'empty'.
+    _help_empty = false; // unlatch: let the next blocking `Read` assert this.
+    _r_cancel = false;   // unlatch, self-explanatory
   }
 
 private:
