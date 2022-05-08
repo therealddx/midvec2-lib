@@ -26,6 +26,6 @@ g++ \
 # grant `LD_LIBRARY_PATH`, but warn.
 # 
 echo "build script complete. if it succeeded, remember the following!"
-echo "  set `export LD_LIBRARY_PATH='"$PATH_LIB"'`..."
+echo "  export LD_LIBRARY_PATH=$PATH_LIB..."
 echo "  add stdc++20 libs to LD_LIBRARY_PATH, if they aren't in a standard location."
  
