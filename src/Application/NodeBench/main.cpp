@@ -427,10 +427,10 @@ int main(int argc, char** argv)
 
   label_cleanup:
 
-    std::cout << "nodebench: closing ringbuffers..." << std::endl;
-    for (auto each : db_ringbuffers)
-    { each.second->Close();
-    }
+    std::cout << "nodebench: SKIPPING closing ringbuffers..." << std::endl;
+    // for (auto each : db_ringbuffers)
+    // { each.second->Close();
+    // }
 
     std::cout << "nodebench: deleting 'Node's..." << std::endl;
     for (auto each : all_nodes)
