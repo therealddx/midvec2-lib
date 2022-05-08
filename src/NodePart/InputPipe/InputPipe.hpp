@@ -46,6 +46,11 @@ public:
   // 
   char* GetMessage(size_t arg_backerLength);
 
+  virtual void Cancel()
+  {
+    return;
+  }
+
 protected:
 
   // 

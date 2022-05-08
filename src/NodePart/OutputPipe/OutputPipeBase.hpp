@@ -26,6 +26,8 @@ public:
   // Returns error code.
   //
   virtual ErrorCode PutMessage(char* arg_msgBytes, int32_t arg_msgLen) = 0;
+
+  virtual void Cancel() = 0;
 };
 
 #endif // OUTPUTPIPEBASE_HPP

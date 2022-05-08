@@ -15,7 +15,6 @@ InputPipeRam::InputPipeRam(RingBuffer<char>* arg_ringBuffer)
 
 InputPipeRam::~InputPipeRam()
 {
-  _ringBuffer->ReleaseRead();
 }
 
 ErrorCode InputPipeRam::GetByte(char* rtn_byte)

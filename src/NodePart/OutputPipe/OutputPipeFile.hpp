@@ -28,6 +28,11 @@ public:
  
   ErrorCode PutMessage(char* arg_msgBytes, int32_t arg_msgLen);
 
+  void Cancel()
+  {
+    return;
+  }
+
 private:
   std::string _fqFile;
   std::ofstream _outputFile;
