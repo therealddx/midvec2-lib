@@ -12,6 +12,7 @@
 
 #include <stdint.h>
 #include <string>
+#include <atomic>
 #include <sstream>
 #include <iomanip>
 #include <Types/RingBuffer.hpp>
@@ -59,6 +60,7 @@ public:
 
   void Cancel()
   {
+    _clientWriteEnabled = false;
     _ringBuffer->ReleaseWrite();
   }
 
@@ -66,6 +68,7 @@ private:
 
   // members: data.
   RingBuffer<char>* _ringBuffer;
+  std::atomic<bool> _clientWriteEnabled;
 };
 
 #endif // OUTPUTPIPERAM_HPP

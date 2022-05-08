@@ -11,6 +11,7 @@
 InputPipeRam::InputPipeRam(RingBuffer<char>* arg_ringBuffer)
 : _ringBuffer(arg_ringBuffer)
 {
+  _clientReadEnabled = true;
 }
 
 InputPipeRam::~InputPipeRam()
@@ -21,6 +22,9 @@ ErrorCode InputPipeRam::GetByte(char* rtn_byte)
 {
   // arg check.
   if (rtn_byte == 0) { return ErrorCode::NullPointer; }
+
+  // state check.
+  if (!_clientReadEnabled) { return ErrorCode::Cancelled; }
 
   // get a byte from the ringbuffer.
   int32_t e_read = 0;

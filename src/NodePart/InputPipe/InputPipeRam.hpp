@@ -15,6 +15,7 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#include <atomic>
 #include <sstream>
 #include <iomanip>
 #include <Types/RingBuffer.hpp>
@@ -57,6 +58,7 @@ public:
 
   void Cancel()
   {
+    _clientReadEnabled = false;
     _ringBuffer->ReleaseRead();
   }
 
@@ -69,6 +71,7 @@ private:
 
   // members: data: ram read.
   RingBuffer<char>* _ringBuffer;
+  std::atomic<bool> _clientReadEnabled;
 };
 
 #endif // INPUTPIPERAM_HPP
