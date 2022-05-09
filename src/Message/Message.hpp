@@ -1,11 +1,13 @@
-/* 
+/**
  * reference LICENSE file provided.
  *
- * Message.hpp.
+ * @file Message.hpp
+ *
  * Class 'Message<T>' is a function-oriented interface,
  *   to how midvec2-lib sends and receives one backing data of type 'T'.
  * 
  * The only data an instance of 'Message<T>' holds is an instance of 'T'.
+ *
  * The public functions of 'Message<T>', however, perform for the client:
  *   Serialization of 'T',
  *     into a message that can be sent from a midvec2-lib output pipe.
@@ -29,6 +31,9 @@
 
 #include "MessageConstants.hpp"
 
+/**
+ * @class Message
+ */
 template <class T>
 class Message
 {
@@ -36,57 +41,70 @@ public:
 
   // 
   // Ctor.
-  // Default to initialize memory.
   //
+
+  /**
+   * Message
+   * Default constructor.
+   * Backing data is left uninitialized.
+   */
   Message();
 
-  // 
-  // Ctor.
-  // Marshal member fields from a raw byte array.
-  // 
+  /**
+   * Message
+   * Marshal member fields from a raw byte array.
+   * @param[in] Pointer to data from which backing type will be marshaled.
+   */
   Message(char* arg_fromBuffer);
 
-  // 
-  // Ctor.
-  // Marshal member fields from a copy operation.
-  //
+  /**
+   * Message
+   * Copy constructor.
+   * @param[in] arg_other Message to copy contents from.
+   */
   Message(const Message<T>& arg_other);
 
-  // 
-  // Ctor. 
-  // Marshal member fields from an instance of backer's type.
-  //
+  /**
+   * Message
+   * Backing type constructor.
+   * @param[in] arg_backer Initial value for backing data.
+   */
   Message(const T& arg_backer);
 
-  // 
-  // Dtor.
-  // Nothing done. All members allocated on stack.
-  // 
+  /**
+   * ~Message
+   */
   ~Message() { }
 
   // 
   // Accessors.
   // 
 
-  // 
-  // GetBytes.
-  // Get a byte array to represent this instance over a wire.
-  // 
+  /**
+   * GetBytes
+   * Store the message header, plus backing data, to serialized storage.
+   *
+   * @param[in] rtn_bytes
+   * Pre-allocated storage to which header and backing data will be copied.
+   *
+   * @return Number of bytes copied into argument pointer.
+   */
   size_t GetBytes(char* rtn_bytes);
 
-  // 
-  // GetBacker.
-  // Return the backing data for this instance.
-  //
+  /**
+   * GetBacker
+   * @return Copy of this instance's backing data.
+   */
   T GetBacker();
 
-  // 
-  // GetRequiredSize.
-  // Returns the requisite size for a char* that wishes
-  // to hold this serialized message.
-  // 
+  /**
+   * GetRequiredSize
+   * @return Required size for any char buffer that is to hold this serialized message.
+   */
   size_t GetRequiredSize()
-    { return sizeof(MessageConstants::MESSAGE_HEADER) + sizeof(T); }
+  {
+    return sizeof(MessageConstants::MESSAGE_HEADER) + sizeof(T);
+  }
 
 private:
 

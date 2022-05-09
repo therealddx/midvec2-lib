@@ -1,7 +1,7 @@
-/* 
+/**
  * reference LICENSE file provided.
  *
- * Message.tpp
+ * @file Message.tpp
  * Implements Message.hpp
  * 
  */
