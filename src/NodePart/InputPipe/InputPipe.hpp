@@ -1,4 +1,4 @@
-/*
+/**
  * reference LICENSE file provided.
  *
  * @file InputPipe.hpp
@@ -44,8 +44,16 @@ public:
    */
   virtual ~InputPipe() { } ; 
 
+  /**
+   * GetMessage
+   * Satisfies base class.
+   */
   char* GetMessage(size_t arg_backerLength);
 
+  /**
+   * Close
+   * Satisfies base class.
+   */
   virtual void Close()
   {
     return;

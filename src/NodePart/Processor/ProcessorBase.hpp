@@ -1,11 +1,9 @@
-/*
+/**
  * reference LICENSE file provided.
  *
- * ProcessorBase.hpp.
+ * @file ProcessorBase.hpp
  * 
- * Generic class that represents 'processing' data of type 'T_in' into
- * data of type 'T_out'.
- *
+ * Represents the processing data of type 'T_in' into data of type 'T_out'.
  */
 
 #ifndef PROCESSORBASE_HPP
@@ -14,32 +12,51 @@
 #include <stdint.h>
 #include <vector>
 
+/**
+ * @class ProcessorBase
+ */
 template <class T_in, class T_out>
 class ProcessorBase
 {
 public:
 
-  // 
-  // Ctor.
-  //
+  /**
+   * ProcessorBase
+   * No concrete resources to instantiate.
+   */
   ProcessorBase() { };
 
-  // 
-  // Dtor.
-  //
+  /**
+   * ~ProcessorBase
+   * No concrete resources to destroy.
+   */
   virtual ~ProcessorBase() { };
 
-  // 
-  // ProcessMarshal.
-  // Hand-off from master class.
-  //
-  virtual char* ProcessMarshal(char*);
+  /**
+   * ProcessMarshal
+   * Marshal the argument pointer into usable data;
+   * Process it (using `Process`); and
+   * Return a `new` pointer to the result.
+   *
+   * @param[in] arg_p_data
+   * Pointer to data of type 'T_in' to process.
+   *
+   * @return Pointer to `new` data at outcome of processing.
+   */
+  virtual char* ProcessMarshal(char* arg_p_data);
 
-  // 
-  // Process.
-  // Chew data of type 'T_in', and process it out as type 'T_out'.
-  //
-  virtual T_out Process(T_in) = 0;
+  /**
+   * Process
+   *
+   * Perform a processing operation on some data, as defined by the subclass.
+   *
+   * @param[in] arg
+   * Instance of type 'T_in' to process.
+   *
+   * @return
+   * Instance of type 'T_out', as result of processing.
+   */
+  virtual T_out Process(T_in arg) = 0;
 
 };
 

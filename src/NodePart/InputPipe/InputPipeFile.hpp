@@ -1,4 +1,4 @@
-/*
+/**
  * reference LICENSE file provided.
  *
  * @file InputPipeFile.hpp
@@ -54,10 +54,10 @@ public:
 
 private:
   
-  // 
-  // GetByte.
-  // Controlled file read.
-  //
+  /**
+   * GetByte
+   * Satisfies base class.
+   */
   ErrorCode GetByte(char* rtn_byte);
 
   // members: data: file read.

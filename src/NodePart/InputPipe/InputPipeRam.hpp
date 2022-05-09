@@ -1,4 +1,4 @@
-/*
+/**
  * reference LICENSE file provided.
  *
  * @file InputPipeRam.hpp
@@ -80,6 +80,10 @@ public:
 
 private:
 
+  /**
+   * GetByte
+   * Satisfies base class.
+   */
   ErrorCode GetByte(char* rtn_byte); 
 
   // members: data: ram read.

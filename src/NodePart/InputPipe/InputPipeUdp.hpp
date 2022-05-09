@@ -1,4 +1,4 @@
-/*
+/**
  * reference LICENSE file provided.
  *
  * @file InputPipeUdp.hpp
@@ -78,10 +78,10 @@ public:
 
 private:
 
-  // 
-  // GetByte.
-  // Controlled file read.
-  //
+  /**
+   * GetByte
+   * Satisfies base class.
+   */
   ErrorCode GetByte(char* rtn_byte);
 
   // members: socket.
