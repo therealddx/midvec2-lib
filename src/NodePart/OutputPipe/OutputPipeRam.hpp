@@ -1,9 +1,8 @@
-/*
+/**
  * reference LICENSE file provided.
  *
- * OutputPipeRam.hpp.
- * Defines an implementation for an output pipe that sends data to a
- * known area of system main memory.
+ * @file OutputPipeRam.hpp
+ * Defines a concrete output pipe that writes data to main memory.
  *
  */
 
@@ -18,35 +17,49 @@
 #include <Types/RingBuffer.hpp>
 #include "OutputPipeBase.hpp"
 
+/**
+ * @class OutputPipeRam
+ */
 class OutputPipeRam : public OutputPipeBase
 {
 public:
 
-  // 
-  // Ctor.
-  //
+  /**
+   * OutputPipeRam
+   *
+   * @param[in] arg_ringBuffer RingBuffer to write to.
+   *
+   * Note: This class does not own the RingBuffer; it only writes to it.
+   */
   OutputPipeRam(RingBuffer<char>* arg_ringBuffer);
 
-  // 
-  // Dtor.
-  //
+  /**
+   * ~OutputPipeRam
+   * Resets the write state of the RingBuffer and destroys 'this' instance.
+   */
   ~OutputPipeRam();
 
-  // 
-  // PutMessage.
-  //
+  /**
+   * PutMessage
+   * Satisfies base class.
+   */
   ErrorCode PutMessage(char* arg_msgBytes, int32_t arg_msgLen);
 
-  // 
-  // GetRingBuffer
-  // Return the ringbuffer held by this instance.
-  // 
-  RingBuffer<char>* GetRingBuffer() { return _ringBuffer; }
+  /**
+   * GetRingBuffer
+   * @return Pointer to the ringbuffer held by this instance.
+   */
+  RingBuffer<char>* GetRingBuffer()
+  {
+    return _ringBuffer;
+  }
 
-  // 
-  // GetRingBufferAddress
-  // Return a pretty-print string, holding the address of this instance's ringbuffer.
-  // 
+  /**
+   * GetRingBufferAddress
+   *
+   * @return
+   * A human-readable string denoting the address of this instance's ringbuffer.
+   */
   std::string GetRingBufferAddress() const
   {
     std::stringstream addr_ss;
@@ -58,6 +71,13 @@ public:
     return addr_ss.str();
   }
 
+  /**
+   * Close
+   *
+   * Cancels any blocking `RingBuffer<T>::Write` call.
+   * Permanently shunts out of `PutMessage` calls.
+   * Note: This function kills this instance, not the RingBuffer.
+   */
   void Close()
   {
     _clientWriteEnabled = false;

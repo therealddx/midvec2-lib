@@ -29,8 +29,7 @@ public:
   /**
    * InputPipeRam
    *
-   * @param[in] arg_ringBuffer
-   * RingBuffer to read from.
+   * @param[in] arg_ringBuffer RingBuffer to read from.
    *
    * Note: This class does not own the RingBuffer; it only reads from it.
    */
@@ -53,7 +52,9 @@ public:
 
   /**
    * GetRingBufferAddress
-   * @return A human-readable string denoting the address of this instance's ringbuffer.
+   *
+   * @return
+   * A human-readable string denoting the address of this instance's ringbuffer.
    */
   std::string GetRingBufferAddress() const
   {
@@ -68,8 +69,9 @@ public:
 
   /**
    * Close
-   * Permanently shuts off this instance's ability to read (`GetMessage`).
+   *
    * Cancels any blocking `RingBuffer<T>::Read` call.
+   * Permanently shunts out of `GetMessage` calls.
    * Note: This function kills this instance, not the RingBuffer.
    */
   void Close()

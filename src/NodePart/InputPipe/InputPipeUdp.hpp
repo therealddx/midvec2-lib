@@ -38,10 +38,9 @@ public:
 
   /**
    * InputPipeUdp
+   *
    * Binds to given IPv4 address:port, and listens for MIDV messages.
-   *
    * @param[in] arg_ipv4_bind IPv4 address to bind to.
-   *
    * @param[in] arg_port Port to bind to.
    */
   InputPipeUdp(std::string arg_ipv4_bind, uint16_t arg_port);

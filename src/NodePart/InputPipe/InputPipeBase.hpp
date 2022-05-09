@@ -42,7 +42,7 @@ public:
 
   /**
    * Close
-   * Permanently shut off the connection between this instance and its input medium.
+   * Permanently shut this instance off from its input medium.
    * Precursor to calling destructor.
    */
   virtual void Close() = 0;

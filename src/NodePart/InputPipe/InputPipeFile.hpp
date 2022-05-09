@@ -34,6 +34,10 @@ public:
   /**
    * InputPipeFile
    *
+   * Constructs an instance by opening a read handle to a file on disk.
+   *   If the file does not exist, behavior is undefined.
+   *   If permissions are not amicable, behavior is undefined.
+   *
    * @param[in] arg_fqFile
    * Fully-qualified path to a file on disk.
    */

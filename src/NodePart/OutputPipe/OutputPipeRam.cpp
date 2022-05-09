@@ -1,8 +1,8 @@
-/*
+/**
  * reference LICENSE file provided.
  *
- * OutputPipeRam.cpp.
- * Implements OutputPipeRam.hpp.
+ * @file OutputPipeRam.cpp
+ * Implements OutputPipeRam.hpp
  *
  */
 

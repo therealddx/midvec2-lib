@@ -1,8 +1,8 @@
-/* 
+/**
  * reference LICENSE file provided.
  *
- * OutputPipeFile.cpp.
- * Implements header.
+ * @file OutputPipeFile.cpp
+ * Implements OutputPipeFile.hpp
  *
  */
 
