@@ -4,7 +4,7 @@
  * @file IStorableNode.hpp
  *
  * This class exists to allow Nodes to be stored in the same collection.
- * As such, they can be `delete`d.
+ * As such, they can be stored and `delete`d on loop.
  *
  */
 
