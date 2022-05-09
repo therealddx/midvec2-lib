@@ -1,9 +1,8 @@
-/* 
+/**
  * reference LICENSE file provided.
  *
- * InputPipeBase.hpp.
- * Defines a base class for reading bytes from hardware into a 
- * ready-for-wire Message instance.
+ * @file InputPipeBase.hpp
+ * Defines a base class for reading bytes from hardware into a Message instance.
  *
  */
 
@@ -13,24 +12,41 @@
 #include <stdint.h>
 #include <sys/types.h>
 
+/**
+ * @class InputPipeBase
+ */
 class InputPipeBase
 {
 public:
 
-  // 
-  // Ctor / Dtor.
-  // Blank in base class.
-  //
+  /**
+   * InputPipeBase
+   * No concrete resources to instantiate.
+   */
   InputPipeBase() { };
+
+  /**
+   * ~InputPipeBase
+   * No concrete resources to destroy.
+   */
   virtual ~InputPipeBase() { };
 
-  // 
-  // GetMessage.
-  // Seek forward into the bytestream of this HW IF.
-  // Read those bytes into one serialized Message<T>.
-  //
+  /**
+   * GetMessage
+   * Read a client-given amount of bytes from an input medium.
+   *
+   * @param[in] arg_backerLength
+   * Number of backing data bytes to find from the input byte stream.
+   *
+   * @return Pointer to backing bytes of a user data type, in host byte order.
+   */
   virtual char* GetMessage(size_t arg_backerLength) = 0;
 
+  /**
+   * Close
+   * Permanently shut off the connection between this instance and its input medium.
+   * Precursor to calling destructor.
+   */
   virtual void Close() = 0;
 
 private:

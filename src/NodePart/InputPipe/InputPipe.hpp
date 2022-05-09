@@ -1,11 +1,9 @@
 /*
  * reference LICENSE file provided.
  *
- * InputPipe.hpp.
- * Defines an interface for reading bytes from a file into Message
- * instances.
- * Implements that interface partially, leaving an abstract hole 
- * for which a hardware interface can be substituted to collect bytes.
+ * @file InputPipe.hpp
+ * Sequences the collection and deserialization of bytes into Messages.
+ * Subclasses need only specify how to read one byte.
  *
  */
 
@@ -26,24 +24,26 @@
 #include <Message/MessageConstants.hpp>
 #include "InputPipeBase.hpp"
 
+/**
+ * @class InputPipe
+ */
 class InputPipe : public InputPipeBase
 {
 
 public:
 
-  // 
-  // Ctor.
-  //
+  /**
+   * InputPipe
+   * No concrete resources to instantiate.
+   */
   InputPipe() { } ;
 
-  // 
-  // Dtor.
-  //
+  /**
+   * ~InputPipe
+   * No concrete resources to destroy.
+   */
   virtual ~InputPipe() { } ; 
 
-  //     
-  // InputPipeBase: Mandatory Implementations.
-  // 
   char* GetMessage(size_t arg_backerLength);
 
   virtual void Close()
@@ -53,42 +53,40 @@ public:
 
 protected:
 
-  // 
-  // FindMessageHeader.
-  // Find Message<T> Header from input bytestream.
-  // Output: _headerBuf is filled, or an error is determined.
-  //
+  /** 
+   * FindMessageHeader
+   * Finds the header of a Message<T> from the input bytestream.
+   * @return ErrorCode::Ok iff header is found and '_headerBuf' is filled.
+   */
   virtual ErrorCode FindMessageHeader();
 
-  // 
-  // FindMessageBacker.
-  // Find Message<T> backing data from input bytestream.
-  // Output: _messageBuf is filled, or an error is determined.
-  //
+  /**
+   * FindMessageBacker
+   * Finds the backing data of a Message<T> from the input bytestream.
+   * @return ErrorCode::Ok iff the message is found and '_messageBuf' is filled.
+   */
   virtual ErrorCode FindMessageBacker(size_t arg_backerLength);
 
-  //  
-  // _headerBuf.
-  // Specific-allocated storage for Message header, as obtained
-  // from hw stream.
-  // Needed for: default impl. of 'virtual FindMessageHeader'.
-  // 
+  /**
+   * _headerBuf
+   * Allocated storage for Message header, as obtained from bytestream.
+   */
   char _headerBuf[sizeof(MessageConstants::MESSAGE_HEADER)];
 
-  // 
-  // _messageBuf.
-  // Specific-allocated storage for Message header and backing data,
-  // as obtained from hw stream.
-  // Needed for: default impl. of 'virtual FindMessageBacker'.
-  //
+  /**
+   * _messageBuf
+   * Allocated storage for Message header plus backing data, as obtained from bytestream.
+   */
   char _messageBuf[MessageConstants::MAX_SIZE_MESSAGE]; 
 
-  // 
-  // GetByte.
-  // Returns a byte into rtn_byte, from the hardware stream.
-  //
+  /**
+   * GetByte
+   * @param[out] rtn_byte
+   * Storage for one byte from the input bytestream.
+   *
+   * @return ErrorCode::Ok iff a valid byte was read into the argument pointer.
+   */
   virtual ErrorCode GetByte(char* rtn_byte) = 0;
-
 }; 
 
 #endif // INPUTPIPE_HPP

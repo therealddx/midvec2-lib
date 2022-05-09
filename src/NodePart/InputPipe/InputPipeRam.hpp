@@ -1,10 +1,8 @@
 /*
  * reference LICENSE file provided.
  *
- * InputPipeRam.hpp.
- * Defines an implementation for an input pipe that operates on data 
- * stored in system main memory. Intended for fully-reliable maximum speed
- * pipe communication within localhost.
+ * @file InputPipeRam.hpp
+ * Implements an input pipe that deserializes Messages from shared RAM.
  *
  */
 
@@ -21,30 +19,42 @@
 #include <Types/RingBuffer.hpp>
 #include "InputPipe.hpp"
 
+/**
+ * @class InputPipeRam
+ */
 class InputPipeRam : public InputPipe
 {
 public:
 
-  // 
-  // Ctor.
-  //
+  /**
+   * InputPipeRam
+   *
+   * @param[in] arg_ringBuffer
+   * RingBuffer to read from.
+   *
+   * Note: This class does not own the RingBuffer; it only reads from it.
+   */
   InputPipeRam(RingBuffer<char>* arg_ringBuffer);
 
-  // 
-  // Dtor.
-  //
+  /**
+   * ~InputPipeRam
+   * Resets the read state of the RingBuffer and destroys 'this' instance.
+   */
   ~InputPipeRam();
 
-  // 
-  // GetRingBuffer
-  // Return the ringbuffer held by this instance.
-  // 
-  RingBuffer<char>* GetRingBuffer() { return _ringBuffer; }
+  /**
+   * GetRingBuffer
+   * @return Pointer to the ringbuffer held by this instance.
+   */
+  RingBuffer<char>* GetRingBuffer()
+  {
+    return _ringBuffer;
+  }
 
-  // 
-  // GetRingBufferAddress
-  // Return a pretty-print string, holding the address of this instance's ringbuffer.
-  // 
+  /**
+   * GetRingBufferAddress
+   * @return A human-readable string denoting the address of this instance's ringbuffer.
+   */
   std::string GetRingBufferAddress() const
   {
     std::stringstream addr_ss;
@@ -56,6 +66,12 @@ public:
     return addr_ss.str();
   }
 
+  /**
+   * Close
+   * Permanently shuts off this instance's ability to read (`GetMessage`).
+   * Cancels any blocking `RingBuffer<T>::Read` call.
+   * Note: This function kills this instance, not the RingBuffer.
+   */
   void Close()
   {
     _clientReadEnabled = false;
@@ -64,9 +80,6 @@ public:
 
 private:
 
-  // 
-  // InputPipe: Mandatory Implementations.
-  //
   ErrorCode GetByte(char* rtn_byte); 
 
   // members: data: ram read.
