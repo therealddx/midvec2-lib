@@ -1,8 +1,8 @@
-/* 
+/**
  * reference LICENSE file provided.
  *
- * CoreNode.cpp.
- * Implements CoreNode.hpp.
+ * @file CoreNode.cpp
+ * Implements CoreNode.hpp
  *
  */
 

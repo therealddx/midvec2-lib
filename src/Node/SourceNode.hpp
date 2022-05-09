@@ -1,12 +1,10 @@
-/* 
+/**
  * reference LICENSE file provided.
  *
- * SourceNode.hpp.
- * Given templated type, outputs randomly-generated data along a:
- * - OutputPipeBase
- *
- * This randomly-generated data is designed to be readable by any
- * InputPipeBase.
+ * @file SourceNode.hpp
+ * Asynchronous loop that continually:
+ *   generates a value; and
+ *   sends that value out of its output pipe.
  *
  */
 
@@ -22,35 +20,49 @@
 #include <NodePart/OutputPipe/OutputPipeBase.hpp>
 #include "IStorableNode.hpp"
 
+/**
+ * @class SourceNode
+ */
 template <class T_out>
 class SourceNode : public IStorableNode
 {
 public:
 
-  // 
-  // Ctor. Uses GeneratorBase<T_out>.
-  //
-  SourceNode
-    ( GeneratorBase<T_out>* arg_generator
-    , OutputPipeBase* arg_outPipe);
+  /**
+   * SourceNode
+   *
+   * Starts the node.
+   *
+   * This instance takes ownership over the argument objects.
+   *
+   * @param[in] a_g Pointer to generator.
+   * @param[in] a_o Pointer to output pipe.
+   */
+  SourceNode(GeneratorBase<T_out>* a_g, OutputPipeBase* a_o);
 
-  // 
-  // Dtor.
-  // Destroys and frees members.
-  // Stops operation.
-  //
+  /**
+   * ~SourceNode
+   *
+   * Closes and destroys node members; releasing their resources.
+   * Ceases node operation.
+   */
   ~SourceNode();
 
-  // 
-  // GetType.
-  // Answers for the type of node this is.
-  //
-  IStorableNode::Type GetType() { return IStorableNode::Type::Source; }
+  /**
+   * GetType
+   * Satisfies base class.
+   */
+  IStorableNode::Type GetType()
+  {
+    return IStorableNode::Type::Source;
+  }
 
-  // 
-  // S_Start.
-  // Static-function placeholder for kicking off the loop.
-  //
+  /**
+   * S_Start
+   * Starts the node's looped operation.
+   *
+   * @param[in] arg_pThis Pointer to 'this' instance.
+   */
   static void S_Start(SourceNode<T_out>* arg_pThis);
 
 private:

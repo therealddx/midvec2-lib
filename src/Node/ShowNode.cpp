@@ -1,8 +1,8 @@
-/* 
+/**
  * reference LICENSE file provided.
  * 
- * ShowNode.cpp.
- * Implements ShowNode.hpp.
+ * @file ShowNode.cpp
+ * Implements ShowNode.hpp
  * 
  */
 

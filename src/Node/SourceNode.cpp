@@ -1,8 +1,8 @@
-/*
+/**
  * reference LICENSE file provided.
  * 
- * SourceNode.cpp.
- * Implements SourceNode.hpp.
+ * @file SourceNode.cpp
+ * Implements SourceNode.hpp
  *
  */
 

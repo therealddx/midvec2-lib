@@ -1,9 +1,10 @@
-/* 
+/**
  * reference LICENSE file provided.
  *
- * ShowNode.hpp.
- * Takes templated data in via input pipe, and outputs it to a human-
- * readable tabulated format.
+ * @file ShowNode.hpp
+ * Asynchronous loop that continually:
+ *   reads from the input pipe; and
+ *   sends that input pipe data to a human-readable display.
  *
  */
 
@@ -23,36 +24,49 @@
 #include <Exception/ErrorCode.hpp>
 #include "IStorableNode.hpp"
 
+/**
+ * @class ShowNode
+ */
 template <class T_in>
 class ShowNode : public IStorableNode
 {
 public:
 
-  // 
-  // Ctor.
-  // Assigns input pipe for display.
-  //
-  ShowNode
-    ( InputPipeBase* arg_inPipe
-    , DisplayBase<T_in>* arg_display
-    );
+  /**
+   * ShowNode
+   *
+   * Starts the node.
+   *
+   * This instance takes ownership over the argument objects.
+   *
+   * @param[in] a_i Pointer to input pipe.
+   * @param[in] a_d Pointer to display.
+   */
+  ShowNode(InputPipeBase* a_i, DisplayBase<T_in>* a_d);
 
-  // 
-  // Dtor.
-  // Releases class resources.
-  //
+  /**
+   * ~ShowNode
+   *
+   * Closes and destroys node members; releasing their resources.
+   * Ceases node operation.
+   */
   ~ShowNode();
 
-  // 
-  // GetType.
-  // Answers for the type of node this is.
-  //
-  IStorableNode::Type GetType() { return IStorableNode::Type::Show; }
+  /**
+   * GetType
+   * Satisfies base class.
+   */
+  IStorableNode::Type GetType()
+  {
+    return IStorableNode::Type::Show;
+  }
 
-  // 
-  // S_Start.
-  // static-function placeholder for initiating display loop.
-  //
+  /**
+   * S_Start
+   * Starts the node's looped operation.
+   *
+   * @param[in] arg_pThis Pointer to 'this' instance.
+   */
   static void S_Start(ShowNode<T_in>* arg_pThis);
 
 private:

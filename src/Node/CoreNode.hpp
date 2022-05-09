@@ -1,9 +1,11 @@
-/* 
+/**
  * reference LICENSE file provided.
  *
- * CoreNode.hpp.
- * Serves features of Node<T>, plus ability to perform a processing
- * function on obtained vectors of type T.
+ * @file CoreNode.hpp
+ * Asynchronous loop that continually:
+ *   reads from the input pipe;
+ *   performs a processing operation on the marshaled data; and
+ *   sends that processed data out of an output pipe.
  *
  */
 
@@ -27,41 +29,51 @@
 #include <Exception/ErrorCode.hpp>
 #include "IStorableNode.hpp"
 
+/**
+ * @class CoreNode
+ */
 template <class T_in, class T_out>
 class CoreNode : public IStorableNode
 {
 public:
 
-  // 
-  // Ctor.
-  // Assigns and constructs members.
-  // Starts operation.
-  //
-  CoreNode
-    ( InputPipeBase*              arg_inPipe
-    , ProcessorBase<T_in, T_out>* arg_proc
-    , OutputPipeBase*             arg_outPipe
-    );
+  /**
+   * CoreNode
+   *
+   * Starts the node.
+   *
+   * This instance takes ownership over the argument objects.
+   *
+   * @param[in] a_i Pointer to input pipe.
+   * @param[in] a_p Pointer to processor.
+   * @param[in] a_o Pointer to output pipe.
+   */
+  CoreNode(InputPipeBase* a_i, ProcessorBase<T_in, T_out>* a_p, OutputPipeBase* a_o);
 
-  // 
-  // Dtor.
-  // Destroys and frees members.
-  // Stops operation.
-  //
+  /**
+   * ~CoreNode
+   *
+   * Closes and destroys node members; releasing their resources.
+   * Ceases node operation.
+   */
   ~CoreNode();
 
-  // 
-  // GetType.
-  // Answers for the type of node this is.
-  //
-  IStorableNode::Type GetType() { return IStorableNode::Type::Core; }
+  /**
+   * GetType
+   * Satisfies base class.
+   */
+  IStorableNode::Type GetType()
+  {
+    return IStorableNode::Type::Core;
+  }
 
-  // 
-  // S_NodeLoop.
-  // Primary thread for Node operation.
-  // Outputs processed vectors on loop.
-  //
-  static void S_NodeLoop(CoreNode<T_in, T_out>* arg_pThis);
+  /**
+   * S_NodeLoop
+   * Starts the node's looped operation.
+   *
+   * @param[in] arg_pThis Pointer to 'this' instance.
+   */
+ static void S_NodeLoop(CoreNode<T_in, T_out>* arg_pThis);
 
 private:
   

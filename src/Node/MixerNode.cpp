@@ -1,8 +1,8 @@
-/*
+/**
  * reference LICENSE file provided.
  *
- * MixerNode.cpp.
- * Implements MixerNode.hpp.
+ * @file MixerNode.cpp
+ * Implements MixerNode.hpp
  *
  */
 

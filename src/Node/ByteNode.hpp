@@ -34,14 +34,17 @@ public:
    * 
    * Starts the node.
    *
-   * @param[in] arg_inPipe Pointer to input pipe.
-   * @param[in] arg_outPipe Pointer to output pipe.
+   * This instance takes ownership over the argument objects.
+   *
+   * @param[in] a_i Pointer to input pipe.
+   * @param[in] a_o Pointer to output pipe.
    */
-  ByteNode(InputPipeBase* arg_inPipe, OutputPipeBase* arg_outPipe);
+  ByteNode(InputPipeBase* a_i, OutputPipeBase* a_o);
 
   /**
    * ~ByteNode
-   * Destroys input and output pipes; releasing their resources.
+   *
+   * Closes and destroys node members; releasing their resources.
    * Ceases node operation.
    */
   ~ByteNode();
@@ -58,6 +61,8 @@ public:
   /**
    * S_Start
    * Starts the node's looped operation.
+   *
+   * @param[in] arg_pThis Pointer to 'this' instance.
    */
   static void S_Start(ByteNode<T>* arg_pThis);
 

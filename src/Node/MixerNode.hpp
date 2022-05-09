@@ -1,8 +1,12 @@
-/*
+/**
  * reference LICENSE file provided.
  *
- * MixerNode.hpp.
- * Represents the product of two signals.
+ * @file MixerNode.hpp
+ * Asynchronous loop that continually:
+ *   reads from one input pipe;
+ *   reads from a second input pipe;
+ *   multiplies the two signals' values; and
+ *   sends that product of signals out of the output pipe.
  *
  */
 
@@ -17,33 +21,51 @@
 #include <Message/MessageConstants.hpp>
 #include "IStorableNode.hpp"
 
+/**
+ * @class MixerNode
+ */
 template <class T_in, class T_out>
 class MixerNode : public IStorableNode
 {
 public:
 
-  MixerNode
-    ( InputPipeBase* arg_inPipe1
-    , InputPipeBase* arg_inPipe2
-    , OutputPipeBase* arg_outPipe
-    );
+  /**
+   * MixerNode
+   *
+   * Starts the node.
+   *
+   * This instance takes ownership over the argument objects.
+   *
+   * @param[in] a_i1 Pointer to first input pipe.
+   * @param[in] a_i2 Pointer to second input pipe.
+   * @param[in] a_o Pointer to output pipe.
+   */
+  MixerNode(InputPipeBase* a_i1, InputPipeBase* a_i2, OutputPipeBase* a_o);
 
-  // 
-  // Dtor.
-  //
+  /**
+   * ~MixerNode
+   *
+   * Closes and destroys node members; releasing their resources.
+   * Ceases node operation.
+   */
   ~MixerNode();
 
-  // 
-  // GetType.
-  // Answers for the type of node this is.
-  //
-  IStorableNode::Type GetType() { return IStorableNode::Type::Mixer; }
+  /**
+   * GetType
+   * Satisfies base class.
+   */
+  IStorableNode::Type GetType()
+  {
+    return IStorableNode::Type::Mixer;
+  }
 
-  // 
-  // S_Start.
-  // Static-function placeholder for starting function.
-  //
-  static void S_Start(MixerNode<T_in, T_out>*);
+  /**
+   * S_Start
+   * Starts the node's looped operation.
+   *
+   * @param[in] arg_pThis Pointer to 'this' instance.
+   */
+  static void S_Start(MixerNode<T_in, T_out>* arg_pThis);
 
 private:
 
