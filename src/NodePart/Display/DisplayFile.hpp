@@ -1,9 +1,8 @@
-/*
+/**
  * reference LICENSE file provided.
  *
- * DisplayFile.hpp.
- * Implements DisplayBase for putting numerical data into a human-readable
- * text file.
+ * @file DisplayFile.hpp
+ * Implementation of DisplayBase to populate a human-readable textfile.
  *
  */
 
@@ -15,24 +14,32 @@
 #include <fstream>
 #include "DisplayBase.hpp"
 
+/**
+ * @class DisplayFile
+ */
 template <class T_in>
 class DisplayFile : public DisplayBase<T_in>
 {
 public:
- 
-  // 
-  // Ctor.
-  //
+
+ /**
+  * DisplayFile
+  *
+  * @param[in] arg_fqFile
+  * Fully-qualified path to file that will hold display data.
+  */	
   DisplayFile(std::string arg_fqFile);
 
-  // 
-  // Dtor.
-  //
+  /**
+   * ~DisplayFile
+   * Closes the handle to the display text file.
+   */
   ~DisplayFile();
 
-  // 
-  // Update.
-  //
+  /**
+   * Update
+   * Satisfies base class.
+   */
   void Update(T_in arg_newValue);
 
 private:
