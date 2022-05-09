@@ -1,7 +1,7 @@
-/*
+/**
  * reference LICENSE file provided.
  * 
- * Complex.cpp
+ * @file Complex.cpp
  * Implements Complex.hpp
  * 
  */

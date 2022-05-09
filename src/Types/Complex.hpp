@@ -13,56 +13,77 @@
 #include <complex>
 #include <iostream>
 
+/**
+ * @class Complex
+ */
 template <class T_c>
 class Complex
 {
 public:
 
-  // Ctor.
-  // Requires initial values for real and imaginary components.
-  // 
+  /**
+   * Complex
+   * @param[in] arg_real Initial value for real component
+   * @param[in] arg_imag Initial value for imaginary component
+   */
   Complex(T_c arg_real, T_c arg_imag);
 
-  // Copy ctor.
-  // 
+  /**
+   * Complex
+   * @param[in] arg_rhs Instance from which 'this' will be copied.
+   */
   Complex(const Complex<T_c>& arg_rhs);
 
-  // Real ctor.
-  Complex(T_c);
+  /**
+   * Complex
+   * @param[in] arg_real
+   * Initial value for real component.
+   * Imaginary component is assumed zero.
+   */
+  Complex(T_c arg_real);
 
-  // Empty ctor.
-  // 
+  /**
+   * Complex
+   * Initializes a complex number to '0 + j0'.
+   */
   Complex();
 
-  // Dtor.
-  // Nothing to do. Backing data is stack-allocated.
-  // 
+  /**
+   * ~Complex
+   * Destroys the instance.
+   */
   ~Complex() { } ;
 
-  // GetReal.
-  // Return real component of this complex value.
-  // 
+  /**
+   * GetReal
+   * @return Real component of this complex number instance.
+   */
   T_c GetReal() const;
 
-  // GetImaginary.
-  // Return imaginary component of this complex value.
-  // 
+  /**
+   * GetImaginary
+   * @return Imaginary component of this complex number instance.
+   */
   T_c GetImaginary() const;
 
-  // SetReal.
-  // Store argument real component into this complex number.
-  // 
+  /**
+   * SetReal
+   * @param[in] arg_real Value to which real component will be set.
+   */
   void SetReal(T_c arg_real);
 
-  // SetImaginary.
-  // Store argument imaginary component into this complex number.
-  // 
+  /**
+   * SetImaginary
+   * @param[in] arg_imag Value to which imaginary component will be set.
+   */
   void SetImaginary(T_c arg_imag);
 
-  // GetStandard.
-  // Return a std::complex of matching types, to 
-  // take advantage of standard library implementations.
-  // 
+  /**
+   * GetStandard
+   * @return
+   * An instance of std::complex whose real and imaginary
+   * components match those of this instance.
+   */
   std::complex<T_c> GetStandard() const;
 
   // Assignment operator '='.
