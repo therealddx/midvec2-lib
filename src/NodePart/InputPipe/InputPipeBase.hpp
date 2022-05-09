@@ -21,13 +21,11 @@ public:
 
   /**
    * InputPipeBase
-   * No concrete resources to instantiate.
    */
   InputPipeBase() { };
 
   /**
    * ~InputPipeBase
-   * No concrete resources to destroy.
    */
   virtual ~InputPipeBase() { };
 

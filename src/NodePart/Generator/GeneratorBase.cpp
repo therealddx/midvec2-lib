@@ -1,8 +1,8 @@
-/*
+/**
  * reference LICENSE file provided.
  * 
- * GeneratorBase.cpp.
- * 
+ * @file GeneratorBase.cpp
+ * Implements GeneratorBase.hpp
  */
 
 #include <string.h>
@@ -10,7 +10,7 @@
 #include "GeneratorBase.hpp"
 
 template <class T_out>
-void GeneratorBase<T_out>::NextMarshal(char* rtn_data)
+void GeneratorBase<T_out>::NextMarshal(char*& rtn_data)
 {
   T_out nextValue = Next();
   rtn_data = reinterpret_cast<char*>(new T_out(nextValue));

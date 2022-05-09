@@ -1,7 +1,8 @@
-/*
+/**
  * reference LICENSE file provided.
  *
- * GeneratorSine.cpp.
+ * @file GeneratorSine.cpp
+ * Implements GeneratorSine.hpp
  *
  */
 

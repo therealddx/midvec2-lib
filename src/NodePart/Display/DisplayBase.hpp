@@ -21,13 +21,11 @@ public:
 
   /**
    * DisplayBase
-   * No concrete resources to instantiate.
    */
   DisplayBase() { } ;
 
   /**
    * ~DisplayBase
-   * No concrete resources to destroy.
    */
   virtual ~DisplayBase() { } ;
 

@@ -30,7 +30,6 @@ public:
 
   /**
    * ~ProcessorDc
-   * No concrete resources to destroy.
    */
   ~ProcessorDc() { };
 

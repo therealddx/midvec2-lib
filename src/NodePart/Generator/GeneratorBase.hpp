@@ -1,40 +1,46 @@
-/*
+/**
  * reference LICENSE file provided.
  *
- * GeneratorBase.hpp.
- * Generic class for, in stateful fashion, presenting an interface to the
- * next value of any function.
+ * @file GeneratorBase.hpp
+ * Abstract class representing the ability to generate new values.
  *
  */
 
 #ifndef GENERATORBASE_HPP
 #define GENERATORBASE_HPP
 
+/**
+ * @class GeneratorBase
+ */
 template <class T_out>
 class GeneratorBase
 {
 public:
 
-  // 
-  // Ctor.
-  //
+  /**
+   * GeneratorBase
+   */
   GeneratorBase() { } ;
 
-  // 
-  // Dtor.
-  //
+  /**
+   * ~GeneratorBase
+   */
   virtual ~GeneratorBase() { } ;
 
-  // 
-  // Next.
-  // Hand-off from generalized master.
-  //
-  virtual void NextMarshal(char* rtn_data);
+  /**
+   * NextMarshal
+   * Generate a new value of the type 'T_out', and store it in the pointer argument.
+   *
+   * @param[in] rtn_data
+   * Location to store the generated value.
+   */
+  virtual void NextMarshal(char*& rtn_data);
 
-  // 
-  // Next.
-  // State of sub-class will cause correct 'Next' value to be returned.
-  //
+  /**
+   * Next
+   * Generate a new value of type 'T_out', IAW the type of the generator.
+   * @return New, generated value of type 'T_out'.
+   */
   virtual T_out Next() = 0;
 
 };

@@ -22,13 +22,11 @@ public:
 
   /**
    * ProcessorBase
-   * No concrete resources to instantiate.
    */
   ProcessorBase() { };
 
   /**
    * ~ProcessorBase
-   * No concrete resources to destroy.
    */
   virtual ~ProcessorBase() { };
 

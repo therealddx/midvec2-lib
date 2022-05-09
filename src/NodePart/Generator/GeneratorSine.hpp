@@ -1,14 +1,8 @@
-/*
+/**
  * reference LICENSE file provided.
  *
- * GeneratorSine.hpp.
+ * @file GeneratorSine.hpp.
  * Concrete class for generating sine function.
- *
- * Appropriates function: std::sin.
- * std::sin( float )
- * std::sin( double )
- * std::sin( long double )
- * std::sin( IntegralType arg )
  */
 
 #ifndef GENERATORSINE_HPP
@@ -18,14 +12,25 @@
 #include <cmath>
 #include "GeneratorBase.hpp"
 
+/**
+ * @class GeneratorSine
+ */
 template <class T_out>
 class GeneratorSine : public GeneratorBase<T_out>
 {
 public:
 
-  // 
-  // Ctor.
-  //
+  /**
+   * GeneratorSine
+   *
+   * Constructs a sinewave generator, given arguments.
+   *
+   * @param[in] arg_xShift Horizontal shift for sinewave.
+   * @param[in] arg_xScale Horizontal scale for sinewave.
+   * @param[in] arg_yShift Vertical shift for sinewave.
+   * @param[in] arg_yScale Vertical scale for sinewave.
+   * @param[in] arg_samplesPerPeriod Samples per period for sinewave.
+   */
   GeneratorSine
     ( double arg_xShift
     , double arg_xScale
@@ -34,14 +39,15 @@ public:
     , int32_t arg_samplesPerPeriod
     );
 
-  // 
-  // Dtor.
-  //
+  /**
+   * ~GeneratorSine
+   */
   ~GeneratorSine() { } ;
 
-  // 
-  // Next.
-  //
+  /**
+   * Next
+   * Satisfies base class.
+   */
   T_out Next();
 
 private:

@@ -32,7 +32,6 @@ public:
 
   /**
    * ~ProcessorConv
-   * No concrete resources to destroy.
    */
   ~ProcessorConv() { };
 

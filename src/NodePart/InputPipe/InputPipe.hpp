@@ -34,13 +34,11 @@ public:
 
   /**
    * InputPipe
-   * No concrete resources to instantiate.
    */
   InputPipe() { } ;
 
   /**
    * ~InputPipe
-   * No concrete resources to destroy.
    */
   virtual ~InputPipe() { } ; 
 

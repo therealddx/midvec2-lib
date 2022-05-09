@@ -1,8 +1,8 @@
-/*
+/**
  * reference LICENSE file provided.
  *
- * GeneratorSquare.hpp.
- * Concrete class for generating square wave.
+ * @file GeneratorSquare.hpp
+ * Concrete class for generating square waves.
  *
  */
 
@@ -12,14 +12,26 @@
 #include <cmath>
 #include "GeneratorBase.hpp"
 
+/**
+ * @class GeneratorSquare
+ */
 template <class T_out>
 class GeneratorSquare : public GeneratorBase<T_out>
 {
 public:
 
-  // 
-  // Ctor.
-  //
+  /**
+   * GeneratorSquare
+   *
+   * Constructs a squarewave generator, given arguments.
+   *
+   * @param[in] arg_xShift Horizontal shift for squarewave.
+   * @param[in] arg_xScale Horizontal scale for squarewave.
+   * @param[in] arg_yShift Vertical shift for squarewave.
+   * @param[in] arg_yScale Vertical scale for squarewave.
+   * @param[in] arg_samplesPerPeriod Samples per period for squarewave.
+   * @param[in] arg_numSamplesDuty Number of 'ON' samples per period.
+   */
   GeneratorSquare
     ( double arg_xShift
     , double arg_xScale
@@ -28,15 +40,16 @@ public:
     , int32_t arg_samplesPerPeriod
     , int32_t arg_numSamplesDuty
     );
-  
-  // 
-  // Dtor.
-  //
+ 
+  /**
+   * ~GeneratorSquare
+   */ 
   ~GeneratorSquare() { } ;
 
-  // 
-  // Next.
-  //
+  /**
+   * Next
+   * Satisfies base class.
+   */
   T_out Next();
 
 private:

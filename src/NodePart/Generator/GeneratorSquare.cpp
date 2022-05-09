@@ -1,7 +1,8 @@
-/*
+/**
  * reference LICENSE file provided.
  *
- * GeneratorSquare.cpp.
+ * @file GeneratorSquare.cpp
+ * Implements GeneratorSquare.hpp
  *
  */
 
