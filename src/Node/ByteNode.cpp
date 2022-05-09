@@ -1,8 +1,8 @@
-/*
+/**
  * reference LICENSE file provided.
  * 
- * ByteNode.cpp.
- * Implements ByteNode.hpp.
+ * @file ByteNode.cpp
+ * Implements ByteNode.hpp
  * 
  */
 

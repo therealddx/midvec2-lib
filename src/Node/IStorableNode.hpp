@@ -1,34 +1,32 @@
-/*
+/**
  * reference LICENSE file provided.
  *
- * IStorableNode.hpp.
+ * @file IStorableNode.hpp
  *
- * Unfortunately, this class is required so that Node objects that get instantiated
- * will have the ability to be stored in the same collection.
- *
- * What this means is that a higher-level executive will have a transparent interface
- * to storing and 'delete'ing Node objects when their resources are no longer needed.
+ * This class exists to allow Nodes to be stored in the same collection.
+ * As such, they can be `delete`d.
  *
  */
 
 #ifndef ISTORABLENODE_HPP
 #define ISTORABLENODE_HPP
 
+/**
+ * @class IStorableNode
+ */
 class IStorableNode
 {
 public:
 
-  // 
-  // dtor.
-  // The core shared functionality among all Nodes is the
-  // destructor; the ability to release resources upon delete.
-  //
+  /**
+   * ~IStorableNode
+   */
   virtual ~IStorableNode() { } ;
 
-  // 
-  // GetType.
-  // Baked-in reflection information to travel down the inheritance tree.
-  //
+  /**
+   * @enum Type
+   * Enumerated types of Nodes that may be created in this library.
+   */
   enum class Type
   {
     Byte,
@@ -37,6 +35,11 @@ public:
     Show,
     Source,
   };
+
+  /**
+   * GetType
+   * @return Enumerated value denoting the type of Node this is.
+   */
   virtual Type GetType() = 0;
 
 protected:

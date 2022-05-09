@@ -1,14 +1,10 @@
-/*
+/**
  * reference LICENSE file provided.
  *
- * ByteNode.hpp.
- * Encapsulates usage of the following types:
- * - InputPipeBase
- * - OutputPipeBase
- *
- * Provides bare-minimum interface to their utilization:
- * - Incoming data is mathematically buffered: no processing
- * - Exists solely to translate data across I/O FW IFs.
+ * @file ByteNode.hpp
+ * Asynchronous loop that continually:
+ *   reads from the input pipe; and 
+ *   sends the input pipe's data to the output pipe.
  *
  */
 
@@ -25,38 +21,44 @@
 #include <Exception/ErrorCode.hpp>
 #include "IStorableNode.hpp"
 
+/**
+ * @class ByteNode
+ */
 template <class T>
 class ByteNode : public IStorableNode
 {
 public:
 
-  // 
-  // Ctor.
-  // Assigns and constructs members.
-  // Starts operation.
-  //
-  ByteNode
-    ( InputPipeBase*  arg_inPipe
-    , OutputPipeBase* arg_outPipe
-    );
+  /**
+   * ByteNode
+   * 
+   * Starts the node.
+   *
+   * @param[in] arg_inPipe Pointer to input pipe.
+   * @param[in] arg_outPipe Pointer to output pipe.
+   */
+  ByteNode(InputPipeBase* arg_inPipe, OutputPipeBase* arg_outPipe);
 
-  // 
-  // Dtor.
-  // Destroys and frees members.
-  // Stops operation.
-  //
+  /**
+   * ~ByteNode
+   * Destroys input and output pipes; releasing their resources.
+   * Ceases node operation.
+   */
   ~ByteNode();
 
-  // 
-  // GetType.
-  // Answers for the type of node this is.
-  //
-  IStorableNode::Type GetType() { return IStorableNode::Type::Byte; }
+  /**
+   * GetType
+   * Satisfies base class.
+   */
+  IStorableNode::Type GetType()
+  {
+    return IStorableNode::Type::Byte;
+  }
 
-  // 
-  // S_Start.
-  // Static-function placeholder for kicking off the loop.
-  //
+  /**
+   * S_Start
+   * Starts the node's looped operation.
+   */
   static void S_Start(ByteNode<T>* arg_pThis);
 
 private:
