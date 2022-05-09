@@ -52,8 +52,12 @@ public:
 
   /**
    * Message
-   * Marshal member fields from a raw byte array.
+   *
+   * Marshal from a serialized message (header + backer), in network byte order.
+   *
    * @param[in] Pointer to data from which backing type will be marshaled.
+   *
+   * Note: The caller owns the argument 'char*'.
    */
   Message(char* arg_fromBuffer);
 
@@ -88,6 +92,8 @@ public:
    * Pre-allocated storage to which header and backing data will be copied.
    *
    * @return Number of bytes copied into argument pointer.
+   *
+   * Note: The caller owns the argument 'char*'.
    */
   size_t GetBytes(char* rtn_bytes);
 
@@ -99,7 +105,9 @@ public:
 
   /**
    * GetRequiredSize
-   * @return Required size for any char buffer that is to hold this serialized message.
+   *
+   * @return
+   * Required size for any char buffer that is to hold this serialized message.
    */
   size_t GetRequiredSize()
   {
