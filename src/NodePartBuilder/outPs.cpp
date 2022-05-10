@@ -1,8 +1,8 @@
-/*
+/**
  * reference LICENSE file provided.
  *
- * outPs.cpp.
- * Implements outPs.hpp.
+ * @file outPs.cpp
+ * Implements outPs.hpp
  *
  */
 

@@ -1,8 +1,8 @@
-/*
+/**
  * reference LICENSE file provided.
  *
- * inPs.cpp.
- * Implements inPs.hpp.
+ * @file inPs.cpp
+ * Implements inPs.hpp
  *
  */
 

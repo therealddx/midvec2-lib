@@ -1,9 +1,9 @@
-/*
+/**
  * reference LICENSE file provided.
  *
- * genPs.hpp.
- * Class declarations to implement a Builder pattern for subtypes of the
- * class GeneratorBase, as ParamSets ('Ps').
+ * @file genPs.hpp
+ * Represents the set of parameters-- 'parameter set', or 'ps'--
+ *   that construct subclasses of GeneratorBase.
  *
  */
 
@@ -13,35 +13,64 @@
 #include <stdint.h>
 #include <NodePart/Generator/GeneratorBase.hpp>
 
+/**
+ * @class genPs
+ * Base class for parameter sets of GeneratorBase.
+ */
 template <class T_out>
 class genPs
 {
 public:
+
+  /**
+   * ~genPs
+   */
   virtual ~genPs() { } ;
+
+  /**
+   * Make
+   * Subclasses are guaranteed to construct a subclass of GeneratorBase.
+   * @return Instance of GeneratorBase.
+   */
   virtual GeneratorBase<T_out>* Make() = 0;
+
 protected:
   genPs() { } ;
 };
 
+/**
+ * @class genSinePs
+ * Class representing the parameters for constructing a GeneratorSine.
+ */
 template <class T_out>
 class genSinePs : public genPs<T_out>
 {
 public:
 
-  genSinePs
-    ( double arg_xShift
-    , double arg_xScale
-    , double arg_yShift
-    , double arg_yScale
-    , int32_t arg_samplesPerPeriod )
-    : _xShift             ( arg_xShift )
-    , _xScale             ( arg_xScale )
-    , _yShift             ( arg_yShift )
-    , _yScale             ( arg_yScale )
-    , _samplesPerPeriod   ( arg_samplesPerPeriod )
+  /**
+   * genSinePs
+   *
+   * Stores GeneratorSine constructor arguments, for construction by Make.
+   *
+   * @param[in] a_xsh Horizontal shift for sinewave.
+   * @param[in] a_xsc Horizontal scale for sinewave.
+   * @param[in] a_ysh Vertical shift for sinewave.
+   * @param[in] a_ysc Vertical scale for sinewave.
+   * @param[in] a_sp Samples per period for sinewave.
+   */
+  genSinePs(double a_xsh, double a_xsc, double a_ysh, double a_ysc, int32_t a_sp)
+    : _xShift             ( a_xsh )
+    , _xScale             ( a_xsc )
+    , _yShift             ( a_ysh )
+    , _yScale             ( a_ysc )
+    , _samplesPerPeriod   ( a_sp )
   {
   }
 
+  /**
+   * Make
+   * Satisfies base class.
+   */
   GeneratorBase<T_out>* Make();
 
 private:
@@ -52,27 +81,41 @@ private:
   int32_t _samplesPerPeriod;
 };
 
+/**
+ * @class genSquarePs
+ * Class representing the parameters for constructing a GeneratorSquare.
+ */
 template <class T_out>
 class genSquarePs : public genPs<T_out>
 {
 public:
 
-  genSquarePs
-    ( double arg_xShift
-    , double arg_xScale
-    , double arg_yShift
-    , double arg_yScale
-    , int32_t arg_samplesPerPeriod
-    , int32_t arg_numSamplesDuty )
-    : _xShift           ( arg_xShift           )
-    , _xScale           ( arg_xScale           )
-    , _yShift           ( arg_yShift           )
-    , _yScale           ( arg_yScale           )
-    , _samplesPerPeriod ( arg_samplesPerPeriod )
-    , _numSamplesDuty   ( arg_numSamplesDuty   )
+  /**
+   * genSquarePs
+   *
+   * Stores GeneratorSquare constructor arguments, for construction by Make.
+   *
+   * @param[in] a_xh Horizontal shift for squarewave.
+   * @param[in] a_xc Horizontal scale for squarewave.
+   * @param[in] a_yh Vertical shift for squarewave.
+   * @param[in] a_yc Vertical scale for squarewave.
+   * @param[in] a_sp Samples per period for squarewave.
+   * @param[in] a_n Number of 'on' samples per period.
+   */
+  genSquarePs(double a_xh, double a_xc, double a_yh, double a_yc, int32_t a_sp, int32_t a_n)
+    : _xShift           ( a_xh )
+    , _xScale           ( a_xc )
+    , _yShift           ( a_yh )
+    , _yScale           ( a_yc )
+    , _samplesPerPeriod ( a_sp )
+    , _numSamplesDuty   ( a_n  )
     {
     }
 
+  /**
+   * Make
+   * Satisfies base class.
+   */
   GeneratorBase<T_out>* Make();
 
 private:

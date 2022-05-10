@@ -1,8 +1,8 @@
-/*
+/**
  * reference LICENSE file provided.
  * 
- * genPs.cpp.
- * Implements genPs.hpp.
+ * @file genPs.cpp
+ * Implements genPs.hpp
  *
  */
 

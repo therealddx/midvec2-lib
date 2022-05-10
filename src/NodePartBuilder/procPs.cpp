@@ -1,8 +1,8 @@
-/*
+/**
  * reference LICENSE file provided.
  * 
- * procPs.cpp.
- * Implements procPs.hpp.
+ * @file procPs.cpp
+ * Implements procPs.hpp
  *
  */
 

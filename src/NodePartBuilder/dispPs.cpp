@@ -1,8 +1,8 @@
-/*
+/**
  * reference LICENSE file provided.
  * 
- * dispPs.cpp.
- * Implements dispPs.hpp.
+ * @file dispPs.cpp
+ * Implements dispPs.hpp
  * 
  */
 
