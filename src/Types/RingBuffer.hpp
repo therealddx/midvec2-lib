@@ -45,7 +45,7 @@ public:
    * @param[in] arg_size
    * The amount of objects of type 'T' that this buffer can hold.
    *
-   * @param[in] arg_restore_occupancy 
+   * @param[in] arg_restore_oc 
    * If the buffer is empty,
    *   `Read` blocks until occupancy is greater than this number.
    * If the buffer is full,
@@ -55,7 +55,7 @@ public:
    * @param[in] arg_should_log
    * Iff 'true', `Read` and `Write` timestamped logs to the cwd.
    */
-  RingBuffer(int32_t arg_size, int32_t arg_restore_occupancy, bool arg_should_log = false);
+  RingBuffer(int32_t arg_size, int32_t arg_restore_oc, bool arg_should_log = false);
 
   /**
    * ~RingBuffer
