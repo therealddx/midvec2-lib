@@ -1,7 +1,8 @@
-/*
+/**
  * reference LICENSE file provided.
  *
- * nodePs.cpp 
+ * @file nodePs.cpp
+ * Implements nodePs.hpp
  * 
  */
 
