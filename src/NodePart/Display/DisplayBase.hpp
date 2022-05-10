@@ -30,15 +30,6 @@ public:
   virtual ~DisplayBase() { } ;
 
   /**
-   * UpdateMarshal
-   * Marshals argument pointer into user data of type 'T_in'; and
-   * Calls `Update` on that user data.
-   *
-   * @param[in] arg_data Pointer to valid data of type 'T_in'.
-   */
-  virtual void UpdateMarshal(char* arg_data);
-
-  /**
    * Update
    * Update the display with a new value.
    *

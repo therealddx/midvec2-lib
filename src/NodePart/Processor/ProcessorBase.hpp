@@ -31,19 +31,6 @@ public:
   virtual ~ProcessorBase() { };
 
   /**
-   * ProcessMarshal
-   * Marshal the argument pointer into usable data;
-   * Process it (using `Process`); and
-   * Return a `new` pointer to the result.
-   *
-   * @param[in] arg_p_data
-   * Pointer to data of type 'T_in' to process.
-   *
-   * @return Pointer to `new` data at outcome of processing.
-   */
-  virtual char* ProcessMarshal(char* arg_p_data);
-
-  /**
    * Process
    *
    * Perform a processing operation on some data, as defined by the subclass.
