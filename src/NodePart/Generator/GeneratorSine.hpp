@@ -1,7 +1,7 @@
 /**
  * reference LICENSE file provided.
  *
- * @file GeneratorSine.hpp.
+ * @file GeneratorSine.hpp
  * Concrete class for generating sine function.
  */
 
