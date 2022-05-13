@@ -19,6 +19,12 @@ class MessageConstants
 public:
 
   /**
+   * This class's members are entirely static--
+   *   attempts to instantiate an are extraneous.
+   */
+  MessageConstants() { };
+
+  /**
    * All members in this class are static--
    *   calling this destructor is unnecessary.
    */
@@ -60,10 +66,6 @@ public:
    *   but this library is untested on big-endian.
    */
   static const bool IS_LITTLE_ENDIAN = true;
-
-private:
-
-  MessageConstants() { };
 
 };
 
