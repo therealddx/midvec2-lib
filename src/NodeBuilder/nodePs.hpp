@@ -2,9 +2,13 @@
  * reference LICENSE file provided.
  *
  * @file nodePs.hpp
- * Represents the set of parameters-- 'parameter set', or 'ps'--
- *   that construct nodes.
- *
+ * Declarations for:
+ * - nodePs
+ * - byteNodePs
+ * - coreNodePs
+ * - sourceNodePs
+ * - showNodePs
+ * - mixerNodePs
  */
 
 #ifndef NODEPS_HPP
@@ -20,19 +24,19 @@ class IStorableNode;
 
 /**
  * @class nodePs
- * Base class for constructing nodes from parameter sets.
+ * Base class for representing a group of arguments that can construct nodes--
+ *   a "parameter set", hence "ps".
  */
 class nodePs
 {
 public:
 
   /**
-   * ~nodePs
+   * Destroys this instance, and the subclass.
    */
   virtual ~nodePs() { } ;
 
   /**
-   * Make
    * Subclasses are guaranteed to construct a subclass of IStorableNode.
    * @return Instance of IStorableNode.
    */
@@ -52,12 +56,10 @@ class byteNodePs : public nodePs
 public:
 
   /**
-   * byteNodePs
+   * Stores ByteNode constructor arguments, for construction by `Make`.
    *
-   * Stores ByteNode constructor arguments, for construction by Make.
-   *
-   * @param[in] arg_inPs Parameter set for input pipe.
-   * @param[in] arg_outPs Parameter set for output pipe.
+   * @param[in] arg_inPs Parameter set for InputPipeBase.
+   * @param[in] arg_outPs Parameter set for OutputPipeBase.
    */
   byteNodePs(inPs* arg_inPs, outPs* arg_outPs)
   : _inPs(arg_inPs)
@@ -66,7 +68,6 @@ public:
   }
 
   /**
-   * Make
    * Satisfies base class.
    */
   IStorableNode* Make();
@@ -86,13 +87,11 @@ class coreNodePs : public nodePs
 public:
 
   /**
-   * coreNodePs
+   * Stores CoreNode constructor arguments, for construction by `Make`.
    *
-   * Stores CoreNode constructor arguments, for construction by Make.
-   *
-   * @param[in] arg_inPs Parameter set for input pipe.
-   * @param[in] arg_procPs Parameter set for processor.
-   * @param[in] arg_outPs Parameter set for output pipe.
+   * @param[in] arg_inPs Parameter set for InputPipeBase.
+   * @param[in] arg_procPs Parameter set for ProcessorBase.
+   * @param[in] arg_outPs Parameter set for OutputPipeBase.
    */
   coreNodePs
   ( inPs* arg_inPs
@@ -106,7 +105,6 @@ public:
   }
 
   /**
-   * Make
    * Satisfies base class.
    */
   IStorableNode* Make();
@@ -127,12 +125,10 @@ class sourceNodePs : public nodePs
 public:
 
   /**
-   * sourceNodePs
+   * Stores SourceNode constructor arguments, for construction by `Make`.
    *
-   * Stores SourceNode constructor arguments, for construction by Make.
-   *
-   * @param[in] arg_genPs Parameter set for generator.
-   * @param[in] arg_outPs Parameter set for output pipe.
+   * @param[in] arg_genPs Parameter set for GeneratorBase.
+   * @param[in] arg_outPs Parameter set for OutputPipeBase.
    */
   sourceNodePs(genPs<T_out>* arg_genPs, outPs* arg_outPs)
   : _genPs(arg_genPs)
@@ -141,7 +137,6 @@ public:
   }
 
   /**
-   * Make
    * Satisfies base class.
    */
   IStorableNode* Make();
@@ -161,12 +156,10 @@ class showNodePs : public nodePs
 public:
 
   /**
-   * showNodePs
+   * Stores ShowNode constructor arguments, for construction by `Make`.
    *
-   * Stores ShowNode constructor arguments, for construction by Make.
-   *
-   * @param[in] arg_inPs Parameter set for input pipe.
-   * @param[in] arg_dispPs Parameter set for display.
+   * @param[in] arg_inPs Parameter set for InputPipeBase.
+   * @param[in] arg_dispPs Parameter set for DisplayBase.
    */
   showNodePs(inPs* arg_inPs, dispPs<T_in>* arg_dispPs)
   : _inPs(arg_inPs)
@@ -175,7 +168,6 @@ public:
   }
 
   /**
-   * Make
    * Satisfies base class.
    */
   IStorableNode* Make();
@@ -195,13 +187,11 @@ class mixerNodePs : public nodePs
 public:
 
   /**
-   * mixerNodePs
+   * Stores MixerNode constructor arguments, for construction by `Make`.
    *
-   * Stores MixerNode constructor arguments, for construction by Make.
-   *
-   * @param[in] arg_inPs1 Parameter set for first input pipe.
-   * @param[in] arg_inPs2 Parameter set for second input pipe.
-   * @param[in] arg_outPs Parameter set for output pipe.
+   * @param[in] arg_inPs1 Parameter set for first InputPipeBase.
+   * @param[in] arg_inPs2 Parameter set for second InputPipeBase.
+   * @param[in] arg_outPs Parameter set for OutputPipeBase.
    */
   mixerNodePs
     ( inPs* arg_inPs1
@@ -215,7 +205,6 @@ public:
   }
 
   /**
-   * Make
    * Satisfies base class.
    */
   IStorableNode* Make();

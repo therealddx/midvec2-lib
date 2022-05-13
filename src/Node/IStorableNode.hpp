@@ -17,7 +17,7 @@ class IStorableNode
 public:
 
   /**
-   * Destroys this class, and the underlying Node.
+   * Destroys this instance, and the subclass.
    */
   virtual ~IStorableNode() { } ;
 
