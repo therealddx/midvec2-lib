@@ -50,7 +50,8 @@ public:
    * - Minimum allowed value is 0; maximum allowed value is `arg_size` - 1.
    *
    * @param[in] arg_should_log
-   * Iff 'true', `Read` and `Write` shall record timestamped logs to the cwd.
+   * Iff `true`, `Read` and `Write` shall record timestamped logs
+   *   to the current working directory.
    */
   RingBuffer(int32_t arg_size, int32_t arg_restore_oc, bool arg_should_log = false);
 
@@ -58,13 +59,11 @@ public:
    * Destroys this instance:
    * - `Close`s off the RingBuffer (ref. `Close`).
    * - `delete[]`s the backing buffer.
-   * - `delete`s the logs [if they were created].
+   * - `delete`s the logs, if they were created.
    */
   ~RingBuffer();
 
   /**
-   * Write
-   * 
    * Writes one instance of type `T` into the ringbuffer.
    * 
    * @param[in] arg_w
@@ -80,8 +79,6 @@ public:
   void Write(T arg_w, int32_t* rtn_e = nullptr, int32_t arg_patience_ms = -1);
 
   /**
-   * Read
-   * 
    * Reads one instance of type `T` from the ringbuffer.
    *
    * @param[out] rtn_e

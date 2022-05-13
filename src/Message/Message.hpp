@@ -27,11 +27,11 @@
  * The only data an instance of Message holds is an instance of `T`.
  *
  * The public functions of Message, however, perform for the client:
- *   Serialization of `T`,
+ * - Serialization of `T`,
  *     into a `char` buffer that can be sent from an OutputPipeBase.
- *   Deserialization of `T`,
+ * - Deserialization of `T`,
  *     from a `char` buffer that was received at an InputPipeBase.
- *   Queries on said messages,
+ * - Queries on said messages,
  *     such as requisite total size and byte-for-byte content.
  *   
  */
@@ -51,7 +51,7 @@ public:
   Message();
 
   /**
-   * Marshal from a serialized message (header + backer), in network byte order.
+   * Copy member `T` from a serialized message (header + backer), in network byte order.
    *
    * Note: The caller owns the argument 'char*'.
    * @param[in] Pointer to data from which backing type will be marshaled.
