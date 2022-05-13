@@ -2,9 +2,7 @@
  * reference LICENSE file provided.
  *
  * @file MixerNode.hpp
- *
  * Declarations for the MixerNode class.
- *
  */
 
 #ifndef MIXERNODE_HPP
@@ -20,13 +18,11 @@
 
 /**
  * @class MixerNode
- *
  * Asynchronous loop that continually:
  * - reads from one input pipe;
  * - reads from a second input pipe;
  * - multiplies the two signals' values; and
  * - sends that product of signals out of the output pipe.
- *
  */
 template <class T_in, class T_out>
 class MixerNode : public IStorableNode
@@ -34,8 +30,6 @@ class MixerNode : public IStorableNode
 public:
 
   /**
-   * MixerNode
-   *
    * Constructs and starts a MixerNode instance.
    *
    * This instance takes ownership over the argument objects.
@@ -47,17 +41,13 @@ public:
   MixerNode(InputPipeBase* a_i1, InputPipeBase* a_i2, OutputPipeBase* a_o);
 
   /**
-   * ~MixerNode
-   *
-   * Closes and destroys node members; releasing their resources.
+   * Closes and destroys node members, releasing their resources.
    *
    * Ceases node operation.
    */
   ~MixerNode();
 
   /**
-   * GetType
-   *
    * Satisfies base class.
    */
   IStorableNode::Type GetType()
@@ -66,11 +56,9 @@ public:
   }
 
   /**
-   * S_Start
-   *
    * Starts the node's looped operation.
    *
-   * @param[in] arg_pThis Pointer to 'this' instance.
+   * @param[in] arg_pThis Pointer to `this` instance.
    */
   static void S_Start(MixerNode<T_in, T_out>* arg_pThis);
 

@@ -2,9 +2,7 @@
  * reference LICENSE file provided.
  *
  * @file IStorableNode.hpp
- *
  * Declarations for the IStorableNode class.
- *
  */
 
 #ifndef ISTORABLENODE_HPP
@@ -12,7 +10,6 @@
 
 /**
  * @class IStorableNode
- *
  * This class allows Nodes to be stored (and `delete`d) in the same collection.
  */
 class IStorableNode
@@ -20,15 +17,12 @@ class IStorableNode
 public:
 
   /**
-   * ~IStorableNode
-   *
    * Destroys this class, and the underlying Node.
    */
   virtual ~IStorableNode() { } ;
 
   /**
    * @enum Type
-   *
    * Enumerated types for Nodes that may be created in this library.
    */
   enum class Type
@@ -60,9 +54,7 @@ public:
   };
 
   /**
-   * GetType
-   *
-   * Reports the 'type' index of an inheriting Node class.
+   * Reports the type index of an inheriting Node class.
    *
    * @return Enumerated value denoting the type of Node this is.
    */
