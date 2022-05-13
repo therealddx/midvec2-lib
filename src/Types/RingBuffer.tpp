@@ -1,3 +1,11 @@
+/**
+ * reference LICENSE file provided.
+ * 
+ * @file RingBuffer.tpp
+ * Implements RingBuffer.hpp
+ *
+ */
+
 #ifndef RINGBUFFER_TPP
 #define RINGBUFFER_TPP
 

@@ -2,7 +2,7 @@
  * reference LICENSE file provided.
  *
  * @file RingBuffer.hpp
- * Concurrent ringbuffer in user space.
+ * Declarations for RingBuffer
  *
  */
 
@@ -25,12 +25,11 @@
 
 /**
  * @class RingBuffer
- *
- * This class represents a ringbuffer with the following requirements:
- *   Producer and consumer shall be active simultaneously.
- *   Underflows shall never happen (`Read` blocks when empty).
- *   Overflows shall never happen (`Write` blocks when full).
- *
+ * This class represents a ringbuffer in user space with the following requirements:
+ * - Producer and consumer shall receive simultaneous service.
+ * - Underflows shall never happen (`Read` blocks when empty).
+ * - Overflows shall never happen (`Write` blocks when full).
+ * - The class shall expose method(s) to cancel blocking `Read`s and `Write`s.
  */
 template <class T>
 class RingBuffer
@@ -38,72 +37,68 @@ class RingBuffer
 public:
 
   /**
-   * RingBuffer
-   *
    * Creates the RingBuffer.
    *
    * @param[in] arg_size
-   * The amount of objects of type 'T' that this buffer can hold.
+   * The amount of objects of type `T` that this buffer can hold.
    *
    * @param[in] arg_restore_oc 
-   * If the buffer is empty,
+   * - If the buffer is empty,
    *   `Read` blocks until occupancy is greater than this number.
-   * If the buffer is full,
-   *   `Write` blocks until occupancy is less than size minus this number.
-   * Minimum allowed value is '0'; maximum allowed value is 'size - 1'.
+   * - If the buffer is full,
+   *   `Write` blocks until occupancy is less than `arg_size` minus this number.
+   * - Minimum allowed value is 0; maximum allowed value is `arg_size` - 1.
    *
    * @param[in] arg_should_log
-   * Iff 'true', `Read` and `Write` timestamped logs to the cwd.
+   * Iff 'true', `Read` and `Write` shall record timestamped logs to the cwd.
    */
   RingBuffer(int32_t arg_size, int32_t arg_restore_oc, bool arg_should_log = false);
 
   /**
-   * ~RingBuffer
-   *
-   * Does the following:
-   *   `Close`s off the RingBuffer (ref. `Close`).
-   *   `delete[]`s the backing buffer.
-   *   `delete`s the logs [if they were created].
+   * Destroys this instance:
+   * - `Close`s off the RingBuffer (ref. `Close`).
+   * - `delete[]`s the backing buffer.
+   * - `delete`s the logs [if they were created].
    */
   ~RingBuffer();
 
   /**
    * Write
    * 
-   * Writes one instance of type 'T' into the ringbuffer.
+   * Writes one instance of type `T` into the ringbuffer.
    * 
    * @param[in] arg_w
-   * Instance of type 'T' to write into the ringbuffer.
+   * Instance of type `T` to write into the ringbuffer.
    *
    * @param[out] rtn_e
-   * Error code: '0' if a material value was written, '-1' otherwise.
+   * Error code storage: 0 if a material value was written, -1 otherwise.
    *
    * @param[in] arg_patience_ms
    * Blocking patience in milliseconds: <0 to wait indefinitely.
-   * Note: The 'blocking patience' parameter is unimplemented to date.
+   *   Note: This parameter is unimplemented to date.
    */
   void Write(T arg_w, int32_t* rtn_e = nullptr, int32_t arg_patience_ms = -1);
 
   /**
    * Read
    * 
-   * Reads one instance of type 'T' from the ringbuffer.
+   * Reads one instance of type `T` from the ringbuffer.
    *
    * @param[out] rtn_e
-   * Error code: '0' if a material value was returned; '-1' otherwise.
+   * Error code storage: 0 if a material value was returned; -1 otherwise.
    *
    * @param[in] arg_patience_ms
    * Blocking patience in milliseconds: <0 to wait indefinitely.
-   * Note: The 'blocking patience' parameter is unimplemented to date.
+   *   Note: This parameter is unimplemented to date.
    *
    * @return
-   * The value most-recently available to the read pointer.
+   * The value most recently available to the read pointer.
    */
   T Read(int32_t* rtn_e = nullptr, int32_t arg_patience_ms = -1);
 
   /**
-   * GetSize
-   * @return Max number of instances of 'T' that this buffer can hold.
+   * Reports the size of the ringbuffer.
+   * @return Max number of instances of `T` that this buffer can hold.
    */
   int32_t GetSize() const
   {
@@ -111,7 +106,7 @@ public:
   }
 
   /**
-   * GetOccupancy
+   * Reports the number of elements of type `T` in the ringbuffer.
    * @return Number of readable elements in the buffer.
    */
   int32_t GetOccupancy() const
@@ -120,9 +115,8 @@ public:
   }
 
   /**
-   * Close
-   * Unblocks any `Read` or `Write` stuck in wait.
-   * Permanently disables any future `Read` or `Write` call.
+   * Unblocks any `Read` or `Write` stuck in wait,
+   *   and permanently disables any future `Read` or `Write` call.
    */
   void Close()
   {
@@ -132,10 +126,10 @@ public:
   }
 
   /**
-   * ReleaseRead
    * Cancels a blocking `Read` call.
-   * Unlike `Close`, carries no persistent effect on the RingBuffer.
-   * @return 'true' if there was a blocking operation to cancel, 'false' otherwise.
+   *
+   * Unlike `Close`, this call carries no persistent effect on the RingBuffer.
+   * @return `true` if there was a blocking operation to cancel, `false` otherwise.
    */
   bool ReleaseRead()
   {
@@ -151,10 +145,10 @@ public:
   }
 
   /**
-   * ReleaseWrite
    * Cancels a blocking `Write` call.
-   * Unlike `Close`, carries no persistent effect on the RingBuffer.
-   * @return 'true' if there was a blocking operation to cancel, 'false' otherwise.
+   *
+   * Unlike `Close`, this call carries no persistent effect on the RingBuffer.
+   * @return `true` if there was a blocking operation to cancel, `false` otherwise.
    */
   bool ReleaseWrite()
   {
@@ -170,8 +164,8 @@ public:
   }
 
   /**
-   * ResetRead
-   * Resets the read pointer, and state pertinent to `Read` calls.
+   * Resets the read pointer,
+   *   and resets the state variables that `Read` calls depend on.
    */
   void ResetRead()
   {
@@ -181,8 +175,8 @@ public:
   }
 
   /**
-   * ResetWrite
-   * Resets the write pointer, and state pertinent to `Write` calls.
+   * Resets the write pointer,
+   *   and resets the state variables that `Write` calls depend on.
    */
   void ResetWrite()
   {

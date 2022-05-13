@@ -2,9 +2,7 @@
  * reference LICENSE file provided.
  *
  * @file Complex.hpp
- * Represents a complex number explicitly designed to serialize/deserialize
- * as this library expects it to, for little-endian/big-endian.
- *
+ * Declarations for Complex
  */
 
 #ifndef COMPLEX_HPP
@@ -15,6 +13,8 @@
 
 /**
  * @class Complex
+ * Represents a complex number explicitly designed to serialize/deserialize
+ *   as this library expects it to, for little-endian/big-endian.
  */
 template <class T_c>
 class Complex
@@ -22,67 +22,65 @@ class Complex
 public:
 
   /**
-   * Complex
+   * Initial values constructor; real/imaginary.
    * @param[in] arg_real Initial value for real component
    * @param[in] arg_imag Initial value for imaginary component
    */
   Complex(T_c arg_real, T_c arg_imag);
 
   /**
-   * Complex
-   * @param[in] arg_rhs Instance from which 'this' will be copied.
+   * Copy constructor.
+   * @param[in] arg_rhs Instance from which `this` will be copied.
    */
   Complex(const Complex<T_c>& arg_rhs);
 
   /**
-   * Complex
-   * @param[in] arg_real
-   * Initial value for real component.
-   * Imaginary component is assumed zero.
+   * Initial values constructor; real component with zero-imaginary.
+   * @param[in] arg_real Initial value for real component.
    */
   Complex(T_c arg_real);
 
   /**
-   * Complex
-   * Initializes a complex number to '0 + j0'.
+   * Default constructor; initializes to 0 + j0.
    */
   Complex();
 
   /**
-   * ~Complex
    * Destroys the instance.
    */
   ~Complex() { } ;
 
   /**
-   * GetReal
+   * Reports real component of this complex number.
    * @return Real component of this complex number instance.
    */
   T_c GetReal() const;
 
   /**
-   * GetImaginary
+   * Reports imaginary component of this complex number.
    * @return Imaginary component of this complex number instance.
    */
   T_c GetImaginary() const;
 
   /**
-   * SetReal
+   * Sets real component of this complex number.
    * @param[in] arg_real Value to which real component will be set.
    */
   void SetReal(T_c arg_real);
 
   /**
-   * SetImaginary
+   * Sets imaginary component of this complex number.
    * @param[in] arg_imag Value to which imaginary component will be set.
    */
   void SetImaginary(T_c arg_imag);
 
   /**
-   * GetStandard
+   * Reports a `std::complex` that whose real and imaginary components equal
+   * those of this instance.
+   *
    * @return
-   * An instance of std::complex whose real and imaginary
-   * components match those of this instance.
+   * An instance of std::complex whose real and imaginary components equal
+   * those of this instance.
    */
   std::complex<T_c> GetStandard() const;
 

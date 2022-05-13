@@ -22,14 +22,14 @@
  * @class Message
  *
  * Message is a function-oriented interface,
- *   to how midvec2-lib sends and receives one backing data of type T.
+ *   to how midvec2-lib sends and receives one backing data of type `T`.
  * 
- * The only data an instance of Message holds is an instance of T.
+ * The only data an instance of Message holds is an instance of `T`.
  *
  * The public functions of Message, however, perform for the client:
- *   Serialization of T,
+ *   Serialization of `T`,
  *     into a `char` buffer that can be sent from an OutputPipeBase.
- *   Deserialization of T,
+ *   Deserialization of `T`,
  *     from a `char` buffer that was received at an InputPipeBase.
  *   Queries on said messages,
  *     such as requisite total size and byte-for-byte content.
