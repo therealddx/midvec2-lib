@@ -2,7 +2,7 @@
  * reference LICENSE file provided.
  *
  * @file OutputPipeUdp.hpp
- * Concrete output pipe for sending serialized values via UDP socket.
+ * Declarations for OutputPipeUdp
  *
  */
 
@@ -32,34 +32,33 @@
 
 /**
  * @class OutputPipeUdp
+ * Concrete output pipe for sending serialized values via UDP socket.
  */
 class OutputPipeUdp : public OutputPipeBase
 {
 public:
 
   /**
-   * OutputPipeUdp
+   * Constructs an instance to send Message instances to a remote UDP endpoint,
+   *   at the given IPv4 address:port.
    *
-   * Establishes a remote endpoint at given IPv4 address:port.
    * @param[in] arg_ipAddress IPv4 address to send values to.
    * @param[in] arg_port IPv4 port to send values to.
    */
   OutputPipeUdp(std::string arg_ipAddress, uint16_t arg_port);
 
   /**
-   * ~OutputPipeUdp
-   * Releases the IPv4 socket back to the operating system.
+   * Destroys this instance,
+   *   and releases the IPv4 socket back to the operating system.
    */
   ~OutputPipeUdp();
 
   /**
-   * PutMessage
    * Satisfies base class.
    */
   ErrorCode PutMessage(char* arg_msgBytes, int32_t arg_msgLen);
 
   /**
-   * Close
    * Satisfies base class.
    */
   void Close()

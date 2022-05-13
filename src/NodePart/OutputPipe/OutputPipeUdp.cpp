@@ -1,7 +1,7 @@
 /**
  * reference LICENSE file provided.
  *
- * @ifle OutputPipeUdp.cpp
+ * @file OutputPipeUdp.cpp
  * Implements OutputPipeUdp.hpp
  *
  */

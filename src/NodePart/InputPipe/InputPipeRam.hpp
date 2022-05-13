@@ -39,7 +39,7 @@ public:
   /**
    * Destroys this instance:
    * - Resets the read state of the RingBuffer.
-   * - Destroys member variables.
+   * - Destroys owned member variables.
    * - Leaves no persistent impact on RingBuffer functionality.
    */
   ~InputPipeRam();
@@ -77,7 +77,7 @@ public:
    * - Cancels any blocking read call on the RingBuffer.
    * - Permanently shunts out of `GetMessage` calls.
    *
-   * Note: This function leaves no persistent impact on RingBuffer functionality.
+   * Note: This function leaves no persistent impact on the RingBuffer.
    */
   void Close()
   {

@@ -2,7 +2,7 @@
  * reference LICENSE file provided.
  *
  * @file OutputPipeRam.hpp
- * Defines a concrete output pipe that writes data to main memory.
+ * Declarations for OutputPipeRam
  *
  */
 
@@ -19,35 +19,37 @@
 
 /**
  * @class OutputPipeRam
+ * Defines an output pipe that writes serialized Message instances to main memory.
  */
 class OutputPipeRam : public OutputPipeBase
 {
 public:
 
   /**
-   * OutputPipeRam
-   *
-   * @param[in] arg_ringBuffer RingBuffer to write to.
+   * Constructs an instance to write to a RingBuffer.
    *
    * Note: This class does not own the RingBuffer; it only writes to it.
+   *
+   * @param[in] arg_ringBuffer RingBuffer to write to.
    */
   OutputPipeRam(RingBuffer<char>* arg_ringBuffer);
 
   /**
-   * ~OutputPipeRam
-   * Resets the write state of the RingBuffer and destroys 'this' instance.
+   * Destroys this instance:
+   * - Resets the write state of the RingBuffer.
+   * - Destroys owned member variables.
+   * - Leaves no persistent impact on RingBuffer functionality.
    */
   ~OutputPipeRam();
 
   /**
-   * PutMessage
    * Satisfies base class.
    */
   ErrorCode PutMessage(char* arg_msgBytes, int32_t arg_msgLen);
 
   /**
-   * GetRingBuffer
-   * @return Pointer to the ringbuffer held by this instance.
+   * Reports RingBuffer pointer referenced by this instance.
+   * @return Pointer to the RingBuffer held by this instance.
    */
   RingBuffer<char>* GetRingBuffer()
   {
@@ -55,10 +57,12 @@ public:
   }
 
   /**
-   * GetRingBufferAddress
+   * Reports RingBuffer pointer referenced by this instance,
+   *   as a human-readable string.
    *
    * @return
-   * A human-readable string denoting the address of this instance's ringbuffer.
+   * A human-readable string denoting the address of this instance's
+   *   referenced RingBuffer.
    */
   std::string GetRingBufferAddress() const
   {
@@ -72,11 +76,11 @@ public:
   }
 
   /**
-   * Close
+   * Satisfies base implementation:
+   * - Cancels any blocking write call on the RingBuffer.
+   * - Permanently shunts out of `PutMessage` calls.
    *
-   * Cancels any blocking `RingBuffer<T>::Write` call.
-   * Permanently shunts out of `PutMessage` calls.
-   * Note: This function kills this instance, not the RingBuffer.
+   * Note: This function leaves no persistent impact on the RingBuffer.
    */
   void Close()
   {
