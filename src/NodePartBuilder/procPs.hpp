@@ -2,9 +2,7 @@
  * reference LICENSE file provided.
  *
  * @file procPs.hpp
- * Represents the set of parameters-- 'parameter set', or 'ps'--
- *   that construct subclasses of ProcessorBase.
- *
+ * Declarations for procPs
  */
 
 #ifndef PROCPS_HPP
@@ -15,7 +13,8 @@
 
 /**
  * @class procPs
- * Base class for parameter sets of ProcessorBase.
+ * Represents the set of parameters-- 'parameter set', or 'ps'--
+ *   that construct subclasses of ProcessorBase.
  */
 template <class T_in, class T_out>
 class procPs
@@ -23,12 +22,11 @@ class procPs
 public:
 
   /**
-   * ~procPs
+   * Destroys this instance, and the subclass.
    */
   virtual ~procPs() { } ;
 
   /**
-   * Make
    * Subclasses are guaranteed to construct a subclass of ProcessorBase.
    * @return Instance of ProcessorBase.
    */
@@ -48,14 +46,12 @@ class procConvPs : public procPs<T_in, T_out>
 public:
 
   /**
-   * procConvPs
-   * Stores ProcessorConv constructor arguments, for construction by Make.
+   * Stores ProcessorConv constructor arguments, for construction by `Make`.
    * @param[in] arg_hn Impulse response vector for convolution.
    */
   procConvPs(std::vector<T_in> arg_hn) : _hn(arg_hn) { } ;
 
   /**
-   * Make
    * Satisfies base class.
    */
   ProcessorBase<T_in, T_out>* Make();
@@ -74,14 +70,12 @@ class procDcPs : public procPs<T_in, T_out>
 public:
 
   /**
-   * procDcPs
-   * Stores ProcessorDc constructor arguments, for construction by Make.
+   * Stores ProcessorDc constructor arguments, for construction by `Make`.
    * @param[in] arg_dc DC bias to apply to input signal.
    */
   procDcPs(T_in arg_dc) : _dc(arg_dc) { } ;
 
   /**
-   * Make
    * Satisfies base class.
    */
   ProcessorBase<T_in, T_out>* Make();

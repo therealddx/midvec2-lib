@@ -2,8 +2,7 @@
  * reference LICENSE file provided.
  *
  * @file outPs.hpp
- * Represents the set of parameters-- 'parameter set', or 'ps'--
- *   that construct subclasses of OutputPipeBase.
+ * Declarations for outPs
  *
  */
 
@@ -18,19 +17,19 @@ class OutputPipeBase;
 
 /**
  * @class outPs
- * Base class for parameter sets of OutputPipeBase.
+ * Represents the set of parameters-- 'parameter set', or 'ps'--
+ *   that construct subclasses of OutputPipeBase.
  */
 class outPs
 {
 public:
 
   /**
-   * ~outPs
+   * Destroys this instance, and the subclass.
    */
   virtual ~outPs() { } ;
 
   /**
-   * Make
    * Subclasses are guaranteed to construct a subclass of OutputPipeBase.
    * @return Instance of OutputPipeBase.
    */
@@ -49,14 +48,12 @@ class outFilePs : public outPs
 public:
 
   /**
-   * outFilePs
-   * Stores OutputPipeFile constructor arguments, for construction by Make.
+   * Stores OutputPipeFile constructor arguments, for construction by `Make`.
    * @param[in] arg_fqFile Fully-qualified path to writeable disk file.
    */
   outFilePs(std::string arg_fqFile) : _fqFile(arg_fqFile) { } ;
 
   /**
-   * Make
    * Satisfies base class.
    */
   OutputPipeBase* Make();
@@ -74,8 +71,7 @@ class outUdpPs : public outPs
 public:
 
   /**
-   * outUdpPs
-   * Stores OutputPipeUdp constructor arguments, for construction by Make.
+   * Stores OutputPipeUdp constructor arguments, for construction by `Make`.
    * @param[in] arg_ipv4_bind IPv4 address to send to, as a dotted-quad string.
    * @param[in] arg_port IPv4 port to send to, in host byte order.
    */
@@ -86,7 +82,6 @@ public:
   }
 
   /**
-   * Make
    * Satisfies base class.
    */
   OutputPipeBase* Make();
@@ -105,14 +100,12 @@ class outRamPs : public outPs
 public:
 
   /**
-   * outRamPs
-   * Stores OutputPipeRam constructor arguments, for construction by Make.
+   * Stores OutputPipeRam constructor arguments, for construction by `Make`.
    * @param[in] arg_rb Pointer to RingBuffer for writing bytes to.
    */
   outRamPs(RingBuffer<char>* arg_rb) : _rb(arg_rb) { } ;
 
   /**
-   * Make
    * Satisfies base class.
    */
   OutputPipeBase* Make();

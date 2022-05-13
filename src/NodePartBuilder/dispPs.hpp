@@ -2,8 +2,7 @@
  * reference LICENSE file provided.
  *
  * @file dispPs.hpp
- * Represents the set of parameters-- 'parameter set', or 'ps'--
- *   that contruct subclasses of DisplayBase.
+ * Declarations for dispPs
  *
  */
 
@@ -20,7 +19,8 @@
 
 /**
  * @class dispPs
- * Base class for parameter sets of DisplayBase.
+ * Represents the set of parameters-- 'parameter set', or 'ps'--
+ *   that contruct subclasses of DisplayBase.
  */
 template <class T_in>
 class dispPs
@@ -28,12 +28,11 @@ class dispPs
 public:
 
   /**
-   * ~dispPs
+   * Destroys this instance, and the subclass.
    */
   virtual ~dispPs() { } ;
 
   /**
-   * Make
    * Subclasses are guaranteed to construct a subclass of DisplayBase.
    * @return Instance of DisplayBase.
    */
@@ -53,14 +52,12 @@ class dispFilePs : public dispPs<T_in>
 public:
 
   /**
-   * dispFilePs
-   * Stores DisplayFile constructor arguments, for construction by Make.
-   * @param[in] arg_fqFile Fully-qualified path to file.
+   * Stores DisplayFile constructor arguments, for construction by `Make`.
+   * @param[in] arg_fqFile Fully-qualified path to display textfile.
    */
   dispFilePs(std::string arg_fqFile) : _fqFile(arg_fqFile) { } ;
 
   /**
-   * Make
    * Satisfies base class.
    */
   DisplayBase<T_in>* Make();

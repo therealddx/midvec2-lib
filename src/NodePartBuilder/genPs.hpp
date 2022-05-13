@@ -2,8 +2,7 @@
  * reference LICENSE file provided.
  *
  * @file genPs.hpp
- * Represents the set of parameters-- 'parameter set', or 'ps'--
- *   that construct subclasses of GeneratorBase.
+ * Declarations for genPs
  *
  */
 
@@ -15,7 +14,8 @@
 
 /**
  * @class genPs
- * Base class for parameter sets of GeneratorBase.
+ * Represents the set of parameters-- 'parameter set', or 'ps'--
+ *   that construct subclasses of GeneratorBase.
  */
 template <class T_out>
 class genPs
@@ -23,12 +23,11 @@ class genPs
 public:
 
   /**
-   * ~genPs
+   * Destroys this instance, and the subclass.
    */
   virtual ~genPs() { } ;
 
   /**
-   * Make
    * Subclasses are guaranteed to construct a subclass of GeneratorBase.
    * @return Instance of GeneratorBase.
    */
@@ -48,9 +47,7 @@ class genSinePs : public genPs<T_out>
 public:
 
   /**
-   * genSinePs
-   *
-   * Stores GeneratorSine constructor arguments, for construction by Make.
+   * Stores GeneratorSine constructor arguments, for construction by `Make`.
    *
    * @param[in] a_xsh Horizontal shift for sinewave.
    * @param[in] a_xsc Horizontal scale for sinewave.
@@ -68,7 +65,6 @@ public:
   }
 
   /**
-   * Make
    * Satisfies base class.
    */
   GeneratorBase<T_out>* Make();
@@ -91,9 +87,7 @@ class genSquarePs : public genPs<T_out>
 public:
 
   /**
-   * genSquarePs
-   *
-   * Stores GeneratorSquare constructor arguments, for construction by Make.
+   * Stores GeneratorSquare constructor arguments, for construction by `Make`.
    *
    * @param[in] a_xh Horizontal shift for squarewave.
    * @param[in] a_xc Horizontal scale for squarewave.
@@ -113,7 +107,6 @@ public:
     }
 
   /**
-   * Make
    * Satisfies base class.
    */
   GeneratorBase<T_out>* Make();

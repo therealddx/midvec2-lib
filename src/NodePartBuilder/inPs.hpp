@@ -2,8 +2,7 @@
  * reference LICENSE file provided.
  *
  * @file inPs.hpp
- * Represents the set of parameters-- 'parameter set', or 'ps'--
- *   that construct subclasses of InputPipeBase.
+ * Declarations for inPs
  *
  */
 
@@ -18,19 +17,19 @@ class InputPipeBase;
 
 /**
  * @class inPs
- * Base class for parameter sets of InputPipeBase.
+ * Represents the set of parameters-- 'parameter set', or 'ps'--
+ *   that construct subclasses of InputPipeBase.
  */
 class inPs
 {
 public:
 
   /**
-   * ~inPs
+   * Destroys this instance, and the subclass.
    */
   virtual ~inPs() { } ;
 
   /**
-   * Make
    * Subclasses are guaranteed to construct a subclass of InputPipeBase.
    * @return Instance of InputPipeBase.
    */
@@ -49,14 +48,12 @@ class inFilePs : public inPs
 public:
 
   /**
-   * inFilePs
-   * Stores InputPipeFile constructor arguments, for construction by Make.
+   * Stores InputPipeFile constructor arguments, for construction by `Make`.
    * @param[in] arg_fqFile Fully-qualified path to readable disk file.
    */
   inFilePs(std::string arg_fqFile) : _fqFile(arg_fqFile) { } ;
 
   /**
-   * Make
    * Satisfies base class.
    */
   InputPipeBase* Make();
@@ -74,8 +71,7 @@ class inUdpPs : public inPs
 public:
 
   /**
-   * inUdpPs
-   * Stores InputPipeUdp constructor arguments, for construction by Make.
+   * Stores InputPipeUdp constructor arguments, for construction by `Make`.
    * @param[in] arg_ipv4_bind IPv4 address to bind to, as a dotted-quad string.
    * @param[in] arg_port IPv4 port to bind to, in host byte order.
    */
@@ -86,7 +82,6 @@ public:
     };
 
   /**
-   * Make
    * Satisfies base class.
    */
   InputPipeBase* Make();
@@ -105,14 +100,12 @@ class inRamPs : public inPs
 public:
 
   /**
-   * inRamPs
-   * Stores InputPipeRam constructor arguments, for construction by Make.
+   * Stores InputPipeRam constructor arguments, for construction by `Make`.
    * @param[in] arg_rb Pointer to RingBuffer from which to read bytes.
    */
   inRamPs(RingBuffer<char>* arg_rb) : _rb(arg_rb) { } ;
 
   /**
-   * Make
    * Satisfies base class.
    */
   InputPipeBase* Make();
