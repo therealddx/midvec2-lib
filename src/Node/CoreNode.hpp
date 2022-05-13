@@ -2,10 +2,8 @@
  * reference LICENSE file provided.
  *
  * @file CoreNode.hpp
- * Asynchronous loop that continually:
- *   reads from the input pipe;
- *   performs a processing operation on the marshaled data; and
- *   sends that processed data out of an output pipe.
+ *
+ * Declarations for the CoreNode class.
  *
  */
 
@@ -31,6 +29,12 @@
 
 /**
  * @class CoreNode
+ *
+ * Asynchronous loop that continually:
+ * - reads from the input pipe;
+ * - performs a processing operation on the marshaled data; and
+ * - sends that processed data out of an output pipe.
+ *
  */
 template <class T_in, class T_out>
 class CoreNode : public IStorableNode
@@ -40,7 +44,7 @@ public:
   /**
    * CoreNode
    *
-   * Starts the node.
+   * Constructs and starts a CoreNode instance.
    *
    * This instance takes ownership over the argument objects.
    *
@@ -54,12 +58,14 @@ public:
    * ~CoreNode
    *
    * Closes and destroys node members; releasing their resources.
+   *
    * Ceases node operation.
    */
   ~CoreNode();
 
   /**
    * GetType
+   *
    * Satisfies base class.
    */
   IStorableNode::Type GetType()
@@ -69,6 +75,7 @@ public:
 
   /**
    * S_NodeLoop
+   *
    * Starts the node's looped operation.
    *
    * @param[in] arg_pThis Pointer to 'this' instance.

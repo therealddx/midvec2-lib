@@ -2,9 +2,8 @@
  * reference LICENSE file provided.
  *
  * @file ByteNode.hpp
- * Asynchronous loop that continually:
- *   reads from the input pipe; and 
- *   sends the input pipe's data to the output pipe.
+ *
+ * Declarations for the ByteNode class.
  *
  */
 
@@ -23,6 +22,10 @@
 
 /**
  * @class ByteNode
+ *
+ * Asynchronous loop that continually:
+ * - reads from the input pipe; and 
+ * - sends the input pipe's data to the output pipe.
  */
 template <class T>
 class ByteNode : public IStorableNode
@@ -32,7 +35,7 @@ public:
   /**
    * ByteNode
    * 
-   * Starts the node.
+   * Constructs and starts a ByteNode instance.
    *
    * This instance takes ownership over the argument objects.
    *
@@ -45,12 +48,14 @@ public:
    * ~ByteNode
    *
    * Closes and destroys node members; releasing their resources.
+   *
    * Ceases node operation.
    */
   ~ByteNode();
 
   /**
    * GetType
+   *
    * Satisfies base class.
    */
   IStorableNode::Type GetType()
@@ -60,6 +65,7 @@ public:
 
   /**
    * S_Start
+   *
    * Starts the node's looped operation.
    *
    * @param[in] arg_pThis Pointer to 'this' instance.

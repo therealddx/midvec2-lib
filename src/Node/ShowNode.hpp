@@ -2,9 +2,8 @@
  * reference LICENSE file provided.
  *
  * @file ShowNode.hpp
- * Asynchronous loop that continually:
- *   reads from the input pipe; and
- *   sends that input pipe data to a human-readable display.
+ *
+ * Declarations for the ShowNode class.
  *
  */
 
@@ -26,6 +25,11 @@
 
 /**
  * @class ShowNode
+ *
+ * Asynchronous loop that continually:
+ * - reads from the input pipe; and
+ * - sends that input pipe data to a human-readable display.
+ *
  */
 template <class T_in>
 class ShowNode : public IStorableNode
@@ -35,7 +39,7 @@ public:
   /**
    * ShowNode
    *
-   * Starts the node.
+   * Constructs and starts a ShowNode instance.
    *
    * This instance takes ownership over the argument objects.
    *
@@ -48,12 +52,14 @@ public:
    * ~ShowNode
    *
    * Closes and destroys node members; releasing their resources.
+   *
    * Ceases node operation.
    */
   ~ShowNode();
 
   /**
    * GetType
+   *
    * Satisfies base class.
    */
   IStorableNode::Type GetType()
@@ -63,6 +69,7 @@ public:
 
   /**
    * S_Start
+   *
    * Starts the node's looped operation.
    *
    * @param[in] arg_pThis Pointer to 'this' instance.

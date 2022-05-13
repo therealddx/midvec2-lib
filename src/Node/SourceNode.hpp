@@ -2,9 +2,8 @@
  * reference LICENSE file provided.
  *
  * @file SourceNode.hpp
- * Asynchronous loop that continually:
- *   generates a value; and
- *   sends that value out of its output pipe.
+ *
+ * Declarations for the SourceNode class.
  *
  */
 
@@ -22,6 +21,11 @@
 
 /**
  * @class SourceNode
+ *
+ * Asynchronous loop that continually:
+ * - generates a value; and
+ * - sends that value out of its output pipe.
+ *
  */
 template <class T_out>
 class SourceNode : public IStorableNode
@@ -31,7 +35,7 @@ public:
   /**
    * SourceNode
    *
-   * Starts the node.
+   * Constructs and starts a SourceNode instance.
    *
    * This instance takes ownership over the argument objects.
    *
@@ -44,12 +48,14 @@ public:
    * ~SourceNode
    *
    * Closes and destroys node members; releasing their resources.
+   *
    * Ceases node operation.
    */
   ~SourceNode();
 
   /**
    * GetType
+   *
    * Satisfies base class.
    */
   IStorableNode::Type GetType()
@@ -59,6 +65,7 @@ public:
 
   /**
    * S_Start
+   *
    * Starts the node's looped operation.
    *
    * @param[in] arg_pThis Pointer to 'this' instance.
