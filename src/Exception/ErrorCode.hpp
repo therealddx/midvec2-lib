@@ -2,11 +2,7 @@
  * reference LICENSE file provided.
  *
  * @file ErrorCode.hpp
- *
- * Provides an index space for errors that occur within this library.
- *
- * 'Error's, meaning-- a significant offroad from 'happy-path' program flow.
- *
+ * Declarations for ErrorCode.
  */
 
 #ifndef ERRORCODE_HPP
@@ -14,11 +10,18 @@
 
 /**
  * @enum ErrorCode
+ * Provides an index space for errors that occur within this library.
+ *
+ * In the context of this enumeration, error monikers signify a hook for
+ *   redirecting the current program flow control, moreso than they represent a 
+ *   fatal dysfunction within the library. The latter is represented by throwing
+ *   `std::exception`; handling for which falls outside the scope of this library.
+ *
  */
 enum class ErrorCode 
 {
   /**
-   * The function executed without issue ('happy-path').
+   * The function executed without issue ("happy-path").
    */
   Ok = 0,
 
