@@ -1,7 +1,8 @@
-/*
+/**
  * reference LICENSE file provided.
  * 
- * DisplayBase.cpp.
+ * @file DisplayBase.cpp
+ * Implements DisplayBase.hpp
  *
  */
 

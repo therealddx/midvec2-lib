@@ -2,8 +2,7 @@
  * reference LICENSE file provided.
  *
  * @file DisplayFile.hpp
- * Implementation of DisplayBase to populate a human-readable textfile.
- *
+ * Declarations for DisplayFile
  */
 
 #ifndef DISPLAYFILE_HPP
@@ -16,6 +15,7 @@
 
 /**
  * @class DisplayFile
+ * Implementation of DisplayBase to populate a human-readable textfile.
  */
 template <class T_in>
 class DisplayFile : public DisplayBase<T_in>
@@ -23,7 +23,7 @@ class DisplayFile : public DisplayBase<T_in>
 public:
 
  /**
-  * DisplayFile
+  * Constructs an instance for outputting human-readable data to a textfile.
   *
   * @param[in] arg_fqFile
   * Fully-qualified path to file that will hold display data.
@@ -31,13 +31,11 @@ public:
   DisplayFile(std::string arg_fqFile);
 
   /**
-   * ~DisplayFile
    * Closes the handle to the display text file.
    */
   ~DisplayFile();
 
   /**
-   * Update
    * Satisfies base class.
    */
   void Update(T_in arg_newValue);

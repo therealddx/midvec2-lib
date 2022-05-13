@@ -1,7 +1,8 @@
-/*
+/**
  * reference LICENSE file provided.
  *
- * DisplayFile.cpp.
+ * @file DisplayFile.cpp
+ * Implements DisplayFile.hpp
  *
  */
 

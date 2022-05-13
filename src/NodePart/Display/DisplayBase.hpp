@@ -2,10 +2,7 @@
  * reference LICENSE file provided.
  *
  * @file DisplayBase.hpp
- *
- * Presents abstract class for displaying input data.
- *
- * Given any new input value, adds that new value to the display.
+ * Declarations for DisplayBase
  */
 
 #ifndef DISPLAYBASE_HPP
@@ -13,6 +10,7 @@
 
 /**
  * @class DisplayBase
+ * Defines an interface for displaying incoming data in human-readable form.
  */
 template <class T_in>
 class DisplayBase
@@ -20,17 +18,17 @@ class DisplayBase
 public:
 
   /**
-   * DisplayBase
+   * This class is pure-virtual--
+   *   attempts to construct cause compile-time error.
    */
   DisplayBase() { } ;
 
   /**
-   * ~DisplayBase
+   * Destroys this instance, and the subclass.
    */
   virtual ~DisplayBase() { } ;
 
   /**
-   * Update
    * Update the display with a new value.
    *
    * @param[in] arg_newValue
