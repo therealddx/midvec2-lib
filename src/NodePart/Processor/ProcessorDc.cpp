@@ -1,7 +1,8 @@
-/*
+/**
  * reference LICENSE file provided.
  * 
- * ProcessorDc.cpp.
+ * @file ProcessorDc.cpp
+ * Implements ProcessorDc.hpp
  * 
  */
 

@@ -2,7 +2,7 @@
  * reference LICENSE file provided.
  *
  * @file ProcessorConv.hpp
- * Implements ProcessorBase to convolve an input signal with an impulse response.
+ * Declarations for ProcessorConv
  *
  */
 
@@ -16,6 +16,7 @@
 
 /**
  * @class ProcessorConv
+ * Implements ProcessorBase to convolve an input signal with an impulse response.
  */
 template <class T_in, class T_out>
 class ProcessorConv : public ProcessorBase<T_in, T_out>
@@ -23,7 +24,7 @@ class ProcessorConv : public ProcessorBase<T_in, T_out>
 public:
 
   /**
-   * ProcessorConv
+   * Constructs a convolution processor.
    *
    * @param[in] arg_hn
    * Impulse response of input signal.
@@ -31,12 +32,11 @@ public:
   ProcessorConv(std::vector<T_in> arg_hn);
 
   /**
-   * ~ProcessorConv
+   * Destroys this instance.
    */
   ~ProcessorConv() { };
 
   /**
-   * Process
    * Satisfies base class.
    */
   T_out Process(T_in);
