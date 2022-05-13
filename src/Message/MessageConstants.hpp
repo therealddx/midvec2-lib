@@ -56,7 +56,8 @@ public:
 
   /**
    * Moniker for host byte order of the host running this library-- 
-   *   this should be a #define, but this library is untested on big-endian.
+   *   this should be a `#define` with conditional compile,
+   *   but this library is untested on big-endian.
    */
   static const bool IS_LITTLE_ENDIAN = true;
 

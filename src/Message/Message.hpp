@@ -21,16 +21,16 @@
 /**
  * @class Message
  *
- * Class Message<T> is a function-oriented interface,
+ * Message is a function-oriented interface,
  *   to how midvec2-lib sends and receives one backing data of type T.
  * 
- * The only data an instance of Message<T> holds is an instance of T.
+ * The only data an instance of Message holds is an instance of T.
  *
- * The public functions of Message<T>, however, perform for the client:
+ * The public functions of Message, however, perform for the client:
  *   Serialization of T,
- *     into a message that can be sent from a midvec2-lib output pipe.
+ *     into a `char` buffer that can be sent from an OutputPipeBase.
  *   Deserialization of T,
- *     from a message that was received at a midvec2-lib input pipe.
+ *     from a `char` buffer that was received at an InputPipeBase.
  *   Queries on said messages,
  *     such as requisite total size and byte-for-byte content.
  *   
