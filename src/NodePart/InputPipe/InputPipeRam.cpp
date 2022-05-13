@@ -1,8 +1,8 @@
 /*
  * reference LICENSE file provided.
  *
- * InputPipeRam.cpp.
- * Implements InputPipeRam.hpp.
+ * @file InputPipeRam.cpp
+ * Implements InputPipeRam.hpp
  *
  */
 

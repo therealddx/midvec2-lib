@@ -2,7 +2,7 @@
  * reference LICENSE file provided.
  *
  * @file InputPipeUdp.hpp
- * Reads bytes from a UDP socket into Message instances.
+ * Declarations for InputPipeUdp
  *
  */
 
@@ -30,6 +30,7 @@
 
 /**
  * @class InputPipeUdp
+ * Reads bytes from a UDP socket into Message instances.
  */
 class InputPipeUdp : public InputPipe
 {
@@ -37,29 +38,31 @@ class InputPipeUdp : public InputPipe
 public:
 
   /**
-   * InputPipeUdp
+   * Constructs an instance to read Message instances from a UDP socket,
+   *   by binding to the given IPv4 address:port.
    *
-   * Binds to given IPv4 address:port, and listens for MIDV messages.
    * @param[in] arg_ipv4_bind IPv4 address to bind to.
    * @param[in] arg_port Port to bind to.
    */
   InputPipeUdp(std::string arg_ipv4_bind, uint16_t arg_port);
 
   /**
-   * ~InputPipeUdp
-   * Releases the IPv4 socket back to the operating system.
+   * Destroys this instance,
+   *   and releases the IPv4 socket back to the operating system.
    */
   ~InputPipeUdp(); 
 
   /**
-   * GetBindEndpoint
-   * @return A human-readable string denoting the address:port this instance is bound to.
+   * Report the bound IPv4 endpoint.
+   * @return
+   * A human-readable string denoting the address:port this instance is bound to.
    */
   std::string GetBindEndpoint() const;
 
   /**
-   * GetBindAddress
-   * @return The IPv4 address this instance is currently bound to, in dotted-quad.
+   * Report the bound IPv4 address.
+   * @return
+   * The IPv4 address this instance is currently bound to, in dotted-quad.
    */
   std::string GetBindAddress() const
   {
@@ -67,8 +70,9 @@ public:
   }
 
   /**
-   * GetBindPort
-   * @return The port this instance is currently bound to, in host byte order.
+   * Report the bound IPv4 port.
+   * @return
+   * The port this instance is currently bound to, in host byte order.
    */
   uint16_t GetBindPort() const
   {
@@ -78,7 +82,6 @@ public:
 private:
 
   /**
-   * GetByte
    * Satisfies base class.
    */
   ErrorCode GetByte(char* rtn_byte);

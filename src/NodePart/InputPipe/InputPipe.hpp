@@ -2,8 +2,7 @@
  * reference LICENSE file provided.
  *
  * @file InputPipe.hpp
- * Sequences the collection and deserialization of bytes into Messages.
- * Subclasses need only specify how to read one byte.
+ * Declarations for InputPipe
  *
  */
 
@@ -26,6 +25,8 @@
 
 /**
  * @class InputPipe
+ * Pre-defines the collection and deserialization of bytes into Messages.
+ * Subclasses need only specify how to read one byte from their respective medium.
  */
 class InputPipe : public InputPipeBase
 {
@@ -33,23 +34,22 @@ class InputPipe : public InputPipeBase
 public:
 
   /**
-   * InputPipe
+   * This is a pure-virtual class--
+   *   attempts to construct will cause a compile-time failure.
    */
   InputPipe() { } ;
 
   /**
-   * ~InputPipe
+   * Destroys this instance, and the subclass.
    */
   virtual ~InputPipe() { } ; 
 
   /**
-   * GetMessage
    * Satisfies base class.
    */
   char* GetMessage(size_t arg_backerLength);
 
   /**
-   * Close
    * Satisfies base class.
    */
   virtual void Close()
@@ -60,16 +60,18 @@ public:
 protected:
 
   /** 
-   * FindMessageHeader
-   * Finds the header of a Message<T> from the input bytestream.
-   * @return ErrorCode::Ok iff header is found and '_headerBuf' is filled.
+   * Finds the header of a Message from the input bytestream.
+   * @return ErrorCode::Ok iff header is found.
    */
   virtual ErrorCode FindMessageHeader();
 
   /**
-   * FindMessageBacker
-   * Finds the backing data of a Message<T> from the input bytestream.
-   * @return ErrorCode::Ok iff the message is found and '_messageBuf' is filled.
+   * Finds the backing data of a Message from the input bytestream.
+   *
+   * @param[in] arg_backerLength
+   * Size of payload Message data (in bytes) to obtain from bytestream.
+   *
+   * @return ErrorCode::Ok iff the Message's payload data is found.
    */
   virtual ErrorCode FindMessageBacker(size_t arg_backerLength);
 
@@ -81,12 +83,14 @@ protected:
 
   /**
    * _messageBuf
-   * Allocated storage for Message header plus backing data, as obtained from bytestream.
+   * Allocated storage for Message header plus backing data,
+   *   as obtained from bytestream.
    */
   char _messageBuf[MessageConstants::MAX_SIZE_MESSAGE]; 
 
   /**
-   * GetByte
+   * Obtain one byte from the input medium.
+   *
    * @param[out] rtn_byte
    * Storage for one byte from the input bytestream.
    *

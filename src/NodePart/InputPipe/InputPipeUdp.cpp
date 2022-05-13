@@ -1,8 +1,8 @@
 /*
  * reference LICENSE file provided.
  *
- * InputPipeUdp.cpp.
- * Implements InputPipeUdp.hpp.
+ * @file InputPipeUdp.cpp
+ * Implements InputPipeUdp.hpp
  *
  */
 

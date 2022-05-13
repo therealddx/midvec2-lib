@@ -2,7 +2,7 @@
  * reference LICENSE file provided.
  *
  * @file InputPipeRam.hpp
- * Implements an input pipe that deserializes Messages from shared RAM.
+ * Declarations for InputPipeRam
  *
  */
 
@@ -21,29 +21,32 @@
 
 /**
  * @class InputPipeRam
+ * Implements an input pipe that deserializes Message instances from shared RAM.
  */
 class InputPipeRam : public InputPipe
 {
 public:
 
   /**
-   * InputPipeRam
-   *
-   * @param[in] arg_ringBuffer RingBuffer to read from.
+   * Constructs an instance to read from a RingBuffer.
    *
    * Note: This class does not own the RingBuffer; it only reads from it.
+   *
+   * @param[in] arg_ringBuffer RingBuffer to read from.
    */
   InputPipeRam(RingBuffer<char>* arg_ringBuffer);
 
   /**
-   * ~InputPipeRam
-   * Resets the read state of the RingBuffer and destroys 'this' instance.
+   * Destroys this instance:
+   * - Resets the read state of the RingBuffer.
+   * - Destroys member variables.
+   * - Leaves no persistent impact on RingBuffer functionality.
    */
   ~InputPipeRam();
 
   /**
-   * GetRingBuffer
-   * @return Pointer to the ringbuffer held by this instance.
+   * Reports RingBuffer pointer referenced by this instance.
+   * @return Pointer to the RingBuffer held by this instance.
    */
   RingBuffer<char>* GetRingBuffer()
   {
@@ -51,10 +54,12 @@ public:
   }
 
   /**
-   * GetRingBufferAddress
+   * Reports RingBuffer pointer referenced by this instance,
+   *   as a human-readable string.
    *
    * @return
-   * A human-readable string denoting the address of this instance's ringbuffer.
+   * A human-readable string denoting the address of this instance's
+   *   referenced RingBuffer.
    */
   std::string GetRingBufferAddress() const
   {
@@ -68,11 +73,11 @@ public:
   }
 
   /**
-   * Close
+   * Satisfies base implementation:
+   * - Cancels any blocking read call on the RingBuffer.
+   * - Permanently shunts out of `GetMessage` calls.
    *
-   * Cancels any blocking `RingBuffer<T>::Read` call.
-   * Permanently shunts out of `GetMessage` calls.
-   * Note: This function kills this instance, not the RingBuffer.
+   * Note: This function leaves no persistent impact on RingBuffer functionality.
    */
   void Close()
   {
@@ -83,7 +88,6 @@ public:
 private:
 
   /**
-   * GetByte
    * Satisfies base class.
    */
   ErrorCode GetByte(char* rtn_byte); 

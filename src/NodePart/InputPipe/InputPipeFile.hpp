@@ -2,7 +2,7 @@
  * reference LICENSE file provided.
  *
  * @file InputPipeFile.hpp
- * Defines an interface for reading bytes from disk, into Message instances.
+ * Declarations for InputPipeFile
  *
  */
 
@@ -25,6 +25,7 @@
 
 /**
  * @class InputPipeFile
+ * Defines an interface for reading bytes from disk, into Message instances.
  */
 class InputPipeFile : public InputPipe
 {
@@ -32,34 +33,29 @@ class InputPipeFile : public InputPipe
 public:
 
   /**
-   * InputPipeFile
-   *
    * Constructs an instance by opening a read handle to a file on disk.
-   *   If the file does not exist, behavior is undefined.
-   *   If permissions are not amicable, behavior is undefined.
+   * - If the file does not exist, behavior is undefined.
+   * - If permissions are not amicable, behavior is undefined.
    *
-   * @param[in] arg_fqFile
-   * Fully-qualified path to a file on disk.
+   * @param[in] arg_fqFile Fully-qualified path to a file on disk.
    */
   InputPipeFile(std::string arg_fqFile);
 
   /**
-   * ~InputPipeFile
    * Closes the handle to the file on disk.
    */
   ~InputPipeFile(); 
 
   /**
-   * GetBasename
+   * Obtain the basename of the file this instance is reading from.
    * @return
-   * String denoting the basename (ref. `man 1 basename`) of the file being read.
+   * String denoting the basename of the file being read.
    */
   std::string GetBasename() const;
 
 private:
   
   /**
-   * GetByte
    * Satisfies base class.
    */
   ErrorCode GetByte(char* rtn_byte);
