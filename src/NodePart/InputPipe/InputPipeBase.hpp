@@ -21,6 +21,12 @@ class InputPipeBase
 public:
 
   /**
+   * This class is pure-virtual--
+   *   attempts to construct cause compile-time error.
+   */
+  InputPipeBase() { };
+
+  /**
    * Destroys this instance, and the subclass.
    */
   virtual ~InputPipeBase() { };
@@ -43,10 +49,6 @@ public:
    * Precursor to calling destructor.
    */
   virtual void Close() = 0;
-
-private:
-
-  InputPipeBase() { };
 
 };
 

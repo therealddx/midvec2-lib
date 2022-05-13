@@ -21,6 +21,12 @@ class OutputPipeBase
 public:
 
   /**
+   * This class is pure-virtual--
+   *   attempts to construct cause compile-time error.
+   */
+  OutputPipeBase() { };
+
+  /**
    * Destroys this instance, and the subclass.
    */
   virtual ~OutputPipeBase() { };
@@ -44,10 +50,6 @@ public:
    * Precursor to calling destructor.
    */
   virtual void Close() = 0;
-
-private:
-
-  OutputPipeBase() { };
 
 };
 
