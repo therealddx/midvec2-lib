@@ -2,7 +2,7 @@
  * reference LICENSE file provided.
  *
  * @file GeneratorSine.hpp
- * Concrete class for generating sine function.
+ * Declarations for GeneratorSine
  */
 
 #ifndef GENERATORSINE_HPP
@@ -14,6 +14,7 @@
 
 /**
  * @class GeneratorSine
+ * Concrete class for generating a sine function.
  */
 template <class T_out>
 class GeneratorSine : public GeneratorBase<T_out>
@@ -21,8 +22,6 @@ class GeneratorSine : public GeneratorBase<T_out>
 public:
 
   /**
-   * GeneratorSine
-   *
    * Constructs a sinewave generator, given arguments.
    *
    * @param[in] arg_xShift Horizontal shift for sinewave.
@@ -40,12 +39,11 @@ public:
     );
 
   /**
-   * ~GeneratorSine
+   * Destroys this instance.
    */
   ~GeneratorSine() { } ;
 
   /**
-   * Next
    * Satisfies base class.
    */
   T_out Next();

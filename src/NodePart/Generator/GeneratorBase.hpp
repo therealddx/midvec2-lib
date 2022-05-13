@@ -2,7 +2,7 @@
  * reference LICENSE file provided.
  *
  * @file GeneratorBase.hpp
- * Abstract class representing the ability to generate new values.
+ * Declarations for GeneratorBase
  *
  */
 
@@ -11,6 +11,7 @@
 
 /**
  * @class GeneratorBase
+ * Abstract class representing the ability to generate new values.
  */
 template <class T_out>
 class GeneratorBase
@@ -18,19 +19,20 @@ class GeneratorBase
 public:
 
   /**
-   * GeneratorBase
+   * This class is pure-virtual--
+   *   attempts to construct cause compile-time error.
    */
   GeneratorBase() { } ;
 
   /**
-   * ~GeneratorBase
+   * Destroys this instance, and the subclass.
    */
   virtual ~GeneratorBase() { } ;
 
   /**
-   * Next
-   * Generate a new value of type 'T_out', IAW the type of the generator.
-   * @return New, generated value of type 'T_out'.
+   * Generate a new value of type `T_out`,
+   *   in accordance with the subclass specification.
+   * @return Newly generated value of type `T_out`.
    */
   virtual T_out Next() = 0;
 

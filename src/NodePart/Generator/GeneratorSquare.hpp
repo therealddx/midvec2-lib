@@ -2,7 +2,7 @@
  * reference LICENSE file provided.
  *
  * @file GeneratorSquare.hpp
- * Concrete class for generating square waves.
+ * Declarations for GeneratorSquare
  *
  */
 
@@ -14,6 +14,7 @@
 
 /**
  * @class GeneratorSquare
+ * Concrete class for generating square waves.
  */
 template <class T_out>
 class GeneratorSquare : public GeneratorBase<T_out>
@@ -21,8 +22,6 @@ class GeneratorSquare : public GeneratorBase<T_out>
 public:
 
   /**
-   * GeneratorSquare
-   *
    * Constructs a squarewave generator, given arguments.
    *
    * @param[in] arg_xShift Horizontal shift for squarewave.
@@ -42,12 +41,11 @@ public:
     );
  
   /**
-   * ~GeneratorSquare
+   * Destroys this instance.
    */ 
   ~GeneratorSquare() { } ;
 
   /**
-   * Next
    * Satisfies base class.
    */
   T_out Next();
