@@ -2,20 +2,7 @@
  * reference LICENSE file provided.
  *
  * @file Message.hpp
- *
- * Class 'Message<T>' is a function-oriented interface,
- *   to how midvec2-lib sends and receives one backing data of type 'T'.
- * 
- * The only data an instance of 'Message<T>' holds is an instance of 'T'.
- *
- * The public functions of 'Message<T>', however, perform for the client:
- *   Serialization of 'T',
- *     into a message that can be sent from a midvec2-lib output pipe.
- *   Deserialization of 'T',
- *     from a message that was received at a midvec2-lib input pipe.
- *   Queries on said messages,
- *     such as requisite total size and byte-for-byte content.
- *   
+ * Declarations for Message
  */ 
 
 // 
@@ -33,6 +20,20 @@
 
 /**
  * @class Message
+ *
+ * Class Message<T> is a function-oriented interface,
+ *   to how midvec2-lib sends and receives one backing data of type T.
+ * 
+ * The only data an instance of Message<T> holds is an instance of T.
+ *
+ * The public functions of Message<T>, however, perform for the client:
+ *   Serialization of T,
+ *     into a message that can be sent from a midvec2-lib output pipe.
+ *   Deserialization of T,
+ *     from a message that was received at a midvec2-lib input pipe.
+ *   Queries on said messages,
+ *     such as requisite total size and byte-for-byte content.
+ *   
  */
 template <class T>
 class Message
@@ -44,39 +45,33 @@ public:
   //
 
   /**
-   * Message
    * Default constructor.
    * Backing data is left uninitialized.
    */
   Message();
 
   /**
-   * Message
-   *
    * Marshal from a serialized message (header + backer), in network byte order.
    *
-   * @param[in] Pointer to data from which backing type will be marshaled.
-   *
    * Note: The caller owns the argument 'char*'.
+   * @param[in] Pointer to data from which backing type will be marshaled.
    */
   Message(char* arg_fromBuffer);
 
   /**
-   * Message
    * Copy constructor.
    * @param[in] arg_other Message to copy contents from.
    */
   Message(const Message<T>& arg_other);
 
   /**
-   * Message
    * Backing type constructor.
    * @param[in] arg_backer Initial value for backing data.
    */
   Message(const T& arg_backer);
 
   /**
-   * ~Message
+   * Destroys the instance.
    */
   ~Message() { }
 
@@ -85,27 +80,26 @@ public:
   // 
 
   /**
-   * GetBytes
    * Store the message header, plus backing data, to serialized storage.
+   *
+   * Note: The caller owns the argument `char*`, and should use `GetRequiredSize`
+   * to determine the correct buffer size to allocate.
    *
    * @param[in] rtn_bytes
    * Pre-allocated storage to which header and backing data will be copied.
    *
    * @return Number of bytes copied into argument pointer.
-   *
-   * Note: The caller owns the argument 'char*'.
    */
   size_t GetBytes(char* rtn_bytes);
 
   /**
-   * GetBacker
+   * Get the value of the Message's backing data.
    * @return Copy of this instance's backing data.
    */
   T GetBacker();
 
   /**
-   * GetRequiredSize
-   *
+   * Get the total required size of this Message.
    * @return
    * Required size for any char buffer that is to hold this serialized message.
    */
