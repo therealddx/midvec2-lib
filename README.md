@@ -24,7 +24,7 @@ In turn, different Nodes exist to solve different types of problems regarding th
 By chaining many Nodes together, the client programmer can devise a cohesive signal processing solution (say, data acquisition via UDP, to which a filter is applied before storage to a textfile).  
   
 #### *How do I use it?*  
-Following a `git clone`, first build the library by `cd`ing to `build/BuildShared`, and running `build.sh`. It is expected that the client programmer have gcc/g++, at a version capable of compiling C++20.  
+Following a `git clone`, first build the library by `cd`ing to `build/BuildShared`, and running `build.sh`. It is expected that the client programmer have gcc and g++, at a minimum version of 11.3. This library depends on C++20.
   
 From there, `cd` to `src/Application/NodeBench`, and run `build.sh` again. Please heed the build script's output for setting `LD_LIBRARY_PATH` following build. The `nodebench` test application (as well as `bench`) both require the \*.so file from the codebase.  
   
@@ -36,7 +36,7 @@ If you're still feeling adventurous, you can also build `src/Application/Bench` 
 midvec2-lib is the continuation of my "midvec" project, a C library with similar goals, but shallower and broader scope. That project was originally named as a mashup acronym between **m**achine learning, **i**mage processing, **d**igital signal processing, and **vec**tors". Over time, however, my primary interest floated away from ANNs and playing with bitmaps; honing instead towards a complete solution for a narrower problemset.  
 
 #### *What else should I know?*  
-- This library and its deliverables are provided by me under GPLv3 (reference 'LICENSE'), for zero dollar cost. By downloading and using the code, you agree to the license's terms.   
+- This library and its deliverables are provided under GPLv3 (reference 'LICENSE'), for zero dollar cost. By downloading and using the code, you agree to the license's terms.   
 - If you like this library, take a look at midvec2-gui; the Qt visualization of this code.  
 - Please forward comments and questions to me here, on GitHub.  
   
