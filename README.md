@@ -36,7 +36,7 @@ If you're still feeling adventurous, you can also build `src/Application/Bench` 
 midvec2-lib is the continuation of my "midvec" project, a C library with similar goals, but shallower and broader scope. That project was originally named as a mashup acronym between **m**achine learning, **i**mage processing, **d**igital signal processing, and **vec**tors". Over time, however, my primary interest floated away from ANNs and playing with bitmaps; honing instead towards a complete solution for a narrower problemset.  
 
 #### *What else should I know?*  
-- This library and its deliverables are provided under GPLv3 (reference 'LICENSE'), for zero dollar cost. By downloading and using the code, you agree to the license's terms.   
+- Reference the provided 'LICENSE'; by using this code you are agreeing to its terms.  
 - If you like this library, take a look at midvec2-gui; the Qt visualization of this code.  
 - Please forward comments and questions to me here, on GitHub.  
   
